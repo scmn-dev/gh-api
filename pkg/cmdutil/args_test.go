@@ -13,7 +13,7 @@ func TestMinimumArgs(t *testing.T) {
 		},
 		{
 			N:    2,
-			Args: []string{"v1.2.3", "cli/cli"},
+			Args: []string{"v1.2.3", "secman-team/gh-api"},
 		},
 	}
 

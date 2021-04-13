@@ -7,39 +7,29 @@ import (
 	"github.com/secman-team/gh-api/api"
 	"github.com/secman-team/gh-api/context"
 	"github.com/secman-team/gh-api/internal/ghrepo"
-	actionsCmd "github.com/secman-team/gh-api/pkg/cmd/actions"
-	aliasCmd "github.com/secman-team/gh-api/pkg/cmd/alias"
-	apiCmd "github.com/secman-team/gh-api/pkg/cmd/api"
 	authCmd "github.com/secman-team/gh-api/pkg/cmd/auth"
-	completionCmd "github.com/secman-team/gh-api/pkg/cmd/completion"
-	configCmd "github.com/secman-team/gh-api/pkg/cmd/config"
 	"github.com/secman-team/gh-api/pkg/cmd/factory"
-	issueCmd "github.com/secman-team/gh-api/pkg/cmd/issue"
-	prCmd "github.com/secman-team/gh-api/pkg/cmd/pr"
-	releaseCmd "github.com/secman-team/gh-api/pkg/cmd/release"
 	repoCmd "github.com/secman-team/gh-api/pkg/cmd/repo"
-	creditsCmd "github.com/secman-team/gh-api/pkg/cmd/repo/credits"
-	runCmd "github.com/secman-team/gh-api/pkg/cmd/run"
 	versionCmd "github.com/secman-team/gh-api/pkg/cmd/version"
-	workflowCmd "github.com/secman-team/gh-api/pkg/cmd/workflow"
 	"github.com/secman-team/gh-api/pkg/cmdutil"
 	"github.com/spf13/cobra"
 )
 
 func NewCmdRoot(f *cmdutil.Factory, version, buildDate string) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "gh <command> <subcommand> [flags]",
-		Short: "GitHub CLI",
+		Use:   "secman <command> <subcommand> [flags]",
+		Short: "Secman CLI",
 		Long:  `Work seamlessly with GitHub from the command line.`,
 
 		SilenceErrors: true,
 		SilenceUsage:  true,
 		Example: heredoc.Doc(`
-			$ gh repo clone secman-team/gh-api
+			$ secman auth login
+			$ secman repo clone secman-team/gh-api
 		`),
 		Annotations: map[string]string{
 			"help:feedback": heredoc.Doc(`
-				Open an issue using 'gh issue create -R github.com/secman-team/gh-api'
+				Open an issue using at https://github.com/secman-team/gh-api/issues
 			`),
 		},
 	}
@@ -61,33 +51,20 @@ func NewCmdRoot(f *cmdutil.Factory, version, buildDate string) *cobra.Command {
 	formattedVersion := versionCmd.Format(version, buildDate)
 	cmd.SetVersionTemplate(formattedVersion)
 	cmd.Version = formattedVersion
-	cmd.Flags().Bool("version", false, "Show gh version")
+	cmd.Flags().Bool("version", false, "Show secman version")
 
 	// Child commands
 	cmd.AddCommand(versionCmd.NewCmdVersion(f, version, buildDate))
-	cmd.AddCommand(aliasCmd.NewCmdAlias(f))
 	cmd.AddCommand(authCmd.NewCmdAuth(f))
-	cmd.AddCommand(configCmd.NewCmdConfig(f))
-	cmd.AddCommand(creditsCmd.NewCmdCredits(f, nil))
-	cmd.AddCommand(completionCmd.NewCmdCompletion(f.IOStreams))
-
-	cmd.AddCommand(actionsCmd.NewCmdActions(f))
-	cmd.AddCommand(runCmd.NewCmdRun(f))
-	cmd.AddCommand(workflowCmd.NewCmdWorkflow(f))
 
 	// the `api` command should not inherit any extra HTTP headers
 	bareHTTPCmdFactory := *f
 	bareHTTPCmdFactory.HttpClient = bareHTTPClient(f, version)
 
-	cmd.AddCommand(apiCmd.NewCmdApi(&bareHTTPCmdFactory, nil))
-
 	// below here at the commands that require the "intelligent" BaseRepo resolver
 	repoResolvingCmdFactory := *f
 	repoResolvingCmdFactory.BaseRepo = resolvedBaseRepo(f)
 
-	cmd.AddCommand(prCmd.NewCmdPR(&repoResolvingCmdFactory))
-	cmd.AddCommand(issueCmd.NewCmdIssue(&repoResolvingCmdFactory))
-	cmd.AddCommand(releaseCmd.NewCmdRelease(&repoResolvingCmdFactory))
 	cmd.AddCommand(repoCmd.NewCmdRepo(&repoResolvingCmdFactory))
 
 	// Help topics

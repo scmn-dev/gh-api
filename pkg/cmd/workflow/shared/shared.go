@@ -9,10 +9,10 @@ import (
 	"strings"
 
 	"github.com/AlecAivazis/survey/v2"
-	"github.com/cli/cli/api"
-	"github.com/cli/cli/internal/ghrepo"
-	"github.com/cli/cli/pkg/iostreams"
-	"github.com/cli/cli/pkg/prompt"
+	"github.com/secman-team/gh-api/api"
+	"github.com/secman-team/gh-api/internal/ghrepo"
+	"github.com/secman-team/gh-api/pkg/iostreams"
+	"github.com/secman-team/gh-api/pkg/prompt"
 )
 
 const (

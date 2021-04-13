@@ -154,8 +154,8 @@ func rootHelpFunc(cs *iostreams.ColorScheme, command *cobra.Command, args []stri
 		helpEntries = append(helpEntries, helpEntry{"ENVIRONMENT VARIABLES", command.Annotations["help:environment"]})
 	}
 	helpEntries = append(helpEntries, helpEntry{"LEARN MORE", `
-Use 'gh <command> <subcommand> --help' for more information about a command.
-Read the manual at https://cli.github.com/manual`})
+Use 'secman <command> <subcommand> --help' for more information about a command.
+Read docs at https://secman.vercel.app/docs`})
 	if _, ok := command.Annotations["help:feedback"]; ok {
 		helpEntries = append(helpEntries, helpEntry{"FEEDBACK", command.Annotations["help:feedback"]})
 	}

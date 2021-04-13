@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cli/cli/pkg/iostreams"
+	"github.com/secman-team/gh-api/pkg/iostreams"
 )
 
 func RenderRunHeader(cs *iostreams.ColorScheme, run Run, ago, prNumber string) string {

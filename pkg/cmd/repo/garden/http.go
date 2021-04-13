@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cli/cli/internal/ghinstance"
-	"github.com/cli/cli/internal/ghrepo"
+	"github.com/secman-team/gh-api/internal/ghinstance"
+	"github.com/secman-team/gh-api/internal/ghrepo"
 )
 
 func getCommits(client *http.Client, repo ghrepo.Interface, maxCommits int) ([]*Commit, error) {

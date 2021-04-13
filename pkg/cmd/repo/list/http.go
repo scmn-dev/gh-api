@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cli/cli/internal/ghinstance"
-	"github.com/cli/cli/pkg/githubsearch"
+	"github.com/secman-team/gh-api/internal/ghinstance"
+	"github.com/secman-team/gh-api/pkg/githubsearch"
 	"github.com/shurcooL/githubv4"
 	"github.com/shurcooL/graphql"
 )

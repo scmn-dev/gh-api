@@ -7,11 +7,11 @@ import (
 	"testing"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/cli/cli/internal/ghrepo"
-	"github.com/cli/cli/internal/run"
-	"github.com/cli/cli/pkg/cmdutil"
-	"github.com/cli/cli/pkg/httpmock"
-	"github.com/cli/cli/pkg/iostreams"
+	"github.com/secman-team/gh-api/internal/ghrepo"
+	"github.com/secman-team/gh-api/internal/run"
+	"github.com/secman-team/gh-api/pkg/cmdutil"
+	"github.com/secman-team/gh-api/pkg/httpmock"
+	"github.com/secman-team/gh-api/pkg/iostreams"
 	"github.com/google/shlex"
 	"github.com/stretchr/testify/assert"
 )

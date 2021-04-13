@@ -3,10 +3,10 @@ package view
 import (
 	"fmt"
 
-	"github.com/cli/cli/api"
-	"github.com/cli/cli/internal/ghrepo"
-	runShared "github.com/cli/cli/pkg/cmd/run/shared"
-	"github.com/cli/cli/pkg/cmd/workflow/shared"
+	"github.com/secman-team/gh-api/api"
+	"github.com/secman-team/gh-api/internal/ghrepo"
+	runShared "github.com/secman-team/gh-api/pkg/cmd/run/shared"
+	"github.com/secman-team/gh-api/pkg/cmd/workflow/shared"
 )
 
 type workflowRuns struct {

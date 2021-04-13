@@ -4,9 +4,9 @@ import (
 	"fmt"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/cli/cli/internal/config"
-	"github.com/cli/cli/pkg/cmdutil"
-	"github.com/cli/cli/pkg/iostreams"
+	"github.com/secman-team/gh-api/internal/config"
+	"github.com/secman-team/gh-api/pkg/cmdutil"
+	"github.com/secman-team/gh-api/pkg/iostreams"
 	"github.com/spf13/cobra"
 )
 

@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/cli/cli/api"
-	"github.com/cli/cli/internal/ghrepo"
-	"github.com/cli/cli/pkg/cmd/run/shared"
-	"github.com/cli/cli/pkg/cmdutil"
-	"github.com/cli/cli/pkg/iostreams"
+	"github.com/secman-team/gh-api/api"
+	"github.com/secman-team/gh-api/internal/ghrepo"
+	"github.com/secman-team/gh-api/pkg/cmd/run/shared"
+	"github.com/secman-team/gh-api/pkg/cmdutil"
+	"github.com/secman-team/gh-api/pkg/iostreams"
 	"github.com/spf13/cobra"
 )
 

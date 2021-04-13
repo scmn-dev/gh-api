@@ -14,12 +14,12 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/cli/cli/api"
-	"github.com/cli/cli/internal/ghinstance"
-	"github.com/cli/cli/internal/ghrepo"
-	"github.com/cli/cli/pkg/cmdutil"
-	"github.com/cli/cli/pkg/iostreams"
-	"github.com/cli/cli/utils"
+	"github.com/secman-team/gh-api/api"
+	"github.com/secman-team/gh-api/internal/ghinstance"
+	"github.com/secman-team/gh-api/internal/ghrepo"
+	"github.com/secman-team/gh-api/pkg/cmdutil"
+	"github.com/secman-team/gh-api/pkg/iostreams"
+	"github.com/secman-team/gh-api/utils"
 	"github.com/spf13/cobra"
 )
 

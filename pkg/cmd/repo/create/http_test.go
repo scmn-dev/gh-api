@@ -3,8 +3,8 @@ package create
 import (
 	"testing"
 
-	"github.com/cli/cli/api"
-	"github.com/cli/cli/pkg/httpmock"
+	"github.com/secman-team/gh-api/api"
+	"github.com/secman-team/gh-api/pkg/httpmock"
 	"github.com/stretchr/testify/assert"
 )
 
