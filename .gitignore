@@ -8,9 +8,6 @@
 /CHANGELOG.md
 /script/build
 
-# VS Code
-.vscode
-
 # IntelliJ
 .idea
 

@@ -1,4 +1,4 @@
-module github.com/cli/cli
+module github.com/secman-team/gh-api
 
 go 1.13
 
