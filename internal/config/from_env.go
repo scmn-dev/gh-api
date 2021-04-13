@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/cli/cli/internal/ghinstance"
+	"github.com/secman-team/gh-api/internal/ghinstance"
 )
 
 const (

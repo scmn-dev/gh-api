@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/cli/cli/api"
-	"github.com/cli/cli/internal/ghinstance"
-	"github.com/cli/cli/internal/ghrepo"
+	"github.com/secman-team/gh-api/api"
+	"github.com/secman-team/gh-api/internal/ghinstance"
+	"github.com/secman-team/gh-api/internal/ghrepo"
 )
 
 type Artifact struct {

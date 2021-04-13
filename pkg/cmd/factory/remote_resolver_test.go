@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/cli/cli/git"
-	"github.com/cli/cli/internal/config"
+	"github.com/secman-team/gh-api/git"
+	"github.com/secman-team/gh-api/internal/config"
 	"github.com/stretchr/testify/assert"
 )
 

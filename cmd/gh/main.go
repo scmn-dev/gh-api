@@ -14,18 +14,18 @@ import (
 
 	surveyCore "github.com/AlecAivazis/survey/v2/core"
 	"github.com/AlecAivazis/survey/v2/terminal"
-	"github.com/cli/cli/api"
-	"github.com/cli/cli/internal/build"
-	"github.com/cli/cli/internal/config"
-	"github.com/cli/cli/internal/ghinstance"
-	"github.com/cli/cli/internal/ghrepo"
-	"github.com/cli/cli/internal/run"
-	"github.com/cli/cli/internal/update"
-	"github.com/cli/cli/pkg/cmd/alias/expand"
-	"github.com/cli/cli/pkg/cmd/factory"
-	"github.com/cli/cli/pkg/cmd/root"
-	"github.com/cli/cli/pkg/cmdutil"
-	"github.com/cli/cli/utils"
+	"github.com/secman-team/gh-api/api"
+	"github.com/secman-team/gh-api/internal/build"
+	"github.com/secman-team/gh-api/internal/config"
+	"github.com/secman-team/gh-api/internal/ghinstance"
+	"github.com/secman-team/gh-api/internal/ghrepo"
+	"github.com/secman-team/gh-api/internal/run"
+	"github.com/secman-team/gh-api/internal/update"
+	"github.com/secman-team/gh-api/pkg/cmd/alias/expand"
+	"github.com/secman-team/gh-api/pkg/cmd/factory"
+	"github.com/secman-team/gh-api/pkg/cmd/root"
+	"github.com/secman-team/gh-api/pkg/cmdutil"
+	"github.com/secman-team/gh-api/utils"
 	"github.com/cli/safeexec"
 	"github.com/mattn/go-colorable"
 	"github.com/mgutz/ansi"
@@ -79,7 +79,6 @@ func mainRun() exitCode {
 		}
 	}
 
-	// Enable running gh from Windows File Explorer's address bar. Without this, the user is told to stop and run from a
 	// terminal. With this, a user can clone a repo (or take other actions) directly from explorer.
 	if len(os.Args) > 1 && os.Args[1] != "" {
 		cobra.MousetrapHelpText = ""
@@ -156,9 +155,9 @@ func mainRun() exitCode {
 	cs := cmdFactory.IOStreams.ColorScheme()
 
 	if cmd != nil && cmdutil.IsAuthCheckEnabled(cmd) && !cmdutil.CheckAuth(cfg) {
-		fmt.Fprintln(stderr, cs.Bold("Welcome to GitHub CLI!"))
+		fmt.Fprintln(stderr, cs.Bold("Welcome to Secman Login!"))
 		fmt.Fprintln(stderr)
-		fmt.Fprintln(stderr, "To authenticate, please run `gh auth login`.")
+		fmt.Fprintln(stderr, "To authenticate, please run `secman auth login`.")
 		return exitAuth
 	}
 
@@ -179,31 +178,13 @@ func mainRun() exitCode {
 
 		var httpErr api.HTTPError
 		if errors.As(err, &httpErr) && httpErr.StatusCode == 401 {
-			fmt.Fprintln(stderr, "hint: try authenticating with `gh auth login`")
+			fmt.Fprintln(stderr, "hint: try authenticating with `secman auth login`")
 		}
 
 		return exitError
 	}
 	if root.HasFailed() {
 		return exitError
-	}
-
-	newRelease := <-updateMessageChan
-	if newRelease != nil {
-		isHomebrew := isUnderHomebrew(cmdFactory.Executable)
-		if isHomebrew && isRecentRelease(newRelease.PublishedAt) {
-			// do not notify Homebrew users before the version bump had a chance to get merged into homebrew-core
-			return exitOK
-		}
-		fmt.Fprintf(stderr, "\n\n%s %s → %s\n",
-			ansi.Color("A new release of gh is available:", "yellow"),
-			ansi.Color(buildVersion, "cyan"),
-			ansi.Color(newRelease.Version, "cyan"))
-		if isHomebrew {
-			fmt.Fprintf(stderr, "To upgrade, run: %s\n", "brew update && brew upgrade gh")
-		}
-		fmt.Fprintf(stderr, "%s\n\n",
-			ansi.Color(newRelease.URL, "yellow"))
 	}
 
 	return exitOK

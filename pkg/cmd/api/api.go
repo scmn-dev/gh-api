@@ -17,13 +17,13 @@ import (
 	"time"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/cli/cli/api"
-	"github.com/cli/cli/internal/config"
-	"github.com/cli/cli/internal/ghinstance"
-	"github.com/cli/cli/internal/ghrepo"
-	"github.com/cli/cli/pkg/cmdutil"
-	"github.com/cli/cli/pkg/iostreams"
-	"github.com/cli/cli/pkg/jsoncolor"
+	"github.com/secman-team/gh-api/api"
+	"github.com/secman-team/gh-api/internal/config"
+	"github.com/secman-team/gh-api/internal/ghinstance"
+	"github.com/secman-team/gh-api/internal/ghrepo"
+	"github.com/secman-team/gh-api/pkg/cmdutil"
+	"github.com/secman-team/gh-api/pkg/iostreams"
+	"github.com/secman-team/gh-api/pkg/jsoncolor"
 	"github.com/spf13/cobra"
 )
 
@@ -125,7 +125,7 @@ func NewCmdApi(f *cmdutil.Factory, runF func(*ApiOptions) error) *cobra.Command 
 			$ gh api repos/:owner/:repo/issues/123/comments -f body='Hi from CLI'
 
 			# add parameters to a GET request
-			$ gh api -X GET search/issues -f q='repo:cli/cli is:open remote'
+			$ gh api -X GET search/issues -f q='repo:secman-team/gh-api is:open remote'
 
 			# set a custom HTTP header
 			$ gh api -H 'Accept: application/vnd.github.v3.raw+json' ...

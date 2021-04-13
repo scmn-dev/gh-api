@@ -3,7 +3,7 @@ package shared
 import (
 	"testing"
 
-	"github.com/cli/cli/internal/run"
+	"github.com/secman-team/gh-api/internal/run"
 )
 
 func TestGitCredentialSetup_configureExisting(t *testing.T) {

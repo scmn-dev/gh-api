@@ -6,8 +6,8 @@ import (
 	"io"
 	"strings"
 
-	"github.com/cli/cli/pkg/iostreams"
-	"github.com/cli/cli/pkg/markdown"
+	"github.com/secman-team/gh-api/pkg/iostreams"
+	"github.com/secman-team/gh-api/pkg/markdown"
 	"github.com/spf13/cobra"
 )
 

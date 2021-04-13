@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/cli/cli/api"
-	"github.com/cli/cli/internal/ghinstance"
+	"github.com/secman-team/gh-api/api"
+	"github.com/secman-team/gh-api/internal/ghinstance"
 )
 
 type MissingScopesError struct {

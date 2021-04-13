@@ -13,7 +13,7 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/cli/cli/internal/run"
+	"github.com/secman-team/gh-api/internal/run"
 	"github.com/cli/safeexec"
 )
 

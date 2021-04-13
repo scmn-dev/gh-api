@@ -8,6 +8,7 @@ require (
 	github.com/briandowns/spinner v1.11.1
 	github.com/charmbracelet/glamour v0.2.1-0.20200724174618-1246d13c1684
 	github.com/cli/browser v1.1.0
+	github.com/cli/cli v1.8.1
 	github.com/cli/oauth v0.8.0
 	github.com/cli/safeexec v1.0.0
 	github.com/cpuguy83/go-md2man/v2 v2.0.0
@@ -34,7 +35,6 @@ require (
 	golang.org/x/crypto v0.0.0-20201016220609-9e8e0b390897
 	golang.org/x/sync v0.0.0-20190423024810-112230192c58
 	golang.org/x/sys v0.0.0-20210319071255-635bc2c9138d
-	golang.org/x/text v0.3.4 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
 )
 

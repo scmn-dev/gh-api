@@ -4,8 +4,8 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/cli/cli/git"
-	"github.com/cli/cli/internal/ghrepo"
+	"github.com/secman-team/gh-api/git"
+	"github.com/secman-team/gh-api/internal/ghrepo"
 	"github.com/stretchr/testify/assert"
 )
 

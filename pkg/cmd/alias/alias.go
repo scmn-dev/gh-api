@@ -2,10 +2,10 @@ package alias
 
 import (
 	"github.com/MakeNowJust/heredoc"
-	deleteCmd "github.com/cli/cli/pkg/cmd/alias/delete"
-	listCmd "github.com/cli/cli/pkg/cmd/alias/list"
-	setCmd "github.com/cli/cli/pkg/cmd/alias/set"
-	"github.com/cli/cli/pkg/cmdutil"
+	deleteCmd "github.com/secman-team/gh-api/pkg/cmd/alias/delete"
+	listCmd "github.com/secman-team/gh-api/pkg/cmd/alias/list"
+	setCmd "github.com/secman-team/gh-api/pkg/cmd/alias/set"
+	"github.com/secman-team/gh-api/pkg/cmdutil"
 	"github.com/spf13/cobra"
 )
 

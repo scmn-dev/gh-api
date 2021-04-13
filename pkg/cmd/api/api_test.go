@@ -13,11 +13,11 @@ import (
 	"time"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/cli/cli/git"
-	"github.com/cli/cli/internal/config"
-	"github.com/cli/cli/internal/ghrepo"
-	"github.com/cli/cli/pkg/cmdutil"
-	"github.com/cli/cli/pkg/iostreams"
+	"github.com/secman-team/gh-api/git"
+	"github.com/secman-team/gh-api/internal/config"
+	"github.com/secman-team/gh-api/internal/ghrepo"
+	"github.com/secman-team/gh-api/pkg/cmdutil"
+	"github.com/secman-team/gh-api/pkg/iostreams"
 	"github.com/google/shlex"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -979,7 +979,7 @@ func Test_fillPlaceholders(t *testing.T) {
 		{
 			name: "has branch placeholder",
 			args: args{
-				value: "repos/cli/cli/branches/:branch/protection/required_status_checks",
+				value: "repos/secman-team/gh-api/branches/:branch/protection/required_status_checks",
 				opts: &ApiOptions{
 					BaseRepo: func() (ghrepo.Interface, error) {
 						return ghrepo.New("cli", "cli"), nil
@@ -989,7 +989,7 @@ func Test_fillPlaceholders(t *testing.T) {
 					},
 				},
 			},
-			want:    "repos/cli/cli/branches/trunk/protection/required_status_checks",
+			want:    "repos/secman-team/gh-api/branches/trunk/protection/required_status_checks",
 			wantErr: false,
 		},
 		{

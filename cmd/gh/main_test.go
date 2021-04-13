@@ -7,7 +7,7 @@ import (
 	"net"
 	"testing"
 
-	"github.com/cli/cli/pkg/cmdutil"
+	"github.com/secman-team/gh-api/pkg/cmdutil"
 	"github.com/spf13/cobra"
 )
 

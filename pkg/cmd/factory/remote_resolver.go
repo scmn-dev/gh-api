@@ -5,11 +5,11 @@ import (
 	"net/url"
 	"sort"
 
-	"github.com/cli/cli/context"
-	"github.com/cli/cli/git"
-	"github.com/cli/cli/internal/config"
-	"github.com/cli/cli/internal/ghinstance"
-	"github.com/cli/cli/pkg/set"
+	"github.com/secman-team/gh-api/context"
+	"github.com/secman-team/gh-api/git"
+	"github.com/secman-team/gh-api/internal/config"
+	"github.com/secman-team/gh-api/internal/ghinstance"
+	"github.com/secman-team/gh-api/pkg/set"
 )
 
 const GH_HOST = "GH_HOST"

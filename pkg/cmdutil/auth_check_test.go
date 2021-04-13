@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/cli/cli/internal/config"
+	"github.com/secman-team/gh-api/internal/config"
 	"github.com/stretchr/testify/assert"
 )
 

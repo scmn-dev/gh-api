@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cli/cli/internal/config"
-	cmdGet "github.com/cli/cli/pkg/cmd/config/get"
-	cmdSet "github.com/cli/cli/pkg/cmd/config/set"
-	"github.com/cli/cli/pkg/cmdutil"
+	"github.com/secman-team/gh-api/internal/config"
+	cmdGet "github.com/secman-team/gh-api/pkg/cmd/config/get"
+	cmdSet "github.com/secman-team/gh-api/pkg/cmd/config/set"
+	"github.com/secman-team/gh-api/pkg/cmdutil"
 	"github.com/spf13/cobra"
 )
 

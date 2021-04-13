@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/cli/cli/pkg/iostreams"
+	"github.com/secman-team/gh-api/pkg/iostreams"
 )
 
 type tinyConfig map[string]string

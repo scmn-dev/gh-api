@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/cli/cli/internal/config"
+	"github.com/secman-team/gh-api/internal/config"
 )
 
 // TODO: consider passing via Factory
