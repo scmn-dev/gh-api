@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/secman-team/gh-api/internal/ghrepo"
+	"github.com/secman-team/gh-api/core/ghrepo"
 	"github.com/secman-team/gh-api/pkg/cmd/run/shared"
 	"github.com/secman-team/gh-api/pkg/cmdutil"
 	"github.com/secman-team/gh-api/pkg/iostreams"

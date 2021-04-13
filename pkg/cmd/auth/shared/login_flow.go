@@ -8,8 +8,8 @@ import (
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/MakeNowJust/heredoc"
 	"github.com/secman-team/gh-api/api"
-	"github.com/secman-team/gh-api/internal/authflow"
-	"github.com/secman-team/gh-api/internal/ghinstance"
+	"github.com/secman-team/gh-api/core/authflow"
+	"github.com/secman-team/gh-api/core/ghinstance"
 	"github.com/secman-team/gh-api/pkg/iostreams"
 	"github.com/secman-team/gh-api/pkg/prompt"
 )

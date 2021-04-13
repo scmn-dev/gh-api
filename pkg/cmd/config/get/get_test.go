@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/secman-team/gh-api/internal/config"
+	"github.com/secman-team/gh-api/core/config"
 	"github.com/secman-team/gh-api/pkg/cmdutil"
 	"github.com/secman-team/gh-api/pkg/iostreams"
 	"github.com/google/shlex"

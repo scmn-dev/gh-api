@@ -9,7 +9,7 @@ import (
 	"os"
 
 	"github.com/secman-team/gh-api/api"
-	"github.com/secman-team/gh-api/internal/ghrepo"
+	"github.com/secman-team/gh-api/core/ghrepo"
 	"github.com/secman-team/gh-api/pkg/cmd/run/shared"
 )
 

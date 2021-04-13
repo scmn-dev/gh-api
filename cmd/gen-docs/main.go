@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/secman-team/gh-api/internal/docs"
+	"github.com/secman-team/gh-api/core/docs"
 	"github.com/secman-team/gh-api/pkg/cmd/root"
 	"github.com/secman-team/gh-api/pkg/cmdutil"
 	"github.com/secman-team/gh-api/pkg/iostreams"

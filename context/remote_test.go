@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/secman-team/gh-api/git"
-	"github.com/secman-team/gh-api/internal/ghrepo"
+	"github.com/secman-team/gh-api/core/ghrepo"
 	"github.com/stretchr/testify/assert"
 )
 

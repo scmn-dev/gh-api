@@ -45,11 +45,11 @@ var tasks = map[string]func(string) error{
 		}
 
 		ldflags := os.Getenv("GO_LDFLAGS")
-		ldflags = fmt.Sprintf("-X github.com/secman-team/gh-api/internal/build.Version=%s %s", version(), ldflags)
-		ldflags = fmt.Sprintf("-X github.com/secman-team/gh-api/internal/build.Date=%s %s", date(), ldflags)
+		ldflags = fmt.Sprintf("-X github.com/secman-team/gh-api/core/build.Version=%s %s", version(), ldflags)
+		ldflags = fmt.Sprintf("-X github.com/secman-team/gh-api/core/build.Date=%s %s", date(), ldflags)
 		if oauthSecret := os.Getenv("GH_OAUTH_CLIENT_SECRET"); oauthSecret != "" {
-			ldflags = fmt.Sprintf("-X github.com/secman-team/gh-api/internal/authflow.oauthClientSecret=%s %s", oauthSecret, ldflags)
-			ldflags = fmt.Sprintf("-X github.com/secman-team/gh-api/internal/authflow.oauthClientID=%s %s", os.Getenv("GH_OAUTH_CLIENT_ID"), ldflags)
+			ldflags = fmt.Sprintf("-X github.com/secman-team/gh-api/core/authflow.oauthClientSecret=%s %s", oauthSecret, ldflags)
+			ldflags = fmt.Sprintf("-X github.com/secman-team/gh-api/core/authflow.oauthClientID=%s %s", os.Getenv("GH_OAUTH_CLIENT_ID"), ldflags)
 		}
 
 		return run("go", "build", "-trimpath", "-ldflags", ldflags, "-o", exe, "./cmd/gh")

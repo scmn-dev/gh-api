@@ -14,7 +14,7 @@ import (
 
 	"github.com/MakeNowJust/heredoc"
 	"github.com/secman-team/gh-api/api"
-	"github.com/secman-team/gh-api/internal/ghrepo"
+	"github.com/secman-team/gh-api/core/ghrepo"
 	"github.com/secman-team/gh-api/pkg/cmdutil"
 	"github.com/secman-team/gh-api/pkg/iostreams"
 	"github.com/secman-team/gh-api/utils"

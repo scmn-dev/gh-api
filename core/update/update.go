@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/secman-team/gh-api/api"
-	"github.com/secman-team/gh-api/internal/ghinstance"
+	"github.com/secman-team/gh-api/core/ghinstance"
 	"github.com/hashicorp/go-version"
 	"gopkg.in/yaml.v3"
 )

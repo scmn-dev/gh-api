@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/secman-team/gh-api/context"
-	"github.com/secman-team/gh-api/internal/config"
-	"github.com/secman-team/gh-api/internal/ghrepo"
+	"github.com/secman-team/gh-api/core/config"
+	"github.com/secman-team/gh-api/core/ghrepo"
 	"github.com/secman-team/gh-api/pkg/iostreams"
 )
 

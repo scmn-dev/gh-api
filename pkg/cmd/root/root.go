@@ -6,7 +6,7 @@ import (
 	"github.com/MakeNowJust/heredoc"
 	"github.com/secman-team/gh-api/api"
 	"github.com/secman-team/gh-api/context"
-	"github.com/secman-team/gh-api/internal/ghrepo"
+	"github.com/secman-team/gh-api/core/ghrepo"
 	authCmd "github.com/secman-team/gh-api/pkg/cmd/auth"
 	"github.com/secman-team/gh-api/pkg/cmd/factory"
 	repoCmd "github.com/secman-team/gh-api/pkg/cmd/repo"

@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/secman-team/gh-api/git"
-	"github.com/secman-team/gh-api/internal/ghrepo"
+	"github.com/secman-team/gh-api/core/ghrepo"
 )
 
 // Remotes represents a set of git remotes

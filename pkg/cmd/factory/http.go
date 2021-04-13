@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/secman-team/gh-api/api"
-	"github.com/secman-team/gh-api/internal/config"
-	"github.com/secman-team/gh-api/internal/ghinstance"
+	"github.com/secman-team/gh-api/core/config"
+	"github.com/secman-team/gh-api/core/ghinstance"
 	"github.com/secman-team/gh-api/pkg/iostreams"
 )
 

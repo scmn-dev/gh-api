@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/secman-team/gh-api/api"
-	"github.com/secman-team/gh-api/internal/ghinstance"
+	"github.com/secman-team/gh-api/core/ghinstance"
 	"github.com/secman-team/gh-api/pkg/cmdutil"
 	"github.com/secman-team/gh-api/pkg/iostreams"
 	"github.com/cli/oauth"

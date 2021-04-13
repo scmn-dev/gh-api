@@ -31,10 +31,12 @@ var reactionEmoji = map[string]string{
 }
 
 func reactionGroupsFragment() string {
-	return `reactionGroups {
-						content
-						users {
-							totalCount
-						}
-					}`
+	return `
+		reactionGroups {
+			content
+			users {
+				totalCount
+			}
+		}
+	`
 }

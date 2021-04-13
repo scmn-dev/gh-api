@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/secman-team/gh-api/internal/ghinstance"
+	"github.com/secman-team/gh-api/core/ghinstance"
 	"gopkg.in/yaml.v3"
 )
 

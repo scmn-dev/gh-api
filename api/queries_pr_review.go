@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/secman-team/gh-api/internal/ghrepo"
+	"github.com/secman-team/gh-api/core/ghrepo"
 	"github.com/shurcooL/githubv4"
 )
 

@@ -9,8 +9,8 @@ import (
 	"runtime"
 
 	"github.com/AlecAivazis/survey/v2"
-	"github.com/secman-team/gh-api/internal/config"
-	"github.com/secman-team/gh-api/internal/run"
+	"github.com/secman-team/gh-api/core/config"
+	"github.com/secman-team/gh-api/core/run"
 	"github.com/secman-team/gh-api/pkg/cmd/ssh-key/add"
 	"github.com/secman-team/gh-api/pkg/prompt"
 	"github.com/cli/safeexec"

@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/secman-team/gh-api/git"
-	"github.com/secman-team/gh-api/internal/ghinstance"
+	"github.com/secman-team/gh-api/core/ghinstance"
 )
 
 // Interface describes an object that represents a GitHub repository

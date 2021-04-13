@@ -9,7 +9,7 @@ import (
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/MakeNowJust/heredoc"
 	"github.com/secman-team/gh-api/git"
-	"github.com/secman-team/gh-api/internal/run"
+	"github.com/secman-team/gh-api/core/run"
 	"github.com/secman-team/gh-api/pkg/prompt"
 	"github.com/google/shlex"
 )

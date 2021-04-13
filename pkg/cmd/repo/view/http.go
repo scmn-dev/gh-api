@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"github.com/secman-team/gh-api/api"
-	"github.com/secman-team/gh-api/internal/ghrepo"
+	"github.com/secman-team/gh-api/core/ghrepo"
 )
 
 var NotFoundError = errors.New("not found")

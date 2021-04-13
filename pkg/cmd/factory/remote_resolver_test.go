@@ -7,7 +7,7 @@ import (
 
 	"github.com/MakeNowJust/heredoc"
 	"github.com/secman-team/gh-api/git"
-	"github.com/secman-team/gh-api/internal/config"
+	"github.com/secman-team/gh-api/core/config"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -9,7 +9,7 @@ import (
 	"net/http"
 
 	"github.com/secman-team/gh-api/api"
-	"github.com/secman-team/gh-api/internal/ghinstance"
+	"github.com/secman-team/gh-api/core/ghinstance"
 )
 
 var scopesError = errors.New("insufficient OAuth scopes")

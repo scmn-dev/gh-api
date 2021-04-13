@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/secman-team/gh-api/internal/config"
+	"github.com/secman-team/gh-api/core/config"
 	cmdGet "github.com/secman-team/gh-api/pkg/cmd/config/get"
 	cmdSet "github.com/secman-team/gh-api/pkg/cmd/config/set"
 	"github.com/secman-team/gh-api/pkg/cmdutil"
