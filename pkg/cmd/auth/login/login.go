@@ -61,13 +61,13 @@ func NewCmdLogin(f *cmdutil.Factory, runF func(*LoginOptions) error) *cobra.Comm
 		`, "`"),
 		Example: heredoc.Doc(`
 			# start interactive setup
-			$ gh auth login
+			secman auth login
 
 			# authenticate against github.com by reading the token from a file
-			$ gh auth login --with-token < mytoken.txt
+			secman auth login --with-token < mytoken.txt
 
 			# authenticate with a specific GitHub Enterprise Server instance
-			$ gh auth login --hostname enterprise.internal
+			secman auth login --hostname enterprise.internal
 		`),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !opts.IO.CanPrompt() && !(tokenStdin || opts.Web) {
@@ -142,7 +142,7 @@ func loginRun(opts *LoginOptions) error {
 		var roErr *config.ReadOnlyEnvError
 		if errors.As(err, &roErr) {
 			fmt.Fprintf(opts.IO.ErrOut, "The value of the %s environment variable is being used for authentication.\n", roErr.Variable)
-			fmt.Fprint(opts.IO.ErrOut, "To have GitHub CLI store credentials instead, first clear the value from the environment.\n")
+			fmt.Fprint(opts.IO.ErrOut, "To have secman store credentials instead, first clear the value from the environment.\n")
 			return cmdutil.SilentError
 		}
 		return err

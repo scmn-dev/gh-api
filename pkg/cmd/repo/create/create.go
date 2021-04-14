@@ -67,18 +67,18 @@ func NewCmdCreate(f *cmdutil.Factory, runF func(*CreateOptions) error) *cobra.Co
 		Args: cobra.MaximumNArgs(1),
 		Example: heredoc.Doc(`
 			# create a repository under your account using the current directory name
-			$ git init my-project
-			$ cd my-project
-			$ gh repo create
+			git init my-project
+			cd my-project
+			secman repo create
 
 			# create a repository with a specific name
-			$ gh repo create my-project
+			secman repo create my-project
 
 			# create a repository in an organization
-			$ gh repo create cli/my-project
+			secman repo create cli/my-project
 
 			# disable issues and wiki
-			$ gh repo create --enable-issues=false --enable-wiki=false
+			secman repo create --enable-issues=false --enable-wiki=false
 	  `),
 		Annotations: map[string]string{
 			"help:arguments": heredoc.Doc(`

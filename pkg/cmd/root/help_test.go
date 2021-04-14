@@ -12,8 +12,8 @@ func TestDedent(t *testing.T) {
 
 	cases := []c{
 		{
-			input:    "      --help      Show help for command\n      --version   Show gh version\n",
-			expected: "--help      Show help for command\n--version   Show gh version\n",
+			input:    "      --help      Show help for command\n      --version   Show secman version\n",
+			expected: "--help      Show help for command\n--version   Show secman version\n",
 		},
 		{
 			input:    "      --help              Show help for command\n  -R, --repo OWNER/REPO   Select another repository using the OWNER/REPO format\n",

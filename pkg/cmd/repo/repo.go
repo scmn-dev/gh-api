@@ -19,9 +19,9 @@ func NewCmdRepo(f *cmdutil.Factory) *cobra.Command {
 		Short: "Create, clone, fork, and view repositories",
 		Long:  `Work with GitHub repositories`,
 		Example: heredoc.Doc(`
-			$ gh repo create
-			$ gh repo clone secman-team/gh-api
-			$ gh repo view --web
+			secman repo create
+			secman repo clone secman-team/gh-api
+			secman repo view --web
 		`),
 		Annotations: map[string]string{
 			"IsCore": "true",

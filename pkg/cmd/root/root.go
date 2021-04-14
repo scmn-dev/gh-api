@@ -24,8 +24,8 @@ func NewCmdRoot(f *cmdutil.Factory, version, buildDate string) *cobra.Command {
 		SilenceErrors: true,
 		SilenceUsage:  true,
 		Example: heredoc.Doc(`
-			$ secman auth login
-			$ secman repo clone secman-team/gh-api
+			secman auth login
+			secman repo clone secman-team/gh-api
 		`),
 		Annotations: map[string]string{
 			"help:feedback": heredoc.Doc(`
