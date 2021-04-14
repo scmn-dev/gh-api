@@ -56,8 +56,8 @@ func NewCmdLogin(f *cmdutil.Factory, runF func(*LoginOptions) error) *cobra.Comm
 			Alternatively, pass in a token on standard input by using %[1]s--with-token%[1]s.
 			The minimum required scopes for the token are: "repo", "read:org".
 
-			The --scopes flag accepts a comma separated list of scopes you want your gh credentials to have. If
-			absent, this command ensures that gh has access to a minimum set of scopes.
+			The --scopes flag accepts a comma separated list of scopes you want your secman credentials to have. If
+			absent, this command ensures that secman has access to a minimum set of scopes.
 		`, "`"),
 		Example: heredoc.Doc(`
 			# start interactive setup

@@ -91,7 +91,7 @@ func TestLogin_ssh(t *testing.T) {
 	assert.Equal(t, heredoc.Docf(`
 		Tip: you can generate a Personal Access Token here https://example.com/settings/tokens
 		The minimum required scopes are 'repo', 'read:org', 'admin:public_key'.
-		- gh config set -h example.com git_protocol ssh
+		- secman config set -h example.com git_protocol ssh
 		✓ Configured git protocol
 		✓ Uploaded the SSH key to your GitHub account: %s.pub
 		✓ Logged in as monalisa

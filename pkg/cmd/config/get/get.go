@@ -47,7 +47,7 @@ func NewCmdConfigGet(f *cmdutil.Factory, runF func(*GetOptions) error) *cobra.Co
 		},
 	}
 
-	cmd.Flags().StringVarP(&opts.Hostname, "host", "h", "", "Get per-host setting")
+	cmd.Flags().StringVarP(&opts.Hostname, "host", "", "", "Get per-host setting")
 
 	return cmd
 }

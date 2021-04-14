@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/secman-team/gh-api/internal/ghrepo"
+	"github.com/secman-team/gh-api/core/ghrepo"
 	"github.com/secman-team/gh-api/pkg/httpmock"
 )
 
