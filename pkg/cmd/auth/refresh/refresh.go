@@ -69,7 +69,7 @@ func NewCmdRefresh(f *cmdutil.Factory, runF func(*RefreshOptions) error) *cobra.
 		},
 	}
 
-	cmd.Flags().StringVarP(&opts.Hostname, "hostname", "hn", "", "The GitHub host to use for authentication")
+	cmd.Flags().StringVarP(&opts.Hostname, "hostname", "", "", "The GitHub host to use for authentication")
 	cmd.Flags().StringSliceVarP(&opts.Scopes, "scopes", "s", nil, "Additional authentication scopes for gh to have")
 
 	return cmd
