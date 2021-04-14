@@ -111,8 +111,8 @@ func NewCmdLogin(f *cmdutil.Factory, runF func(*LoginOptions) error) *cobra.Comm
 		},
 	}
 
-	cmd.Flags().StringVarP(&opts.Hostname, "hostname", "", "The hostname of the GitHub instance to authenticate with")
-	cmd.Flags().StringSliceVarP(&opts.Scopes, "scopes", "s", nil, "Additional authentication scopes for gh to have")
+	cmd.Flags().StringVarP(&opts.Hostname, "hostname", "", "", "The hostname of the GitHub instance to authenticate with")
+	cmd.Flags().StringSliceVarP(&opts.Scopes, "scopes", "s", nil, "Additional authentication scopes for secman to have")
 	cmd.Flags().BoolVar(&tokenStdin, "with-token", false, "Read token from standard input")
 	cmd.Flags().BoolVarP(&opts.Web, "web", "w", false, "Open a browser to authenticate")
 
