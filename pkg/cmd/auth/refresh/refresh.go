@@ -49,10 +49,10 @@ func NewCmdRefresh(f *cmdutil.Factory, runF func(*RefreshOptions) error) *cobra.
 			absent, this command ensures that gh has access to a minimum set of scopes.
 		`),
 		Example: heredoc.Doc(`
-			$ gh auth refresh --scopes write:org,read:public_key
+			secman auth refresh --scopes write:org,read:public_key
 			# => open a browser to add write:org and read:public_key scopes for use with gh api
 
-			$ gh auth refresh
+			secman auth refresh
 			# => open a browser to ensure your authentication credentials have the correct minimum scopes
 		`),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -69,7 +69,7 @@ func NewCmdRefresh(f *cmdutil.Factory, runF func(*RefreshOptions) error) *cobra.
 		},
 	}
 
-	cmd.Flags().StringVarP(&opts.Hostname, "hostname", "h", "", "The GitHub host to use for authentication")
+	cmd.Flags().StringVarP(&opts.Hostname, "hostname", "hn", "", "The GitHub host to use for authentication")
 	cmd.Flags().StringSliceVarP(&opts.Scopes, "scopes", "s", nil, "Additional authentication scopes for gh to have")
 
 	return cmd
