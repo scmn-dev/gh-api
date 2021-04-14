@@ -47,7 +47,7 @@ func NewCmdLogin(f *cmdutil.Factory, runF func(*LoginOptions) error) *cobra.Comm
 	cmd := &cobra.Command{
 		Use:   "login",
 		Args:  cobra.ExactArgs(0),
-		Short: "Authenticate with a GitHub host",
+		Short: "Authenticate with a GitHub host.",
 		Long: heredoc.Docf(`
 			Authenticate with a GitHub host.
 

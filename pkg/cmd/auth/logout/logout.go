@@ -33,7 +33,7 @@ func NewCmdLogout(f *cmdutil.Factory, runF func(*LogoutOptions) error) *cobra.Co
 	cmd := &cobra.Command{
 		Use:   "logout",
 		Args:  cobra.ExactArgs(0),
-		Short: "Log out of a GitHub host",
+		Short: "Log out of a GitHub host.",
 		Long: heredoc.Doc(`Remove authentication for a GitHub host.
 
 			This command removes the authentication configuration for a host either specified

@@ -47,7 +47,7 @@ func NewCmdList(f *cmdutil.Factory, runF func(*ListOptions) error) *cobra.Comman
 	cmd := &cobra.Command{
 		Use:   "list [<owner>]",
 		Args:  cobra.MaximumNArgs(1),
-		Short: "List repositories owned by user or organization",
+		Short: "List repositories owned by user or organization.",
 		RunE: func(c *cobra.Command, args []string) error {
 			if opts.Limit < 1 {
 				return &cmdutil.FlagError{Err: fmt.Errorf("invalid limit: %v", opts.Limit)}

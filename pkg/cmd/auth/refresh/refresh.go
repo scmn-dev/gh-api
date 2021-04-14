@@ -42,15 +42,15 @@ func NewCmdRefresh(f *cmdutil.Factory, runF func(*RefreshOptions) error) *cobra.
 	cmd := &cobra.Command{
 		Use:   "refresh",
 		Args:  cobra.ExactArgs(0),
-		Short: "Refresh stored authentication credentials",
-		Long: heredoc.Doc(`Expand or fix the permission scopes for stored credentials
+		Short: "Refresh stored authentication credentials.",
+		Long: heredoc.Doc(`Expand or fix the permission scopes for stored credentials.
 
-			The --scopes flag accepts a comma separated list of scopes you want your gh credentials to have. If
-			absent, this command ensures that gh has access to a minimum set of scopes.
+			The --scopes flag accepts a comma separated list of scopes you want your secman credentials to have. If
+			absent, this command ensures that secman has access to a minimum set of scopes.
 		`),
 		Example: heredoc.Doc(`
 			secman auth refresh --scopes write:org,read:public_key
-			# => open a browser to add write:org and read:public_key scopes for use with gh api
+			# => open a browser to add write:org and read:public_key scopes for use with secman api
 
 			secman auth refresh
 			# => open a browser to ensure your authentication credentials have the correct minimum scopes

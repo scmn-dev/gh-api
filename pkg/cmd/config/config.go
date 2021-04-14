@@ -25,7 +25,7 @@ func NewCmdConfig(f *cmdutil.Factory) *cobra.Command {
 
 	cmd := &cobra.Command{
 		Use:   "config <command>",
-		Short: "Manage configuration for secman",
+		Short: "Manage configuration of github for secman.",
 		Long:  longDoc.String(),
 	}
 

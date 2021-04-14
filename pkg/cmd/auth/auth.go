@@ -13,7 +13,7 @@ import (
 func NewCmdAuth(f *cmdutil.Factory) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "auth <command>",
-		Short: "Login, logout, and refresh your authentication",
+		Short: "Login, logout, and refresh your authentication.",
 		Long:  `Manage secman's authentication state.`,
 	}
 

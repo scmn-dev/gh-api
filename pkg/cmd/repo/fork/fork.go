@@ -60,7 +60,7 @@ func NewCmdFork(f *cmdutil.Factory, runF func(*ForkOptions) error) *cobra.Comman
 			}
 			return nil
 		},
-		Short: "Create a fork of a repository",
+		Short: "Create a fork of a repository.",
 		Long: `Create a fork of a repository.
 
 With no argument, creates a fork of the current repository. Otherwise, forks

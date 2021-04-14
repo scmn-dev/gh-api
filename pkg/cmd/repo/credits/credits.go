@@ -41,7 +41,7 @@ func NewCmdCredits(f *cmdutil.Factory, runF func(*CreditsOptions) error) *cobra.
 	cmd := &cobra.Command{
 		Use:   "credits",
 		Short: "View credits for this tool",
-		Long:  `View animated credits for gh, the tool you are currently using :)`,
+		Long:  `View animated credits for secman, the tool you are currently using :)`,
 		Example: heredoc.Doc(`
 			# see a credits animation for this project
 			secman credits
