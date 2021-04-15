@@ -10,7 +10,6 @@ import (
 	authCmd "github.com/secman-team/gh-api/pkg/cmd/auth"
 	"github.com/secman-team/gh-api/pkg/cmd/factory"
 	repoCmd "github.com/secman-team/gh-api/pkg/cmd/repo"
-	versionCmd "github.com/secman-team/gh-api/pkg/cmd/version"
 	"github.com/secman-team/gh-api/pkg/cmdutil"
 	"github.com/spf13/cobra"
 )
@@ -48,13 +47,6 @@ func NewCmdRoot(f *cmdutil.Factory, version, buildDate string) *cobra.Command {
 	cmd.SetUsageFunc(rootUsageFunc)
 	cmd.SetFlagErrorFunc(rootFlagErrorFunc)
 
-	formattedVersion := versionCmd.Format(version, buildDate)
-	cmd.SetVersionTemplate(formattedVersion)
-	cmd.Version = formattedVersion
-	cmd.Flags().Bool("version", false, "Show secman version")
-
-	// Child commands
-	cmd.AddCommand(versionCmd.NewCmdVersion(f, version, buildDate))
 	cmd.AddCommand(authCmd.NewCmdAuth(f))
 
 	// the `api` command should not inherit any extra HTTP headers
