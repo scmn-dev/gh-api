@@ -8,7 +8,6 @@ import (
 	repoForkCmd "github.com/secman-team/gh-api/pkg/cmd/repo/fork"
 	gardenCmd "github.com/secman-team/gh-api/pkg/cmd/repo/garden"
 	repoListCmd "github.com/secman-team/gh-api/pkg/cmd/repo/list"
-	repoViewCmd "github.com/secman-team/gh-api/pkg/cmd/repo/view"
 	"github.com/secman-team/gh-api/pkg/cmdutil"
 	"github.com/spf13/cobra"
 )
@@ -21,7 +20,6 @@ func NewCmdRepo(f *cmdutil.Factory) *cobra.Command {
 		Example: heredoc.Doc(`
 			secman repo create
 			secman repo clone secman-team/gh-api
-			secman repo view --web
 		`),
 		Annotations: map[string]string{
 			"IsCore": "true",
@@ -33,7 +31,6 @@ func NewCmdRepo(f *cmdutil.Factory) *cobra.Command {
 		},
 	}
 
-	cmd.AddCommand(repoViewCmd.NewCmdView(f, nil))
 	cmd.AddCommand(repoForkCmd.NewCmdFork(f, nil))
 	cmd.AddCommand(repoCloneCmd.NewCmdClone(f, nil))
 	cmd.AddCommand(repoCreateCmd.NewCmdCreate(f, nil))

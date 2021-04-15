@@ -6,11 +6,8 @@ import (
 	"io"
 	"net"
 	"os"
-	"os/exec"
 	"path"
-	"path/filepath"
 	"strings"
-	"time"
 
 	surveyCore "github.com/AlecAivazis/survey/v2/core"
 	"github.com/AlecAivazis/survey/v2/terminal"
@@ -19,14 +16,11 @@ import (
 	"github.com/secman-team/gh-api/core/config"
 	"github.com/secman-team/gh-api/core/ghinstance"
 	"github.com/secman-team/gh-api/core/ghrepo"
-	"github.com/secman-team/gh-api/core/run"
 	"github.com/secman-team/gh-api/core/update"
-	"github.com/secman-team/gh-api/pkg/cmd/alias/expand"
 	"github.com/secman-team/gh-api/pkg/cmd/factory"
 	"github.com/secman-team/gh-api/pkg/cmd/root"
 	"github.com/secman-team/gh-api/pkg/cmdutil"
 	"github.com/secman-team/gh-api/utils"
-	"github.com/cli/safeexec"
 	"github.com/mattn/go-colorable"
 	"github.com/mgutz/ansi"
 	"github.com/spf13/cobra"
@@ -105,63 +99,7 @@ func mainRun() exitCode {
 		ghrepo.SetDefaultHost(host)
 	}
 
-	expandedArgs := []string{}
-	if len(os.Args) > 0 {
-		expandedArgs = os.Args[1:]
-	}
-
-	cmd, _, err := rootCmd.Traverse(expandedArgs)
-	if err != nil || cmd == rootCmd {
-		originalArgs := expandedArgs
-		isShell := false
-
-		expandedArgs, isShell, err = expand.ExpandAlias(cfg, os.Args, nil)
-		if err != nil {
-			fmt.Fprintf(stderr, "failed to process aliases:  %s\n", err)
-			return exitError
-		}
-
-		if hasDebug {
-			fmt.Fprintf(stderr, "%v -> %v\n", originalArgs, expandedArgs)
-		}
-
-		if isShell {
-			exe, err := safeexec.LookPath(expandedArgs[0])
-			if err != nil {
-				fmt.Fprintf(stderr, "failed to run external command: %s", err)
-				return exitError
-			}
-
-			externalCmd := exec.Command(exe, expandedArgs[1:]...)
-			externalCmd.Stderr = os.Stderr
-			externalCmd.Stdout = os.Stdout
-			externalCmd.Stdin = os.Stdin
-			preparedCmd := run.PrepareCmd(externalCmd)
-
-			err = preparedCmd.Run()
-			if err != nil {
-				if ee, ok := err.(*exec.ExitError); ok {
-					return exitCode(ee.ExitCode())
-				}
-
-				fmt.Fprintf(stderr, "failed to run external command: %s", err)
-				return exitError
-			}
-
-			return exitOK
-		}
-	}
-
-	cs := cmdFactory.IOStreams.ColorScheme()
-
-	if cmd != nil && cmdutil.IsAuthCheckEnabled(cmd) && !cmdutil.CheckAuth(cfg) {
-		fmt.Fprintln(stderr, cs.Bold("Welcome to Secman Login!"))
-		fmt.Fprintln(stderr)
-		fmt.Fprintln(stderr, "To authenticate, please run `secman auth login`.")
-		return exitAuth
-	}
-
-	rootCmd.SetArgs(expandedArgs)
+	// cs := cmdFactory.IOStreams.ColorScheme()
 
 	if cmd, err := rootCmd.ExecuteC(); err != nil {
 		if err == cmdutil.SilentError {
@@ -269,24 +207,4 @@ func apiVerboseLog() api.ClientOption {
 	logTraffic := strings.Contains(os.Getenv("DEBUG"), "api")
 	colorize := utils.IsTerminal(os.Stderr)
 	return api.VerboseLog(colorable.NewColorable(os.Stderr), logTraffic, colorize)
-}
-
-func isRecentRelease(publishedAt time.Time) bool {
-	return !publishedAt.IsZero() && time.Since(publishedAt) < time.Hour*24
-}
-
-// Check whether the gh binary was found under the Homebrew prefix
-func isUnderHomebrew(ghBinary string) bool {
-	brewExe, err := safeexec.LookPath("brew")
-	if err != nil {
-		return false
-	}
-
-	brewPrefixBytes, err := exec.Command(brewExe, "--prefix").Output()
-	if err != nil {
-		return false
-	}
-
-	brewBinPrefix := filepath.Join(strings.TrimSpace(string(brewPrefixBytes)), "bin") + string(filepath.Separator)
-	return strings.HasPrefix(ghBinary, brewBinPrefix)
 }
