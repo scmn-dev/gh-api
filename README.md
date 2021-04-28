@@ -4,7 +4,7 @@
   <h3 align="center">Github API For Authentication and Manage Repos.</h3>
 </p>
 
-> Commands that need gh-api
+> Commands that need `gh-api`
 
 * Auth
   - Login
