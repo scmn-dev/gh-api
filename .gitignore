@@ -1,11 +1,3 @@
-/bin
-/share/man/man1
-.envrc
-/dist
-/site
-/CHANGELOG.md
-/script/build
-
 # IntelliJ
 .idea
 
