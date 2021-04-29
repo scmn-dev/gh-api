@@ -101,7 +101,7 @@ func Login(opts *LoginOptions) error {
 		authMode = 0
 	} else {
 		err := prompt.SurveyAskOne(&survey.Select{
-			Message: "How would you like to authenticate GitHub CLI?",
+			Message: "How would you like to authenticate GitHub API?",
 			Options: []string{
 				"Login with a web browser",
 				"Paste an authentication token",
