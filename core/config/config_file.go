@@ -3,10 +3,8 @@ package config
 import (
 	"errors"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"os"
-	"path"
 	"path/filepath"
 	"syscall"
 
@@ -28,11 +26,11 @@ func ConfigDir() string {
 }
 
 func ConfigFile() string {
-	return path.Join(ConfigDir(), "config.yml")
+	return filepath.Join(ConfigDir(), "config.yml")
 }
 
 func HostsConfigFile() string {
-	return path.Join(ConfigDir(), "hosts.yml")
+	return filepath.Join(ConfigDir(), "hosts.yml")
 }
 
 func ParseDefaultConfig() (Config, error) {
@@ -111,7 +109,7 @@ var ReadConfigFile = func(filename string) ([]byte, error) {
 }
 
 var WriteConfigFile = func(filename string, data []byte) error {
-	err := os.MkdirAll(path.Dir(filename), 0771)
+	err := os.MkdirAll(filepath.Dir(filename), 0771)
 	if err != nil {
 		return pathError(err)
 	}
@@ -122,10 +120,7 @@ var WriteConfigFile = func(filename string, data []byte) error {
 	}
 	defer cfgFile.Close()
 
-	n, err := cfgFile.Write(data)
-	if err == nil && n < len(data) {
-		err = io.ErrShortWrite
-	}
+	_, err = cfgFile.Write(data)
 
 	return err
 }
@@ -263,7 +258,7 @@ func findRegularFile(p string) string {
 		if s, err := os.Stat(p); err == nil && s.Mode().IsRegular() {
 			return p
 		}
-		newPath := path.Dir(p)
+		newPath := filepath.Dir(p)
 		if newPath == p || newPath == "/" || newPath == "." {
 			break
 		}

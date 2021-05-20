@@ -113,6 +113,7 @@ func mainRun() exitCode {
 		}
 
 		printError(stderr, err, cmd, hasDebug)
+		
 
 		if strings.Contains(err.Error(), "Incorrect function") {
 			fmt.Fprintln(stderr, "You appear to be running in MinTTY without pseudo terminal support.")
