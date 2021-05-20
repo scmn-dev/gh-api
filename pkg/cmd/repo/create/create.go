@@ -9,15 +9,15 @@ import (
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/MakeNowJust/heredoc"
-	"github.com/secman-team/gh-api/api"
-	"github.com/secman-team/gh-api/git"
-	"github.com/secman-team/gh-api/core/config"
-	"github.com/secman-team/gh-api/core/ghinstance"
-	"github.com/secman-team/gh-api/core/ghrepo"
-	"github.com/secman-team/gh-api/core/run"
-	"github.com/secman-team/gh-api/pkg/cmdutil"
-	"github.com/secman-team/gh-api/pkg/iostreams"
-	"github.com/secman-team/gh-api/pkg/prompt"
+	"github.com/cli/cli/api"
+	"github.com/cli/cli/git"
+	"github.com/cli/cli/internal/config"
+	"github.com/cli/cli/internal/ghinstance"
+	"github.com/cli/cli/internal/ghrepo"
+	"github.com/cli/cli/internal/run"
+	"github.com/cli/cli/pkg/cmdutil"
+	"github.com/cli/cli/pkg/iostreams"
+	"github.com/cli/cli/pkg/prompt"
 	"github.com/spf13/cobra"
 )
 
@@ -48,7 +48,7 @@ func NewCmdCreate(f *cmdutil.Factory, runF func(*CreateOptions) error) *cobra.Co
 
 	cmd := &cobra.Command{
 		Use:   "create [<name>]",
-		Short: "Create a new repository.",
+		Short: "Create a new repository",
 		Long: heredoc.Docf(`
 			Create a new GitHub repository.
 
@@ -67,18 +67,18 @@ func NewCmdCreate(f *cmdutil.Factory, runF func(*CreateOptions) error) *cobra.Co
 		Args: cobra.MaximumNArgs(1),
 		Example: heredoc.Doc(`
 			# create a repository under your account using the current directory name
-			git init my-project
-			cd my-project
-			secman repo create
+			$ git init my-project
+			$ cd my-project
+			$ gh repo create
 
 			# create a repository with a specific name
-			secman repo create my-project
+			$ gh repo create my-project
 
 			# create a repository in an organization
-			secman repo create cli/my-project
+			$ gh repo create cli/my-project
 
 			# disable issues and wiki
-			secman repo create --enable-issues=false --enable-wiki=false
+			$ gh repo create --enable-issues=false --enable-wiki=false
 	  `),
 		Annotations: map[string]string{
 			"help:arguments": heredoc.Doc(`
@@ -114,7 +114,7 @@ func NewCmdCreate(f *cmdutil.Factory, runF func(*CreateOptions) error) *cobra.Co
 	}
 
 	cmd.Flags().StringVarP(&opts.Description, "description", "d", "", "Description of the repository")
-	cmd.Flags().StringVarP(&opts.Homepage, "homepage", "", "", "Repository home page `URL`")
+	cmd.Flags().StringVarP(&opts.Homepage, "homepage", "h", "", "Repository home page `URL`")
 	cmd.Flags().StringVarP(&opts.Team, "team", "t", "", "The `name` of the organization team to be granted access")
 	cmd.Flags().StringVarP(&opts.Template, "template", "p", "", "Make the new repository based on a template `repository`")
 	cmd.Flags().BoolVar(&opts.EnableIssues, "enable-issues", true, "Enable issues in the new repository")

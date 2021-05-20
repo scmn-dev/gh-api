@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/secman-team/gh-api/api"
-	"github.com/secman-team/gh-api/core/ghrepo"
+	"github.com/cli/cli/api"
+	"github.com/cli/cli/internal/ghrepo"
 )
 
 var NotFoundError = errors.New("not found")

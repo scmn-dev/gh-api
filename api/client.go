@@ -11,7 +11,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/secman-team/gh-api/core/ghinstance"
+	"github.com/cli/cli/internal/ghinstance"
 	"github.com/henvic/httpretty"
 	"github.com/shurcooL/graphql"
 )

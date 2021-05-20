@@ -6,12 +6,12 @@ import (
 	"strings"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/secman-team/gh-api/api"
-	"github.com/secman-team/gh-api/git"
-	"github.com/secman-team/gh-api/core/config"
-	"github.com/secman-team/gh-api/core/ghrepo"
-	"github.com/secman-team/gh-api/pkg/cmdutil"
-	"github.com/secman-team/gh-api/pkg/iostreams"
+	"github.com/cli/cli/api"
+	"github.com/cli/cli/git"
+	"github.com/cli/cli/internal/config"
+	"github.com/cli/cli/internal/ghrepo"
+	"github.com/cli/cli/pkg/cmdutil"
+	"github.com/cli/cli/pkg/iostreams"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 )
@@ -37,7 +37,7 @@ func NewCmdClone(f *cmdutil.Factory, runF func(*CloneOptions) error) *cobra.Comm
 
 		Use:   "clone <repository> [<directory>] [-- <gitflags>...]",
 		Args:  cmdutil.MinimumArgs(1, "cannot clone: repository argument required"),
-		Short: "Clone a repository locally.",
+		Short: "Clone a repository locally",
 		Long: heredoc.Doc(`
 			Clone a GitHub repository locally.
 

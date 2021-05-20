@@ -4,9 +4,9 @@ import (
 	"fmt"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/secman-team/gh-api/core/config"
-	"github.com/secman-team/gh-api/pkg/cmdutil"
-	"github.com/secman-team/gh-api/pkg/iostreams"
+	"github.com/cli/cli/internal/config"
+	"github.com/cli/cli/pkg/cmdutil"
+	"github.com/cli/cli/pkg/iostreams"
 	"github.com/spf13/cobra"
 )
 
@@ -27,7 +27,7 @@ func NewCmdConfigGet(f *cmdutil.Factory, runF func(*GetOptions) error) *cobra.Co
 		Use:   "get <key>",
 		Short: "Print the value of a given configuration key",
 		Example: heredoc.Doc(`
-			secman config get git_protocol
+			$ gh config get git_protocol
 			https
 		`),
 		Args: cobra.ExactArgs(1),
@@ -47,7 +47,7 @@ func NewCmdConfigGet(f *cmdutil.Factory, runF func(*GetOptions) error) *cobra.Co
 		},
 	}
 
-	cmd.Flags().StringVarP(&opts.Hostname, "host", "", "", "Get per-host setting")
+	cmd.Flags().StringVarP(&opts.Hostname, "host", "h", "", "Get per-host setting")
 
 	return cmd
 }

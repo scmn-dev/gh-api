@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/secman-team/gh-api/pkg/cmdutil"
-	"github.com/secman-team/gh-api/pkg/iostreams"
-	"github.com/secman-team/gh-api/pkg/text"
+	"github.com/cli/cli/pkg/cmdutil"
+	"github.com/cli/cli/pkg/iostreams"
+	"github.com/cli/cli/pkg/text"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 )
@@ -119,11 +119,18 @@ func rootHelpFunc(cs *iostreams.ColorScheme, command *cobra.Command, args []stri
 		Body  string
 	}
 
+	longText := command.Long
+	if longText == "" {
+		longText = command.Short
+	}
+	if longText != "" && command.LocalFlags().Lookup("jq") != nil {
+		longText = strings.TrimRight(longText, "\n") +
+			"\n\nFor more information about output formatting flags, see `gh help formatting`."
+	}
+
 	helpEntries := []helpEntry{}
-	if command.Long != "" {
-		helpEntries = append(helpEntries, helpEntry{"", command.Long})
-	} else if command.Short != "" {
-		helpEntries = append(helpEntries, helpEntry{"", command.Short})
+	if longText != "" {
+		helpEntries = append(helpEntries, helpEntry{"", longText})
 	}
 	helpEntries = append(helpEntries, helpEntry{"USAGE", command.UseLine()})
 	if len(coreCommands) > 0 {
@@ -154,8 +161,8 @@ func rootHelpFunc(cs *iostreams.ColorScheme, command *cobra.Command, args []stri
 		helpEntries = append(helpEntries, helpEntry{"ENVIRONMENT VARIABLES", command.Annotations["help:environment"]})
 	}
 	helpEntries = append(helpEntries, helpEntry{"LEARN MORE", `
-Use 'secman <command> <subcommand> --help' for more information about a command.
-Read docs at https://secman.dev/docs`})
+Use 'gh <command> <subcommand> --help' for more information about a command.
+Read the manual at https://cli.github.com/manual`})
 	if _, ok := command.Annotations["help:feedback"]; ok {
 		helpEntries = append(helpEntries, helpEntry{"FEEDBACK", command.Annotations["help:feedback"]})
 	}
