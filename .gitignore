@@ -7,6 +7,6 @@
 # vim
 *.swp
 
-vendor/
+vendor
 
 go.sum
