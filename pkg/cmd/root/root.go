@@ -4,50 +4,31 @@ import (
 	"net/http"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/cli/cli/api"
-	"github.com/cli/cli/context"
-	"github.com/cli/cli/internal/ghrepo"
-	actionsCmd "github.com/cli/cli/pkg/cmd/actions"
-	aliasCmd "github.com/cli/cli/pkg/cmd/alias"
-	apiCmd "github.com/cli/cli/pkg/cmd/api"
-	authCmd "github.com/cli/cli/pkg/cmd/auth"
-	completionCmd "github.com/cli/cli/pkg/cmd/completion"
-	configCmd "github.com/cli/cli/pkg/cmd/config"
-	"github.com/cli/cli/pkg/cmd/factory"
-	gistCmd "github.com/cli/cli/pkg/cmd/gist"
-	issueCmd "github.com/cli/cli/pkg/cmd/issue"
-	prCmd "github.com/cli/cli/pkg/cmd/pr"
-	releaseCmd "github.com/cli/cli/pkg/cmd/release"
-	repoCmd "github.com/cli/cli/pkg/cmd/repo"
-	creditsCmd "github.com/cli/cli/pkg/cmd/repo/credits"
-	runCmd "github.com/cli/cli/pkg/cmd/run"
-	secretCmd "github.com/cli/cli/pkg/cmd/secret"
-	sshKeyCmd "github.com/cli/cli/pkg/cmd/ssh-key"
-	versionCmd "github.com/cli/cli/pkg/cmd/version"
-	workflowCmd "github.com/cli/cli/pkg/cmd/workflow"
-	"github.com/cli/cli/pkg/cmdutil"
+	"github.com/secman-team/gh-api/api"
+	"github.com/secman-team/gh-api/context"
+	"github.com/secman-team/gh-api/core/ghrepo"
+	authCmd "github.com/secman-team/gh-api/pkg/cmd/auth"
+	"github.com/secman-team/gh-api/pkg/cmd/factory"
+	repoCmd "github.com/secman-team/gh-api/pkg/cmd/repo"
+	"github.com/secman-team/gh-api/pkg/cmdutil"
 	"github.com/spf13/cobra"
 )
 
 func NewCmdRoot(f *cmdutil.Factory, version, buildDate string) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "gh <command> <subcommand> [flags]",
-		Short: "GitHub CLI",
+		Use:   "secman <command> <subcommand> [flags]",
+		Short: "Secman CLI",
 		Long:  `Work seamlessly with GitHub from the command line.`,
 
 		SilenceErrors: true,
 		SilenceUsage:  true,
 		Example: heredoc.Doc(`
-			$ gh issue create
-			$ gh repo clone cli/cli
-			$ gh pr checkout 321
+			secman auth login
+			secman repo clone secman-team/gh-api
 		`),
 		Annotations: map[string]string{
 			"help:feedback": heredoc.Doc(`
-				Open an issue using 'gh issue create -R github.com/cli/cli'
-			`),
-			"help:environment": heredoc.Doc(`
-				See 'gh help environment' for the list of supported environment variables.
+				Open an issue using at https://github.com/secman-team/gh-api/issues
 			`),
 		},
 	}
@@ -66,43 +47,20 @@ func NewCmdRoot(f *cmdutil.Factory, version, buildDate string) *cobra.Command {
 	cmd.SetUsageFunc(rootUsageFunc)
 	cmd.SetFlagErrorFunc(rootFlagErrorFunc)
 
-	formattedVersion := versionCmd.Format(version, buildDate)
-	cmd.SetVersionTemplate(formattedVersion)
-	cmd.Version = formattedVersion
-	cmd.Flags().Bool("version", false, "Show gh version")
-
-	// Child commands
-	cmd.AddCommand(versionCmd.NewCmdVersion(f, version, buildDate))
-	cmd.AddCommand(actionsCmd.NewCmdActions(f))
-	cmd.AddCommand(aliasCmd.NewCmdAlias(f))
 	cmd.AddCommand(authCmd.NewCmdAuth(f))
-	cmd.AddCommand(configCmd.NewCmdConfig(f))
-	cmd.AddCommand(creditsCmd.NewCmdCredits(f, nil))
-	cmd.AddCommand(gistCmd.NewCmdGist(f))
-	cmd.AddCommand(completionCmd.NewCmdCompletion(f.IOStreams))
-	cmd.AddCommand(secretCmd.NewCmdSecret(f))
-	cmd.AddCommand(sshKeyCmd.NewCmdSSHKey(f))
 
 	// the `api` command should not inherit any extra HTTP headers
 	bareHTTPCmdFactory := *f
 	bareHTTPCmdFactory.HttpClient = bareHTTPClient(f, version)
 
-	cmd.AddCommand(apiCmd.NewCmdApi(&bareHTTPCmdFactory, nil))
-
 	// below here at the commands that require the "intelligent" BaseRepo resolver
 	repoResolvingCmdFactory := *f
 	repoResolvingCmdFactory.BaseRepo = resolvedBaseRepo(f)
 
-	cmd.AddCommand(prCmd.NewCmdPR(&repoResolvingCmdFactory))
-	cmd.AddCommand(issueCmd.NewCmdIssue(&repoResolvingCmdFactory))
-	cmd.AddCommand(releaseCmd.NewCmdRelease(&repoResolvingCmdFactory))
 	cmd.AddCommand(repoCmd.NewCmdRepo(&repoResolvingCmdFactory))
-	cmd.AddCommand(runCmd.NewCmdRun(&repoResolvingCmdFactory))
-	cmd.AddCommand(workflowCmd.NewCmdWorkflow(&repoResolvingCmdFactory))
 
 	// Help topics
 	cmd.AddCommand(NewHelpTopic("environment"))
-	cmd.AddCommand(NewHelpTopic("formatting"))
 	cmd.AddCommand(NewHelpTopic("mintty"))
 	referenceCmd := NewHelpTopic("reference")
 	referenceCmd.SetHelpFunc(referenceHelpFn(f.IOStreams))

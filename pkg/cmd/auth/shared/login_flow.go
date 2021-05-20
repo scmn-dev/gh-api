@@ -7,11 +7,11 @@ import (
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/MakeNowJust/heredoc"
-	"github.com/cli/cli/api"
-	"github.com/cli/cli/internal/authflow"
-	"github.com/cli/cli/internal/ghinstance"
-	"github.com/cli/cli/pkg/iostreams"
-	"github.com/cli/cli/pkg/prompt"
+	"github.com/secman-team/gh-api/api"
+	"github.com/secman-team/gh-api/core/authflow"
+	"github.com/secman-team/gh-api/core/ghinstance"
+	"github.com/secman-team/gh-api/pkg/iostreams"
+	"github.com/secman-team/gh-api/pkg/prompt"
 )
 
 type iconfig interface {
@@ -101,7 +101,7 @@ func Login(opts *LoginOptions) error {
 		authMode = 0
 	} else {
 		err := prompt.SurveyAskOne(&survey.Select{
-			Message: "How would you like to authenticate GitHub CLI?",
+			Message: "How would you like to authenticate GitHub API?",
 			Options: []string{
 				"Login with a web browser",
 				"Paste an authentication token",
@@ -163,7 +163,7 @@ func Login(opts *LoginOptions) error {
 	}
 
 	if gitProtocol != "" {
-		fmt.Fprintf(opts.IO.ErrOut, "- gh config set -h %s git_protocol %s\n", hostname, gitProtocol)
+		fmt.Fprintf(opts.IO.ErrOut, "- secman config set --host %s git_protocol %s\n", hostname, gitProtocol)
 		err := cfg.Set(hostname, "git_protocol", gitProtocol)
 		if err != nil {
 			return err

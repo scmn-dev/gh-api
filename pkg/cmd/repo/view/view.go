@@ -10,13 +10,13 @@ import (
 	"text/template"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/cli/cli/api"
-	"github.com/cli/cli/internal/ghinstance"
-	"github.com/cli/cli/internal/ghrepo"
-	"github.com/cli/cli/pkg/cmdutil"
-	"github.com/cli/cli/pkg/iostreams"
-	"github.com/cli/cli/pkg/markdown"
-	"github.com/cli/cli/utils"
+	"github.com/secman-team/gh-api/api"
+	"github.com/secman-team/gh-api/core/ghinstance"
+	"github.com/secman-team/gh-api/core/ghrepo"
+	"github.com/secman-team/gh-api/pkg/cmdutil"
+	"github.com/secman-team/gh-api/pkg/iostreams"
+	"github.com/secman-team/gh-api/pkg/markdown"
+	"github.com/secman-team/gh-api/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -112,6 +112,7 @@ func viewRun(opts *ViewOptions) error {
 	}
 
 	repo, err := fetchRepository(apiClient, toView, fields)
+
 	if err != nil {
 		return err
 	}
@@ -132,6 +133,7 @@ func viewRun(opts *ViewOptions) error {
 	}
 
 	opts.IO.DetectTerminalTheme()
+
 	if err := opts.IO.StartPager(); err != nil {
 		return err
 	}
@@ -142,6 +144,7 @@ func viewRun(opts *ViewOptions) error {
 	}
 
 	fullName := ghrepo.FullName(toView)
+
 	stdout := opts.IO.Out
 
 	if !opts.IO.IsStdoutTTY() {

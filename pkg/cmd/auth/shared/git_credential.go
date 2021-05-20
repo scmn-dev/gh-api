@@ -8,9 +8,9 @@ import (
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/MakeNowJust/heredoc"
-	"github.com/cli/cli/git"
-	"github.com/cli/cli/internal/run"
-	"github.com/cli/cli/pkg/prompt"
+	"github.com/secman-team/gh-api/git"
+	"github.com/secman-team/gh-api/core/run"
+	"github.com/secman-team/gh-api/pkg/prompt"
 	"github.com/google/shlex"
 )
 

@@ -10,9 +10,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/cli/cli/pkg/export"
-	"github.com/cli/cli/pkg/jsoncolor"
-	"github.com/cli/cli/pkg/set"
+	"github.com/secman-team/gh-api/pkg/export"
+	"github.com/secman-team/gh-api/pkg/jsoncolor"
+	"github.com/secman-team/gh-api/pkg/set"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 )

@@ -8,16 +8,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/cli/cli/api"
-	"github.com/cli/cli/context"
-	"github.com/cli/cli/git"
-	"github.com/cli/cli/internal/config"
-	"github.com/cli/cli/internal/ghrepo"
-	"github.com/cli/cli/internal/run"
-	"github.com/cli/cli/pkg/cmdutil"
-	"github.com/cli/cli/pkg/iostreams"
-	"github.com/cli/cli/pkg/prompt"
-	"github.com/cli/cli/utils"
+	"github.com/secman-team/gh-api/api"
+	"github.com/secman-team/gh-api/context"
+	"github.com/secman-team/gh-api/git"
+	"github.com/secman-team/gh-api/core/config"
+	"github.com/secman-team/gh-api/core/ghrepo"
+	"github.com/secman-team/gh-api/core/run"
+	"github.com/secman-team/gh-api/pkg/cmdutil"
+	"github.com/secman-team/gh-api/pkg/iostreams"
+	"github.com/secman-team/gh-api/pkg/prompt"
+	"github.com/secman-team/gh-api/utils"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 )
@@ -61,7 +61,7 @@ func NewCmdFork(f *cmdutil.Factory, runF func(*ForkOptions) error) *cobra.Comman
 			}
 			return nil
 		},
-		Short: "Create a fork of a repository",
+		Short: "Create a fork of a repository.",
 		Long: `Create a fork of a repository.
 
 With no argument, creates a fork of the current repository. Otherwise, forks

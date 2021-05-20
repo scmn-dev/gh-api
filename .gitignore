@@ -1,0 +1,12 @@
+# IntelliJ
+.idea
+
+# macOS
+.DS_Store
+
+# vim
+*.swp
+
+vendor/
+
+go.sum

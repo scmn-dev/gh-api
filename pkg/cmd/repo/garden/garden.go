@@ -14,12 +14,12 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/cli/cli/api"
-	"github.com/cli/cli/internal/ghinstance"
-	"github.com/cli/cli/internal/ghrepo"
-	"github.com/cli/cli/pkg/cmdutil"
-	"github.com/cli/cli/pkg/iostreams"
-	"github.com/cli/cli/utils"
+	"github.com/secman-team/gh-api/api"
+	"github.com/secman-team/gh-api/core/ghinstance"
+	"github.com/secman-team/gh-api/core/ghrepo"
+	"github.com/secman-team/gh-api/pkg/cmdutil"
+	"github.com/secman-team/gh-api/pkg/iostreams"
+	"github.com/secman-team/gh-api/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -103,7 +103,7 @@ func NewCmdGarden(f *cmdutil.Factory, runF func(*GardenOptions) error) *cobra.Co
 
 	cmd := &cobra.Command{
 		Use:    "garden [<repository>]",
-		Short:  "Explore a git repository as a garden",
+		Short:  "Explore a git repository as a garden.",
 		Long:   "Use arrow keys, WASD or vi keys to move. q to quit.",
 		Hidden: true,
 		RunE: func(c *cobra.Command, args []string) error {

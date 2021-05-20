@@ -6,12 +6,12 @@ import (
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/MakeNowJust/heredoc"
-	"github.com/cli/cli/internal/authflow"
-	"github.com/cli/cli/internal/config"
-	"github.com/cli/cli/pkg/cmd/auth/shared"
-	"github.com/cli/cli/pkg/cmdutil"
-	"github.com/cli/cli/pkg/iostreams"
-	"github.com/cli/cli/pkg/prompt"
+	"github.com/secman-team/gh-api/core/authflow"
+	"github.com/secman-team/gh-api/core/config"
+	"github.com/secman-team/gh-api/pkg/cmd/auth/shared"
+	"github.com/secman-team/gh-api/pkg/cmdutil"
+	"github.com/secman-team/gh-api/pkg/iostreams"
+	"github.com/secman-team/gh-api/pkg/prompt"
 	"github.com/spf13/cobra"
 )
 
@@ -42,17 +42,17 @@ func NewCmdRefresh(f *cmdutil.Factory, runF func(*RefreshOptions) error) *cobra.
 	cmd := &cobra.Command{
 		Use:   "refresh",
 		Args:  cobra.ExactArgs(0),
-		Short: "Refresh stored authentication credentials",
-		Long: heredoc.Doc(`Expand or fix the permission scopes for stored credentials
+		Short: "Refresh stored authentication credentials.",
+		Long: heredoc.Doc(`Expand or fix the permission scopes for stored credentials.
 
-			The --scopes flag accepts a comma separated list of scopes you want your gh credentials to have. If
-			absent, this command ensures that gh has access to a minimum set of scopes.
+			The --scopes flag accepts a comma separated list of scopes you want your secman credentials to have. If
+			absent, this command ensures that secman has access to a minimum set of scopes.
 		`),
 		Example: heredoc.Doc(`
-			$ gh auth refresh --scopes write:org,read:public_key
-			# => open a browser to add write:org and read:public_key scopes for use with gh api
+			secman auth refresh --scopes write:org,read:public_key
+			# => open a browser to add write:org and read:public_key scopes for use with secman api
 
-			$ gh auth refresh
+			secman auth refresh
 			# => open a browser to ensure your authentication credentials have the correct minimum scopes
 		`),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -69,7 +69,7 @@ func NewCmdRefresh(f *cmdutil.Factory, runF func(*RefreshOptions) error) *cobra.
 		},
 	}
 
-	cmd.Flags().StringVarP(&opts.Hostname, "hostname", "h", "", "The GitHub host to use for authentication")
+	cmd.Flags().StringVarP(&opts.Hostname, "hostname", "", "", "The GitHub host to use for authentication")
 	cmd.Flags().StringSliceVarP(&opts.Scopes, "scopes", "s", nil, "Additional authentication scopes for gh to have")
 
 	return cmd

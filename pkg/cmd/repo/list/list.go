@@ -3,15 +3,15 @@ package list
 import (
 	"fmt"
 	"net/http"
-	"strings"
 	"time"
+	"strings"
 
-	"github.com/cli/cli/api"
-	"github.com/cli/cli/internal/config"
-	"github.com/cli/cli/pkg/cmdutil"
-	"github.com/cli/cli/pkg/iostreams"
-	"github.com/cli/cli/pkg/text"
-	"github.com/cli/cli/utils"
+	"github.com/secman-team/gh-api/api"
+	"github.com/secman-team/gh-api/core/config"
+	"github.com/secman-team/gh-api/pkg/cmdutil"
+	"github.com/secman-team/gh-api/pkg/iostreams"
+	"github.com/secman-team/gh-api/pkg/text"
+	"github.com/secman-team/gh-api/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -50,7 +50,7 @@ func NewCmdList(f *cmdutil.Factory, runF func(*ListOptions) error) *cobra.Comman
 	cmd := &cobra.Command{
 		Use:   "list [<owner>]",
 		Args:  cobra.MaximumNArgs(1),
-		Short: "List repositories owned by user or organization",
+		Short: "List repositories owned by user or organization.",
 		RunE: func(c *cobra.Command, args []string) error {
 			if opts.Limit < 1 {
 				return &cmdutil.FlagError{Err: fmt.Errorf("invalid limit: %v", opts.Limit)}
@@ -113,6 +113,7 @@ func listRun(opts *ListOptions) error {
 		NonArchived: opts.NonArchived,
 		Fields:      defaultFields,
 	}
+
 	if opts.Exporter != nil {
 		filter.Fields = opts.Exporter.Fields()
 	}

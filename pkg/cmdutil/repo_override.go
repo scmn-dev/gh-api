@@ -3,7 +3,7 @@ package cmdutil
 import (
 	"os"
 
-	"github.com/cli/cli/internal/ghrepo"
+	"github.com/secman-team/gh-api/core/ghrepo"
 	"github.com/spf13/cobra"
 )
 

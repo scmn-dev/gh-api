@@ -8,8 +8,8 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/cli/cli/api"
-	"github.com/cli/cli/internal/ghinstance"
+	"github.com/secman-team/gh-api/api"
+	"github.com/secman-team/gh-api/core/ghinstance"
 )
 
 var scopesError = errors.New("insufficient OAuth scopes")

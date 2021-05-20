@@ -6,10 +6,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/cli/cli/internal/docs"
-	"github.com/cli/cli/pkg/cmd/root"
-	"github.com/cli/cli/pkg/cmdutil"
-	"github.com/cli/cli/pkg/iostreams"
+	"github.com/secman-team/gh-api/core/docs"
+	"github.com/secman-team/gh-api/pkg/cmd/root"
+	"github.com/secman-team/gh-api/pkg/cmdutil"
+	"github.com/secman-team/gh-api/pkg/iostreams"
 	"github.com/spf13/pflag"
 )
 
