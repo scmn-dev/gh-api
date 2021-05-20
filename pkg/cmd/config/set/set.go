@@ -6,9 +6,9 @@ import (
 	"strings"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/secman-team/gh-api/core/config"
-	"github.com/secman-team/gh-api/pkg/cmdutil"
-	"github.com/secman-team/gh-api/pkg/iostreams"
+	"github.com/cli/cli/internal/config"
+	"github.com/cli/cli/pkg/cmdutil"
+	"github.com/cli/cli/pkg/iostreams"
 	"github.com/spf13/cobra"
 )
 
@@ -30,10 +30,10 @@ func NewCmdConfigSet(f *cmdutil.Factory, runF func(*SetOptions) error) *cobra.Co
 		Use:   "set <key> <value>",
 		Short: "Update configuration with a value for the given key",
 		Example: heredoc.Doc(`
-			secman config set editor vim
-			secman config set editor "code --wait"
-			secman config set git_protocol ssh --host github.com
-			secman config set prompt disabled
+			$ gh config set editor vim
+			$ gh config set editor "code --wait"
+			$ gh config set git_protocol ssh --host github.com
+			$ gh config set prompt disabled
 		`),
 		Args: cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -53,7 +53,7 @@ func NewCmdConfigSet(f *cmdutil.Factory, runF func(*SetOptions) error) *cobra.Co
 		},
 	}
 
-	cmd.Flags().StringVarP(&opts.Hostname, "host", "", "", "Set per-host setting")
+	cmd.Flags().StringVarP(&opts.Hostname, "host", "h", "", "Set per-host setting")
 
 	return cmd
 }

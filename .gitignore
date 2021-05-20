@@ -1,3 +1,16 @@
+/bin
+/share/man/man1
+/gh-cli
+.envrc
+/dist
+/site
+.github/**/node_modules
+/CHANGELOG.md
+/script/build
+
+# VS Code
+.vscode
+
 # IntelliJ
 .idea
 
@@ -8,5 +21,3 @@
 *.swp
 
 vendor/
-
-go.sum

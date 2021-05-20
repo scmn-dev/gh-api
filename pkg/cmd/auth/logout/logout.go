@@ -7,11 +7,11 @@ import (
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/MakeNowJust/heredoc"
-	"github.com/secman-team/gh-api/api"
-	"github.com/secman-team/gh-api/core/config"
-	"github.com/secman-team/gh-api/pkg/cmdutil"
-	"github.com/secman-team/gh-api/pkg/iostreams"
-	"github.com/secman-team/gh-api/pkg/prompt"
+	"github.com/cli/cli/api"
+	"github.com/cli/cli/internal/config"
+	"github.com/cli/cli/pkg/cmdutil"
+	"github.com/cli/cli/pkg/iostreams"
+	"github.com/cli/cli/pkg/prompt"
 	"github.com/spf13/cobra"
 )
 
@@ -33,17 +33,17 @@ func NewCmdLogout(f *cmdutil.Factory, runF func(*LogoutOptions) error) *cobra.Co
 	cmd := &cobra.Command{
 		Use:   "logout",
 		Args:  cobra.ExactArgs(0),
-		Short: "Log out of a GitHub host.",
+		Short: "Log out of a GitHub host",
 		Long: heredoc.Doc(`Remove authentication for a GitHub host.
 
 			This command removes the authentication configuration for a host either specified
 			interactively or via --hostname.
 		`),
 		Example: heredoc.Doc(`
-			secman auth logout
+			$ gh auth logout
 			# => select what host to log out of via a prompt
 
-			secman auth logout --hostname enterprise.internal
+			$ gh auth logout --hostname enterprise.internal
 			# => log out of specified host
 		`),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -59,7 +59,7 @@ func NewCmdLogout(f *cmdutil.Factory, runF func(*LogoutOptions) error) *cobra.Co
 		},
 	}
 
-	cmd.Flags().StringVarP(&opts.Hostname, "hostname", "", "", "The hostname of the GitHub instance to log out of")
+	cmd.Flags().StringVarP(&opts.Hostname, "hostname", "h", "", "The hostname of the GitHub instance to log out of")
 
 	return cmd
 }

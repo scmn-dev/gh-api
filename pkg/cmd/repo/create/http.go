@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/secman-team/gh-api/api"
+	"github.com/cli/cli/api"
 )
 
 // repoCreateInput represents input parameters for repoCreate

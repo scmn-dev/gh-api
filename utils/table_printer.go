@@ -6,8 +6,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/secman-team/gh-api/pkg/iostreams"
-	"github.com/secman-team/gh-api/pkg/text"
+	"github.com/cli/cli/pkg/iostreams"
+	"github.com/cli/cli/pkg/text"
 )
 
 type TablePrinter interface {

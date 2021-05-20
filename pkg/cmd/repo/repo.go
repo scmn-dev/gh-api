@@ -2,25 +2,26 @@ package repo
 
 import (
 	"github.com/MakeNowJust/heredoc"
-	repoCloneCmd "github.com/secman-team/gh-api/pkg/cmd/repo/clone"
-	repoCreateCmd "github.com/secman-team/gh-api/pkg/cmd/repo/create"
-	creditsCmd "github.com/secman-team/gh-api/pkg/cmd/repo/credits"
-	repoForkCmd "github.com/secman-team/gh-api/pkg/cmd/repo/fork"
-	gardenCmd "github.com/secman-team/gh-api/pkg/cmd/repo/garden"
-	repoListCmd "github.com/secman-team/gh-api/pkg/cmd/repo/list"
-	repoViewCmd "github.com/secman-team/gh-api/pkg/cmd/repo/view"
-	"github.com/secman-team/gh-api/pkg/cmdutil"
+	repoCloneCmd "github.com/cli/cli/pkg/cmd/repo/clone"
+	repoCreateCmd "github.com/cli/cli/pkg/cmd/repo/create"
+	creditsCmd "github.com/cli/cli/pkg/cmd/repo/credits"
+	repoForkCmd "github.com/cli/cli/pkg/cmd/repo/fork"
+	gardenCmd "github.com/cli/cli/pkg/cmd/repo/garden"
+	repoListCmd "github.com/cli/cli/pkg/cmd/repo/list"
+	repoViewCmd "github.com/cli/cli/pkg/cmd/repo/view"
+	"github.com/cli/cli/pkg/cmdutil"
 	"github.com/spf13/cobra"
 )
 
 func NewCmdRepo(f *cmdutil.Factory) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "repo <command>",
-		Short: "Create, clone, fork, and view repositories.",
+		Short: "Create, clone, fork, and view repositories",
 		Long:  `Work with GitHub repositories`,
 		Example: heredoc.Doc(`
-			secman repo create
-			secman repo clone secman-team/gh-api
+			$ gh repo create
+			$ gh repo clone cli/cli
+			$ gh repo view --web
 		`),
 		Annotations: map[string]string{
 			"IsCore": "true",
@@ -31,6 +32,7 @@ func NewCmdRepo(f *cmdutil.Factory) *cobra.Command {
 			`),
 		},
 	}
+
 	cmd.AddCommand(repoViewCmd.NewCmdView(f, nil))
 	cmd.AddCommand(repoForkCmd.NewCmdFork(f, nil))
 	cmd.AddCommand(repoCloneCmd.NewCmdClone(f, nil))

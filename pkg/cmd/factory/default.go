@@ -6,11 +6,11 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/secman-team/gh-api/git"
-	"github.com/secman-team/gh-api/core/config"
-	"github.com/secman-team/gh-api/core/ghrepo"
-	"github.com/secman-team/gh-api/pkg/cmdutil"
-	"github.com/secman-team/gh-api/pkg/iostreams"
+	"github.com/cli/cli/git"
+	"github.com/cli/cli/internal/config"
+	"github.com/cli/cli/internal/ghrepo"
+	"github.com/cli/cli/pkg/cmdutil"
+	"github.com/cli/cli/pkg/iostreams"
 )
 
 func New(appVersion string) *cmdutil.Factory {

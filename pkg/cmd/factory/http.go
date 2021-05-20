@@ -7,10 +7,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/secman-team/gh-api/api"
-	"github.com/secman-team/gh-api/core/config"
-	"github.com/secman-team/gh-api/core/ghinstance"
-	"github.com/secman-team/gh-api/pkg/iostreams"
+	"github.com/cli/cli/api"
+	"github.com/cli/cli/internal/config"
+	"github.com/cli/cli/internal/ghinstance"
+	"github.com/cli/cli/pkg/iostreams"
 )
 
 var timezoneNames = map[int]string{

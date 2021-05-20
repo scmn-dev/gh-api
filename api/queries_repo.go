@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/secman-team/gh-api/core/ghrepo"
+	"github.com/cli/cli/internal/ghrepo"
 	"github.com/shurcooL/githubv4"
 )
 
@@ -97,7 +97,7 @@ type Repository struct {
 		Nodes []IssueLabel
 	}
 	Milestones struct {
-		Nodes []RepoMilestone
+		Nodes []Milestone
 	}
 	LatestRelease *RepositoryRelease
 
