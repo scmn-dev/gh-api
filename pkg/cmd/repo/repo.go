@@ -23,7 +23,6 @@ func NewCmdRepo(f *cmdutil.Factory) *cobra.Command {
 			secman repo clone secman-team/gh-api
 		`),
 		Annotations: map[string]string{
-			"IsCore": "true",
 			"help:arguments": heredoc.Doc(`
 				A repository can be supplied as an argument in any of the following formats:
 				- "OWNER/REPO"
