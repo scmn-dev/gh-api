@@ -8,5 +8,3 @@
 *.swp
 
 vendor/
-
-go.sum

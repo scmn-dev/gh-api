@@ -183,6 +183,7 @@ func (c Client) GraphQL(hostname string, query string, variables map[string]inte
 	if err != nil {
 		return err
 	}
+
 	defer resp.Body.Close()
 
 	return handleResponse(resp, data)
