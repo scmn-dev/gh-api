@@ -59,9 +59,11 @@ func NewCmdList(f *cmdutil.Factory, runF func(*ListOptions) error) *cobra.Comman
 			if flagPrivate && flagPublic {
 				return &cmdutil.FlagError{Err: fmt.Errorf("specify only one of `--public` or `--private`")}
 			}
+
 			if opts.Source && opts.Fork {
 				return &cmdutil.FlagError{Err: fmt.Errorf("specify only one of `--source` or `--fork`")}
 			}
+
 			if opts.Archived && opts.NonArchived {
 				return &cmdutil.FlagError{Err: fmt.Errorf("specify only one of `--archived` or `--no-archived`")}
 			}
@@ -79,6 +81,7 @@ func NewCmdList(f *cmdutil.Factory, runF func(*ListOptions) error) *cobra.Comman
 			if runF != nil {
 				return runF(&opts)
 			}
+
 			return listRun(&opts)
 		},
 	}

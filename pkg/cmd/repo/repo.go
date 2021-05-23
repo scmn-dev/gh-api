@@ -30,6 +30,7 @@ func NewCmdRepo(f *cmdutil.Factory) *cobra.Command {
 			`),
 		},
 	}
+
 	cmd.AddCommand(repoViewCmd.NewCmdView(f, nil))
 	cmd.AddCommand(repoForkCmd.NewCmdFork(f, nil))
 	cmd.AddCommand(repoCloneCmd.NewCmdClone(f, nil))
