@@ -135,6 +135,7 @@ func statusRun(opts *StatusOptions) error {
 			}
 			addMsg("%s Token: %s", cs.SuccessIcon(), tokenDisplay)
 		}
+
 		addMsg("")
 
 		// NB we could take this opportunity to add or fix the "user" key in the hosts config. I chose
@@ -152,7 +153,9 @@ func statusRun(opts *StatusOptions) error {
 		if !ok {
 			continue
 		}
+
 		fmt.Fprintf(stderr, "%s\n", cs.Bold(hostname))
+
 		for _, line := range lines {
 			fmt.Fprintf(stderr, "  %s\n", line)
 		}

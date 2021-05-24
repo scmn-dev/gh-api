@@ -33,9 +33,11 @@ func (flow *GitCredentialFlow) Prompt(hostname string) error {
 		Message: "Authenticate Git with your GitHub credentials?",
 		Default: true,
 	}, &flow.shouldSetup)
+
 	if err != nil {
 		return fmt.Errorf("could not prompt: %w", err)
 	}
+
 	if flow.shouldSetup {
 		flow.scopes = append(flow.scopes, "workflow")
 	}
@@ -59,22 +61,25 @@ func (flow *GitCredentialFlow) gitCredentialSetup(hostname, username, password s
 	if flow.helper == "" {
 		// first use a blank value to indicate to git we want to sever the chain of credential helpers
 		preConfigureCmd, err := git.GitCommand("config", "--global", gitCredentialHelperKey(hostname), "")
+
 		if err != nil {
 			return err
 		}
+
 		if err = run.PrepareCmd(preConfigureCmd).Run(); err != nil {
 			return err
 		}
 
-		// use GitHub CLI as a credential helper (for this host only)
 		configureCmd, err := git.GitCommand(
 			"config", "--global", "--add",
 			gitCredentialHelperKey(hostname),
 			fmt.Sprintf("!%s auth git-credential", shellQuote(flow.Executable)),
 		)
+
 		if err != nil {
 			return err
 		}
+
 		return run.PrepareCmd(configureCmd).Run()
 	}
 
@@ -123,6 +128,7 @@ func gitCredentialHelper(hostname string) (helper string, err error) {
 	if helper != "" {
 		return
 	}
+
 	helper, err = git.Config("credential.helper")
 	return
 }
@@ -144,5 +150,6 @@ func shellQuote(s string) string {
 	if strings.ContainsAny(s, " $") {
 		return "'" + s + "'"
 	}
+
 	return s
 }

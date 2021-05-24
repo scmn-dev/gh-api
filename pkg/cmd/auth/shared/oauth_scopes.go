@@ -20,11 +20,13 @@ func (e MissingScopesError) Error() string {
 	for _, s := range e.MissingScopes {
 		missing = append(missing, fmt.Sprintf("'%s'", s))
 	}
+
 	scopes := strings.Join(missing, ", ")
 
 	if len(e.MissingScopes) == 1 {
 		return "missing required scope " + scopes
 	}
+
 	return "missing required scopes " + scopes
 }
 
@@ -70,6 +72,7 @@ func HasMinimumScopes(httpClient httpClient, hostname, authToken string) error {
 		"read:org":  false,
 		"admin:org": false,
 	}
+
 	for _, s := range strings.Split(scopesHeader, ",") {
 		search[strings.TrimSpace(s)] = true
 	}
@@ -86,5 +89,6 @@ func HasMinimumScopes(httpClient httpClient, hostname, authToken string) error {
 	if len(missingScopes) > 0 {
 		return &MissingScopesError{MissingScopes: missingScopes}
 	}
+
 	return nil
 }

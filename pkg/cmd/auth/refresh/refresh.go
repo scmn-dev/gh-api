@@ -121,6 +121,7 @@ func refreshRun(opts *RefreshOptions) error {
 			fmt.Fprint(opts.IO.ErrOut, "To refresh credentials stored in GitHub CLI, first clear the value from the environment.\n")
 			return cmdutil.SilentError
 		}
+
 		return err
 	}
 
@@ -132,6 +133,7 @@ func refreshRun(opts *RefreshOptions) error {
 		if err := credentialFlow.Prompt(hostname); err != nil {
 			return err
 		}
+
 		additionalScopes = append(additionalScopes, credentialFlow.Scopes()...)
 	}
 
