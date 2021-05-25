@@ -54,7 +54,7 @@ func mainRun() exitCode {
 
 	hasDebug := os.Getenv("DEBUG") != ""
 
-	cmdFactory := factory.New(buildVersion)
+	cmdFactory := factory.New()
 	stderr := cmdFactory.IOStreams.ErrOut
 	if !cmdFactory.IOStreams.ColorEnabled() {
 		surveyCore.DisableColor = true

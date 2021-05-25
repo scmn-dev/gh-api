@@ -13,7 +13,7 @@ import (
 	"github.com/secman-team/gh-api/pkg/iostreams"
 )
 
-func New(appVersion string) *cmdutil.Factory {
+func New() *cmdutil.Factory {
 	io := iostreams.System()
 
 	var cachedConfig config.Config
@@ -52,7 +52,7 @@ func New(appVersion string) *cmdutil.Factory {
 				return nil, err
 			}
 
-			return NewHTTPClient(io, cfg, appVersion, true), nil
+			return NewHTTPClient(io, cfg, "x", true), nil
 		},
 		BaseRepo: func() (ghrepo.Interface, error) {
 			remotes, err := remotesFunc()

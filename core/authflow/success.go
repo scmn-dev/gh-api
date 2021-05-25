@@ -33,7 +33,7 @@ const oauthSuccessPage = `
   }
 </style>
 <body>
-  <img src="https://imgs-secman.web.app/logo.png" />
+  <img src="https://assets.secman.dev/logo.svg" />
   <div class="box">
     <h1>Successfully authenticated Secman With Github 🔗</h1>
     <p>You may now close this tab and return to the terminal.</p>

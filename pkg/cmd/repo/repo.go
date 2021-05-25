@@ -1,6 +1,8 @@
 package repo
 
 import (
+	"os"
+	"fmt"
 	"github.com/MakeNowJust/heredoc"
 	repoCloneCmd "github.com/secman-team/gh-api/pkg/cmd/repo/clone"
 	repoCreateCmd "github.com/secman-team/gh-api/pkg/cmd/repo/create"
@@ -11,7 +13,24 @@ import (
 	repoViewCmd "github.com/secman-team/gh-api/pkg/cmd/repo/view"
 	"github.com/secman-team/gh-api/pkg/cmdutil"
 	"github.com/spf13/cobra"
+	"github.com/abdfnx/git_config"
+	"github.com/secman-team/gh-api/pkg/cmd/factory"
+	"github.com/secman-team/gh-api/pkg/iostreams"
 )
+
+type ColorScheme struct {
+	IO *iostreams.IOStreams
+}
+
+func opts(f *cmdutil.Factory) ColorScheme {
+	opts := ColorScheme{
+		IO: f.IOStreams,
+	}
+
+	return opts
+}
+
+var cs = opts(factory.New()).IO.ColorScheme()
 
 func NewCmdRepo(f *cmdutil.Factory) *cobra.Command {
 	cmd := &cobra.Command{
@@ -38,6 +57,13 @@ func NewCmdRepo(f *cmdutil.Factory) *cobra.Command {
 	cmd.AddCommand(repoListCmd.NewCmdList(f, nil))
 	cmd.AddCommand(creditsCmd.NewCmdRepoCredits(f, nil))
 	cmd.AddCommand(gardenCmd.NewCmdGarden(f, nil))
+
+	username := git_config.GitConfig()
+	if username == ":username" {
+		fmt.Println("You're not authenticated, to authenticate run " + cs.Bold("secman auth login"))
+
+		os.Exit(0)
+	}
 
 	return cmd
 }
