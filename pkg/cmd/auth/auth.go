@@ -2,6 +2,7 @@ package auth
 
 import (
 	gitCredentialCmd "github.com/secman-team/gh-api/pkg/cmd/auth/gitcredential"
+	authGetUsernameCmd "github.com/secman-team/gh-api/pkg/cmd/auth/get-username"
 	authLoginCmd "github.com/secman-team/gh-api/pkg/cmd/auth/login"
 	authLogoutCmd "github.com/secman-team/gh-api/pkg/cmd/auth/logout"
 	authRefreshCmd "github.com/secman-team/gh-api/pkg/cmd/auth/refresh"
@@ -19,6 +20,7 @@ func NewCmdAuth(f *cmdutil.Factory) *cobra.Command {
 
 	cmdutil.DisableAuthCheck(cmd)
 
+	cmd.AddCommand(authGetUsernameCmd.GetUsername())
 	cmd.AddCommand(authLoginCmd.NewCmdLogin(f, nil))
 	cmd.AddCommand(authLogoutCmd.NewCmdLogout(f, nil))
 	cmd.AddCommand(authStatusCmd.NewCmdStatus(f, nil))
