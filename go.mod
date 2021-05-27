@@ -6,7 +6,7 @@ require (
 	github.com/AlecAivazis/survey/v2 v2.2.12
 	github.com/MakeNowJust/heredoc v1.0.0
 	github.com/abdfnx/git_config v0.0.31
-	github.com/briandowns/spinner v1.12.0
+	github.com/briandowns/spinner v1.13.0
 	github.com/charmbracelet/glamour v0.3.0
 	github.com/cli/browser v1.1.0
 	github.com/cli/oauth v0.8.0
@@ -18,7 +18,7 @@ require (
 	github.com/itchyny/gojq v0.12.3
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51
 	github.com/mattn/go-colorable v0.1.8
-	github.com/mattn/go-isatty v0.0.12
+	github.com/mattn/go-isatty v0.0.13
 	github.com/mattn/go-runewidth v0.0.13
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d
 	github.com/mitchellh/go-homedir v1.1.0
