@@ -5,7 +5,7 @@ go 1.13
 require (
 	github.com/AlecAivazis/survey/v2 v2.2.12
 	github.com/MakeNowJust/heredoc v1.0.0
-	github.com/abdfnx/git_config v0.0.3
+	github.com/abdfnx/git_config v0.0.31
 	github.com/briandowns/spinner v1.12.0
 	github.com/charmbracelet/glamour v0.3.0
 	github.com/cli/browser v1.1.0
