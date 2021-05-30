@@ -1,8 +1,8 @@
 package repo
 
 import (
-	"os"
-	"fmt"
+	// "os"
+	// "fmt"
 	"github.com/MakeNowJust/heredoc"
 	repoCloneCmd "github.com/secman-team/gh-api/pkg/cmd/repo/clone"
 	repoCreateCmd "github.com/secman-team/gh-api/pkg/cmd/repo/create"
