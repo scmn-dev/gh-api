@@ -30,7 +30,7 @@ func opts(f *cmdutil.Factory) ColorScheme {
 	return opts
 }
 
-var cs = opts(factory.New()).IO.ColorScheme()
+// var cs = opts(factory.New()).IO.ColorScheme()
 
 func NewCmdRepo(f *cmdutil.Factory) *cobra.Command {
 	cmd := &cobra.Command{
@@ -58,12 +58,12 @@ func NewCmdRepo(f *cmdutil.Factory) *cobra.Command {
 	cmd.AddCommand(creditsCmd.NewCmdRepoCredits(f, nil))
 	cmd.AddCommand(gardenCmd.NewCmdGarden(f, nil))
 
-	username := git_config.GitConfig()
-	if username == ":username" {
-		fmt.Println("You're not authenticated, to authenticate run " + cs.Bold("secman auth login"))
+	// username := git_config.GitConfig()
+	// if username == ":username" {
+	// 	fmt.Println("You're not authenticated, to authenticate run " + cs.Bold("secman auth login"))
 
-		os.Exit(0)
-	}
+	// 	os.Exit(0)
+	// }
 
 	return cmd
 }
