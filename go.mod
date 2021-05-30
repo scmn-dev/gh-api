@@ -24,6 +24,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/muesli/termenv v0.8.1
 	github.com/rivo/uniseg v0.2.0
+	github.com/secman-team/secman v0.0.0-20210530191441-f311d407592f
 	github.com/shurcooL/githubv4 v0.0.0-20201206200315-234843c633fa
 	github.com/shurcooL/graphql v0.0.0-20200928012149-18c5c3165e3a
 	github.com/spf13/cobra v1.1.3
