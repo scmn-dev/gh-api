@@ -18,17 +18,17 @@ import (
 	"github.com/secman-team/gh-api/pkg/iostreams"
 )
 
-type ColorScheme struct {
-	IO *iostreams.IOStreams
-}
+// type ColorScheme struct {
+// 	IO *iostreams.IOStreams
+// }
 
-func opts(f *cmdutil.Factory) ColorScheme {
-	opts := ColorScheme{
-		IO: f.IOStreams,
-	}
+// func opts(f *cmdutil.Factory) ColorScheme {
+// 	opts := ColorScheme{
+// 		IO: f.IOStreams,
+// 	}
 
-	return opts
-}
+// 	return opts
+// }
 
 // var cs = opts(factory.New()).IO.ColorScheme()
 
