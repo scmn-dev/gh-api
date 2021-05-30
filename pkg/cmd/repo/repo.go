@@ -15,7 +15,7 @@ import (
 	"github.com/spf13/cobra"
 	// "github.com/abdfnx/git_config"
 	// "github.com/secman-team/gh-api/pkg/cmd/factory"
-	"github.com/secman-team/gh-api/pkg/iostreams"
+	// "github.com/secman-team/gh-api/pkg/iostreams"
 )
 
 // type ColorScheme struct {
