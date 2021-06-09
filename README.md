@@ -19,3 +19,32 @@
 * [**Config**](https://secman.dev/docs/commands/config)
   - [**Get**](https://secman.dev/docs/commands/config#get)
   - [**Set**](https://secman.dev/docs/commands/config#set)
+
+## Auth
+
+```
+secman auth -h
+secman auth login
+secman auth logout
+secman auth refresh
+secman auth status
+```
+
+## Repo
+
+```
+secman repo -h
+secman repo clone
+secman repo create
+secman repo fork
+secman repo list
+```
+
+## Config
+
+```
+secman config -h
+secman config get ...
+secman config set ...
+```
+
