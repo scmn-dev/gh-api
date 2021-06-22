@@ -15,7 +15,7 @@ import (
 	"github.com/secman-team/gh-api/pkg/iostreams"
 )
 
-func New(appVersion string) *cmdutil.Factory {
+func New() *cmdutil.Factory {
 	f := &cmdutil.Factory{
 		Config:     configFunc(), // No factory dependencies
 		Branch:     branchFunc(), // No factory dependencies
@@ -23,7 +23,7 @@ func New(appVersion string) *cmdutil.Factory {
 	}
 
 	f.IOStreams = ioStreams(f)
-	f.HttpClient = httpClientFunc(f, appVersion) // Depends on Config, IOStreams, and appVersion
+	f.HttpClient = httpClientFunc(f, "x") // Depends on Config, IOStreams, and appVersion
 	f.Remotes = remotesFunc(f)                   // Depends on Config
 	f.BaseRepo = BaseRepoFunc(f)                 // Depends on Remotes
 	f.Browser = browser(f)                       // Depends on IOStreams

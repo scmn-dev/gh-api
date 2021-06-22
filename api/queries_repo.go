@@ -49,9 +49,11 @@ type Repository struct {
 	Watchers       struct {
 		TotalCount int `json:"totalCount"`
 	}
+
 	Issues struct {
 		TotalCount int `json:"totalCount"`
 	}
+
 	PullRequests struct {
 		TotalCount int `json:"totalCount"`
 	}
@@ -96,9 +98,9 @@ type Repository struct {
 	Labels               struct {
 		Nodes []IssueLabel
 	}
-	Milestones struct {
-		Nodes []Milestone
-	}
+	// Milestones struct {
+	// 	Nodes []Milestone
+	// }
 	LatestRelease *RepositoryRelease
 
 	AssignableUsers struct {
@@ -1089,6 +1091,7 @@ func RepoMilestones(client *Client, repo ghrepo.Interface, state string) ([]Repo
 		if !query.Repository.Milestones.PageInfo.HasNextPage {
 			break
 		}
+
 		variables["endCursor"] = githubv4.String(query.Repository.Milestones.PageInfo.EndCursor)
 	}
 

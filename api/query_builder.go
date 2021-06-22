@@ -204,8 +204,6 @@ func PullRequestGraphQL(fields []string) string {
 			q = append(q, `potentialMergeCommit{oid}`)
 		case "comments":
 			q = append(q, issueComments)
-		case "lastCommit": // pseudo-field
-			q = append(q, `commits(last:1){nodes{commit{oid}}}`)
 		case "reviewRequests":
 			q = append(q, prReviewRequests)
 		case "reviews":
@@ -214,6 +212,8 @@ func PullRequestGraphQL(fields []string) string {
 			q = append(q, prFiles)
 		case "commits":
 			q = append(q, prCommits)
+		case "lastCommit": // pseudo-field
+			q = append(q, `commits(last:1){nodes{commit{oid}}}`)
 		case "commitsCount": // pseudo-field
 			q = append(q, `commits{totalCount}`)
 		case "requiresStrictStatusChecks": // pseudo-field
