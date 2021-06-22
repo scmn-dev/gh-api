@@ -25,9 +25,11 @@ func fetchRepository(apiClient *api.Client, repo ghrepo.Interface, fields []stri
 	var result struct {
 		Repository api.Repository
 	}
+
 	if err := apiClient.GraphQL(repo.RepoHost(), query, variables, &result); err != nil {
 		return nil, err
 	}
+
 	return api.InitRepoHostname(&result.Repository, repo.RepoHost()), nil
 }
 

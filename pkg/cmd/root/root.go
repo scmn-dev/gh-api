@@ -55,7 +55,7 @@ func NewCmdRoot(f *cmdutil.Factory, version, buildDate string) *cobra.Command {
 
 	// below here at the commands that require the "intelligent" BaseRepo resolver
 	repoResolvingCmdFactory := *f
-	repoResolvingCmdFactory.BaseRepo = resolvedBaseRepo(f)
+	repoResolvingCmdFactory.BaseRepo = factory.SmartBaseRepoFunc(f)
 
 	cmd.AddCommand(repoCmd.NewCmdRepo(&repoResolvingCmdFactory))
 
@@ -80,31 +80,5 @@ func bareHTTPClient(f *cmdutil.Factory, version string) func() (*http.Client, er
 			return nil, err
 		}
 		return factory.NewHTTPClient(f.IOStreams, cfg, version, false), nil
-	}
-}
-
-func resolvedBaseRepo(f *cmdutil.Factory) func() (ghrepo.Interface, error) {
-	return func() (ghrepo.Interface, error) {
-		httpClient, err := f.HttpClient()
-		if err != nil {
-			return nil, err
-		}
-
-		apiClient := api.NewClientFromHTTP(httpClient)
-
-		remotes, err := f.Remotes()
-		if err != nil {
-			return nil, err
-		}
-		repoContext, err := context.ResolveRemotesToRepos(remotes, apiClient, "")
-		if err != nil {
-			return nil, err
-		}
-		baseRepo, err := repoContext.BaseRepo(f.IOStreams)
-		if err != nil {
-			return nil, err
-		}
-
-		return baseRepo, nil
 	}
 }

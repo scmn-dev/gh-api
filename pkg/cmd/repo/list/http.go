@@ -24,7 +24,7 @@ type FilterOptions struct {
 	Language    string
 	Archived    bool
 	NonArchived bool
-	Fields []string
+	Fields      []string
 }
 
 func listRepos(client *http.Client, hostname string, limit int, owner string, filter FilterOptions) (*RepositoryList, error) {
@@ -38,7 +38,7 @@ func listRepos(client *http.Client, hostname string, limit int, owner string, fi
 	}
 
 	variables := map[string]interface{}{
-		"perPage":   githubv4.Int(perPage),
+		"perPage": githubv4.Int(perPage),
 	}
 
 	if filter.Visibility != "" {

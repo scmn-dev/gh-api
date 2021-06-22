@@ -41,7 +41,11 @@ var prReviewRequests = shortenQuery(`
 			requestedReviewer {
 				__typename,
 				...on User{login},
-				...on Team{name}
+				...on Team{
+					organization{login}
+					name,
+					slug
+				}
 			}
 		}
 	}
@@ -200,6 +204,8 @@ func PullRequestGraphQL(fields []string) string {
 			q = append(q, `potentialMergeCommit{oid}`)
 		case "comments":
 			q = append(q, issueComments)
+		case "lastCommit": // pseudo-field
+			q = append(q, `commits(last:1){nodes{commit{oid}}}`)
 		case "reviewRequests":
 			q = append(q, prReviewRequests)
 		case "reviews":
@@ -210,6 +216,8 @@ func PullRequestGraphQL(fields []string) string {
 			q = append(q, prCommits)
 		case "commitsCount": // pseudo-field
 			q = append(q, `commits{totalCount}`)
+		case "requiresStrictStatusChecks": // pseudo-field
+			q = append(q, `baseRef{branchProtectionRule{requiresStrictStatusChecks}}`)
 		case "statusCheckRollup":
 			q = append(q, StatusCheckRollupGraphQL(""))
 		default:

@@ -83,6 +83,7 @@ func viewRun(opts *ViewOptions) error {
 
 	var toView ghrepo.Interface
 	apiClient := api.NewClientFromHTTP(httpClient)
+
 	if opts.RepoArg == "" {
 		var err error
 		toView, err = opts.BaseRepo()

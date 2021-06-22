@@ -1,10 +1,9 @@
 package list
-
 import (
 	"fmt"
 	"net/http"
-	"time"
 	"strings"
+	"time"
 
 	"github.com/secman-team/gh-api/api"
 	"github.com/secman-team/gh-api/core/config"

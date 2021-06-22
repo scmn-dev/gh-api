@@ -6,22 +6,27 @@ import (
 	"io"
 	"net"
 	"os"
-	"path"
+	"path/filepath"
+	"os/exec"
 	"strings"
 
 	surveyCore "github.com/AlecAivazis/survey/v2/core"
 	"github.com/AlecAivazis/survey/v2/terminal"
 	"github.com/secman-team/gh-api/api"
 	"github.com/secman-team/gh-api/core/build"
+	"github.com/secman-team/gh-api/core/run"
 	"github.com/secman-team/gh-api/core/config"
+	"github.com/secman-team/gh-api/core/expand"
 	"github.com/secman-team/gh-api/core/ghinstance"
 	"github.com/secman-team/gh-api/core/ghrepo"
 	"github.com/secman-team/gh-api/core/update"
 	"github.com/secman-team/gh-api/pkg/cmd/factory"
 	"github.com/secman-team/gh-api/pkg/cmd/root"
 	"github.com/secman-team/gh-api/pkg/cmdutil"
+	"github.com/secman-team/gh-api/pkg/cmd/extensions"
 	"github.com/secman-team/gh-api/utils"
-	"github.com/mattn/go-colorable"
+	"github.com/cli/safeexec"
+	colorable "github.com/mattn/go-colorable"
 	"github.com/mgutz/ansi"
 	"github.com/spf13/cobra"
 )
@@ -56,6 +61,7 @@ func mainRun() exitCode {
 
 	cmdFactory := factory.New()
 	stderr := cmdFactory.IOStreams.ErrOut
+
 	if !cmdFactory.IOStreams.ColorEnabled() {
 		surveyCore.DisableColor = true
 	} else {
@@ -73,6 +79,11 @@ func mainRun() exitCode {
 		}
 	}
 
+	expandedArgs := []string{}
+	if len(os.Args) > 0 {
+		expandedArgs = os.Args[1:]
+	}
+
 	// terminal. With this, a user can clone a repo (or take other actions) directly from explorer.
 	if len(os.Args) > 1 && os.Args[1] != "" {
 		cobra.MousetrapHelpText = ""
@@ -86,20 +97,10 @@ func mainRun() exitCode {
 		return exitError
 	}
 
-	if prompt, _ := cfg.Get("", "prompt"); prompt == "disabled" {
-		cmdFactory.IOStreams.SetNeverPrompt(true)
-	}
-
-	if pager, _ := cfg.Get("", "pager"); pager != "" {
-		cmdFactory.IOStreams.SetPager(pager)
-	}
-
 	// TODO: remove after FromFullName has been revisited
 	if host, err := cfg.DefaultHost(); err == nil {
 		ghrepo.SetDefaultHost(host)
 	}
-
-	// cs := cmdFactory.IOStreams.ColorScheme()
 
 	if cmd, err := rootCmd.ExecuteC(); err != nil {
 		if err == cmdutil.SilentError {
@@ -128,6 +129,64 @@ func mainRun() exitCode {
 
 		return exitError
 	}
+
+	cmd, _, err := rootCmd.Traverse(expandedArgs)
+
+	if err != nil || cmd == rootCmd {
+		originalArgs := expandedArgs
+		isShell := false
+		expandedArgs, isShell, err = expand.ExpandAlias(cfg, os.Args, nil)
+
+		if err != nil {
+			fmt.Fprintf(stderr, "failed to process aliases:  %s\n", err)
+			return exitError
+		}
+
+		if hasDebug {
+			fmt.Fprintf(stderr, "%v -> %v\n", originalArgs, expandedArgs)
+		}
+
+		if isShell {
+			exe, err := safeexec.LookPath(expandedArgs[0])
+			if err != nil {
+				fmt.Fprintf(stderr, "failed to run external command: %s", err)
+				return exitError
+			}
+
+			externalCmd := exec.Command(exe, expandedArgs[1:]...)
+			externalCmd.Stderr = os.Stderr
+			externalCmd.Stdout = os.Stdout
+			externalCmd.Stdin = os.Stdin
+			preparedCmd := run.PrepareCmd(externalCmd)
+
+			err = preparedCmd.Run()
+			if err != nil {
+				var execError *exec.ExitError
+				if errors.As(err, &execError) {
+					return exitCode(execError.ExitCode())
+				}
+				fmt.Fprintf(stderr, "failed to run external command: %s", err)
+				return exitError
+			}
+
+			return exitOK
+		} else if c, _, err := rootCmd.Traverse(expandedArgs); err == nil && c == rootCmd && len(expandedArgs) > 0 {
+			extensionManager := extensions.NewManager()
+
+			if found, err := extensionManager.Dispatch(expandedArgs, os.Stdin, os.Stdout, os.Stderr); err != nil {
+				var execError *exec.ExitError
+				if errors.As(err, &execError) {
+					return exitCode(execError.ExitCode())
+				}
+
+				fmt.Fprintf(stderr, "failed to run extension: %s", err)
+				return exitError
+			} else if found {
+				return exitOK
+			}
+		}
+	}
+
 	if root.HasFailed() {
 		return exitError
 	}
@@ -185,7 +244,7 @@ func checkForUpdate(currentVersion string) (*update.ReleaseInfo, error) {
 	}
 
 	repo := updaterEnabled
-	stateFilePath := path.Join(config.ConfigDir(), "state.yml")
+	stateFilePath := filepath.Join(config.StateDir(), "state.yml")
 	return update.CheckForUpdate(client, stateFilePath, repo, currentVersion)
 }
 

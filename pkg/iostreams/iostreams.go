@@ -140,12 +140,17 @@ func (s *IOStreams) SetPager(cmd string) {
 	s.pagerCommand = cmd
 }
 
+func (s *IOStreams) GetPager() string {
+	return s.pagerCommand
+}
+
 func (s *IOStreams) StartPager() error {
 	if s.pagerCommand == "" || s.pagerCommand == "cat" || !s.IsStdoutTTY() {
 		return nil
 	}
 
 	pagerArgs, err := shlex.Split(s.pagerCommand)
+
 	if err != nil {
 		return err
 	}
@@ -156,32 +161,43 @@ func (s *IOStreams) StartPager() error {
 			pagerEnv = append(pagerEnv[0:i], pagerEnv[i+1:]...)
 		}
 	}
+
 	if _, ok := os.LookupEnv("LESS"); !ok {
 		pagerEnv = append(pagerEnv, "LESS=FRX")
 	}
+
 	if _, ok := os.LookupEnv("LV"); !ok {
 		pagerEnv = append(pagerEnv, "LV=-c")
 	}
 
 	pagerExe, err := safeexec.LookPath(pagerArgs[0])
+
 	if err != nil {
 		return err
 	}
+
 	pagerCmd := exec.Command(pagerExe, pagerArgs[1:]...)
 	pagerCmd.Env = pagerEnv
 	pagerCmd.Stdout = s.Out
 	pagerCmd.Stderr = s.ErrOut
 	pagedOut, err := pagerCmd.StdinPipe()
+
 	if err != nil {
 		return err
 	}
+
 	s.Out = pagedOut
 	err = pagerCmd.Start()
 	if err != nil {
 		return err
 	}
+
 	s.pagerProcess = pagerCmd.Process
 	return nil
+}
+
+func (s *IOStreams) GetNeverPrompt() bool {
+	return s.neverPrompt
 }
 
 func (s *IOStreams) StopPager() {
@@ -281,13 +297,6 @@ func System() *IOStreams {
 	stdoutIsTTY := isTerminal(os.Stdout)
 	stderrIsTTY := isTerminal(os.Stderr)
 
-	var pagerCommand string
-	if ghPager, ghPagerExists := os.LookupEnv("GH_PAGER"); ghPagerExists {
-		pagerCommand = ghPager
-	} else {
-		pagerCommand = os.Getenv("PAGER")
-	}
-
 	io := &IOStreams{
 		In:           os.Stdin,
 		originalOut:  os.Stdout,
@@ -295,7 +304,7 @@ func System() *IOStreams {
 		ErrOut:       colorable.NewColorable(os.Stderr),
 		colorEnabled: EnvColorForced() || (!EnvColorDisabled() && stdoutIsTTY),
 		is256enabled: Is256ColorSupported(),
-		pagerCommand: pagerCommand,
+		pagerCommand: os.Getenv("PAGER"),
 	}
 
 	if stdoutIsTTY && stderrIsTTY {
