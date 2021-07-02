@@ -23,7 +23,6 @@ import (
 	"github.com/secman-team/gh-api/pkg/cmd/factory"
 	"github.com/secman-team/gh-api/pkg/cmd/root"
 	"github.com/secman-team/gh-api/pkg/cmdutil"
-	"github.com/secman-team/gh-api/pkg/cmd/extensions"
 	"github.com/secman-team/gh-api/utils"
 	"github.com/cli/safeexec"
 	colorable "github.com/mattn/go-colorable"
@@ -171,7 +170,7 @@ func mainRun() exitCode {
 
 			return exitOK
 		} else if c, _, err := rootCmd.Traverse(expandedArgs); err == nil && c == rootCmd && len(expandedArgs) > 0 {
-			extensionManager := extensions.NewManager()
+			extensionManager := cmdFactory.ExtensionManager
 
 			if found, err := extensionManager.Dispatch(expandedArgs, os.Stdin, os.Stdout, os.Stderr); err != nil {
 				var execError *exec.ExitError

@@ -80,11 +80,23 @@ func isRootCmd(command *cobra.Command) bool {
 	return command != nil && !command.HasParent()
 }
 
-func rootHelpFunc(cs *iostreams.ColorScheme, command *cobra.Command, args []string) {
+func rootHelpFunc(f *cmdutil.Factory, command *cobra.Command, args []string) {
+	cs := f.IOStreams.ColorScheme()
+	
 	if isRootCmd(command.Parent()) && len(args) >= 2 && args[1] != "--help" && args[1] != "-h" {
 		nestedSuggestFunc(command, args[1])
 		hasFailed = true
 		return
+	}
+
+	if isRootCmd(command) {
+		if exts := f.ExtensionManager.List(); len(exts) > 0 {
+			var names []string
+			for _, ext := range exts {
+				names = append(names, ext.Name())
+			}
+			helpEntries = append(helpEntries, helpEntry{"EXTENSION COMMANDS", strings.Join(names, "\n")})
+		}
 	}
 
 	coreCommands := []string{}
@@ -94,6 +106,7 @@ func rootHelpFunc(cs *iostreams.ColorScheme, command *cobra.Command, args []stri
 		if c.Short == "" {
 			continue
 		}
+
 		if c.Hidden {
 			continue
 		}
@@ -125,13 +138,16 @@ func rootHelpFunc(cs *iostreams.ColorScheme, command *cobra.Command, args []stri
 	} else if command.Short != "" {
 		helpEntries = append(helpEntries, helpEntry{"", command.Short})
 	}
+
 	helpEntries = append(helpEntries, helpEntry{"USAGE", command.UseLine()})
 	if len(coreCommands) > 0 {
 		helpEntries = append(helpEntries, helpEntry{"CORE COMMANDS", strings.Join(coreCommands, "\n")})
 	}
+
 	if len(actionsCommands) > 0 {
 		helpEntries = append(helpEntries, helpEntry{"ACTIONS COMMANDS", strings.Join(actionsCommands, "\n")})
 	}
+
 	if len(additionalCommands) > 0 {
 		helpEntries = append(helpEntries, helpEntry{"ADDITIONAL COMMANDS", strings.Join(additionalCommands, "\n")})
 	}
@@ -140,19 +156,24 @@ func rootHelpFunc(cs *iostreams.ColorScheme, command *cobra.Command, args []stri
 	if flagUsages != "" {
 		helpEntries = append(helpEntries, helpEntry{"FLAGS", dedent(flagUsages)})
 	}
+
 	inheritedFlagUsages := command.InheritedFlags().FlagUsages()
 	if inheritedFlagUsages != "" {
 		helpEntries = append(helpEntries, helpEntry{"INHERITED FLAGS", dedent(inheritedFlagUsages)})
 	}
+
 	if _, ok := command.Annotations["help:arguments"]; ok {
 		helpEntries = append(helpEntries, helpEntry{"ARGUMENTS", command.Annotations["help:arguments"]})
 	}
+
 	if command.Example != "" {
 		helpEntries = append(helpEntries, helpEntry{"EXAMPLES", command.Example})
 	}
+
 	if _, ok := command.Annotations["help:environment"]; ok {
 		helpEntries = append(helpEntries, helpEntry{"ENVIRONMENT VARIABLES", command.Annotations["help:environment"]})
 	}
+
 	helpEntries = append(helpEntries, helpEntry{"LEARN MORE", `
 Use 'secman <command> <subcommand> --help' for more information about a command.
 Read docs at https://secman.dev/docs`})
