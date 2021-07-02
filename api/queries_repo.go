@@ -19,7 +19,7 @@ type Repository struct {
 	ID                       string
 	Name                     string
 	NameWithOwner            string
-	Owner                    RepositoryOwner
+	Owner                    RepositoryOwner `json:"owner"`
 	Parent                   *Repository
 	TemplateRepository       *Repository
 	Description              string
@@ -98,9 +98,9 @@ type Repository struct {
 	Labels               struct {
 		Nodes []IssueLabel
 	}
-	// Milestones struct {
-	// 	Nodes []Milestone
-	// }
+	Milestones struct {
+		Nodes []Milestone
+	}
 	LatestRelease *RepositoryRelease
 
 	AssignableUsers struct {
@@ -191,6 +191,11 @@ type IssueLabel struct {
 	Color       string `json:"color"`
 }
 
+type License struct {
+	Key  string `json:"key"`
+	Name string `json:"name"`
+}
+
 // RepoOwner is the login name of the owner
 func (r Repository) RepoOwner() string {
 	return r.Owner.Login
@@ -262,6 +267,7 @@ func GitHubRepo(client *Client, repo ghrepo.Interface) (*Repository, error) {
 	}{}
 
 	err := client.GraphQL(repo.RepoHost(), query, variables, &result)
+
 	if err != nil {
 		return nil, err
 	}
@@ -403,6 +409,7 @@ func RepoNetwork(client *Client, repos []ghrepo.Interface) (RepoNetworkResult, e
 
 	// sort keys to ensure `repo_{N}` entries are processed in order
 	sort.Strings(keys)
+
 	// Iterate over keys of GraphQL response data and, based on its name,
 	// dynamically allocate the target struct an individual message gets decoded to.
 	for _, name := range keys {
@@ -448,7 +455,7 @@ func InitRepoHostname(repo *Repository, hostname string) *Repository {
 	return repo
 }
 
-// repositoryV3 is the repository result from GitHub API v3
+// RepositoryV3 is the repository result from GitHub API v3
 type repositoryV3 struct {
 	NodeID    string
 	Name      string
@@ -456,6 +463,10 @@ type repositoryV3 struct {
 	Owner     struct {
 		Login string
 	}
+	Private  bool
+	HTMLUrl  string `json:"html_url"`
+	Parent   *repositoryV3
+	hostname string
 }
 
 // ForkRepo forks the repository on GitHub and returns the new repository
@@ -648,7 +659,7 @@ func ProjectsToPaths(projects []RepoProject, names []string) ([]string, error) {
 				break
 			}
 		}
-	
+
 		if !found {
 			return nil, fmt.Errorf("'%s' not found", projectName)
 		}
@@ -1019,7 +1030,6 @@ func RepoLabels(client *Client, repo ghrepo.Interface) ([]RepoLabel, error) {
 	gql := graphQLClient(client.http, repo.RepoHost())
 
 	var labels []RepoLabel
-
 	for {
 		var query responseData
 		err := gql.QueryNamed(context.Background(), "RepositoryLabelList", &query, variables)
@@ -1028,7 +1038,6 @@ func RepoLabels(client *Client, repo ghrepo.Interface) ([]RepoLabel, error) {
 		}
 
 		labels = append(labels, query.Repository.Labels.Nodes...)
-
 		if !query.Repository.Labels.PageInfo.HasNextPage {
 			break
 		}
@@ -1145,4 +1154,24 @@ func ProjectNamesToPaths(client *Client, repo ghrepo.Interface, projectNames []s
 		return paths, err
 	}
 	return ProjectsToPaths(projects, projectNames)
+}
+
+func CreateRepoTransformToV4(apiClient *Client, hostname string, method string, path string, body io.Reader) (*Repository, error) {
+	var responsev3 repositoryV3
+	err := apiClient.REST(hostname, method, path, body, &responsev3)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &Repository{
+		Name:      responsev3.Name,
+		CreatedAt: responsev3.CreatedAt,
+		Owner: RepositoryOwner{
+			Login: responsev3.Owner.Login,
+		},
+		hostname:  responsev3.hostname,
+		URL:       responsev3.HTMLUrl,
+		IsPrivate: responsev3.Private,
+	}, nil
 }
