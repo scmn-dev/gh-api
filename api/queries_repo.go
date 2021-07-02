@@ -19,7 +19,7 @@ type Repository struct {
 	ID                       string
 	Name                     string
 	NameWithOwner            string
-	Owner                    RepositoryOwner `json:"owner"`
+	Owner                    RepositoryOwner
 	Parent                   *Repository
 	TemplateRepository       *Repository
 	Description              string
