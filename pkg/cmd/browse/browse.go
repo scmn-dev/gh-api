@@ -28,7 +28,6 @@ type BrowseOptions struct {
 
 	Branch       string
 	ProjectsFlag bool
-	RepoFlag     bool
 	SettingsFlag bool
 	WikiFlag     bool
 }
@@ -75,27 +74,13 @@ func NewCmdBrowse(f *cmdutil.Factory, runF func(*BrowseOptions) error) *cobra.Co
 				opts.SelectorArg = args[0]
 			}
 
-			if err := cmdutil.MutuallyExclusive("cannot use --projects with --settings", opts.ProjectsFlag, opts.SettingsFlag); err != nil {
-				return err
-			}
-
-			if err := cmdutil.MutuallyExclusive("cannot use --projects with --wiki", opts.ProjectsFlag, opts.WikiFlag); err != nil {
-				return err
-			}
-
-			if err := cmdutil.MutuallyExclusive("cannot use --projects with --branch", opts.ProjectsFlag, opts.Branch != ""); err != nil {
-				return err
-			}
-
-			if err := cmdutil.MutuallyExclusive("cannot use --settings with --wiki", opts.SettingsFlag, opts.WikiFlag); err != nil {
-				return err
-			}
-
-			if err := cmdutil.MutuallyExclusive("cannot use --settings with --branch", opts.SettingsFlag, opts.Branch != ""); err != nil {
-				return err
-			}
-
-			if err := cmdutil.MutuallyExclusive("cannot use --wiki with --branch", opts.WikiFlag, opts.Branch != ""); err != nil {
+			if err := cmdutil.MutuallyExclusive(
+				"specify only one of `--branch`, `--projects`, `--wiki`, or `--settings`",
+				opts.Branch != "",
+				opts.WikiFlag,
+				opts.SettingsFlag,
+				opts.ProjectsFlag,
+			); err != nil {
 				return err
 			}
 
@@ -129,49 +114,50 @@ func runBrowse(opts *BrowseOptions) error {
 
 	url := ghrepo.GenerateRepoURL(baseRepo, "")
 
-	if opts.ProjectsFlag {
-		err := opts.Browser.Browse(url + "/projects")
-		return err
-	}
+	if opts.SelectorArg == "" {
 
-	if opts.SettingsFlag {
-		err := opts.Browser.Browse(url + "/settings")
-		return err
-	}
+		if opts.ProjectsFlag {
+			url += "/projects"
+		}
 
-	if opts.WikiFlag {
-		err := opts.Browser.Browse(url + "/wiki")
-		return err
-	}
+		if opts.SettingsFlag {
+			url += "/settings"
+		}
 
-	if isNumber(opts.SelectorArg) {
-		url += "/issues/" + opts.SelectorArg
-		err := opts.Browser.Browse(url)
-		return err
-	}
+		if opts.WikiFlag {
+			url += "/wiki"
+		}
 
-	if opts.Branch != "" {
-		url += "/tree/" + opts.Branch + "/"
+		if opts.Branch != "" {
+			url += "/tree/" + opts.Branch + "/"
+		}
+
 	} else {
-		apiClient := api.NewClientFromHTTP(httpClient)
-		branchName, err := api.RepoDefaultBranch(apiClient, baseRepo)
-		if err != nil {
-			return err
-		}
-
-		url += "/tree/" + branchName + "/"
-	}
-
-	if opts.SelectorArg != "" {
-		arr, err := parseFileArg(opts.SelectorArg)
-		if err != nil {
-			return err
-		}
-
-		if len(arr) > 1 {
-			url += arr[0] + "#L" + arr[1]
+		if isNumber(opts.SelectorArg) {
+			url += "/issues/" + opts.SelectorArg
 		} else {
-			url += arr[0]
+			arr, err := parseFileArg(opts.SelectorArg)
+			if err != nil {
+				return err
+			}
+			if opts.Branch != "" {
+				url += "/tree/" + opts.Branch + "/"
+			} else {
+				apiClient := api.NewClientFromHTTP(httpClient)
+				branchName, err := api.RepoDefaultBranch(apiClient, baseRepo)
+				if err != nil {
+					return err
+				}
+				url += "/tree/" + branchName + "/"
+			}
+
+			if opts.SelectorArg != "" {
+				if len(arr) > 1 {
+					url += arr[0] + "#L" + arr[1]
+				} else {
+					url += arr[0]
+				}
+			}
 		}
 	}
 
@@ -188,7 +174,6 @@ func parseFileArg(fileArg string) ([]string, error) {
 	if len(arr) > 2 {
 		return arr, fmt.Errorf("invalid use of colon\nUse 'secman browse --help' for more information about browse\n")
 	}
-
 	if len(arr) > 1 && !isNumber(arr[1]) {
 		return arr, fmt.Errorf("invalid line number after colon\nUse 'secman browse --help' for more information about browse\n")
 	}
