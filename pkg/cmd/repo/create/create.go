@@ -95,6 +95,10 @@ func NewCmdCreate(f *cmdutil.Factory, runF func(*CreateOptions) error) *cobra.Co
 				return &cmdutil.FlagError{Err: errors.New(".gitignore and license templates are added only when a specific repository name is passed")}
 			}
 
+			if opts.Template != "" && (opts.GitIgnoreTemplate != "" || opts.LicenseTemplate != "") {
+				return &cmdutil.FlagError{Err: errors.New(".gitignore and license templates are not added when template is provided")}
+			}
+
 			if !opts.IO.CanPrompt() {
 				if opts.Name == "" {
 					return &cmdutil.FlagError{Err: errors.New("name argument required when not running interactively")}
@@ -129,6 +133,7 @@ func NewCmdCreate(f *cmdutil.Factory, runF func(*CreateOptions) error) *cobra.Co
 	cmd.Flags().BoolVarP(&opts.ConfirmSubmit, "confirm", "y", false, "Skip the confirmation prompt")
 	cmd.Flags().StringVarP(&opts.GitIgnoreTemplate, "gitignore", "g", "", "Specify a gitignore template for the repository")
 	cmd.Flags().StringVarP(&opts.LicenseTemplate, "license", "l", "", "Specify an Open Source License for the repository")
+
 	return cmd
 }
 
@@ -219,7 +224,7 @@ func createRun(opts *CreateOptions) error {
 			return err
 		}
 
-		if gitIgnoreTemplate == "" {
+		if gitIgnoreTemplate == "" && opts.Template == "" && opts.IO.CanPrompt() {
 			gt, err := interactiveGitIgnore(api.NewClientFromHTTP(httpClient), host)
 			if err != nil {
 				return err
@@ -227,7 +232,7 @@ func createRun(opts *CreateOptions) error {
 			gitIgnoreTemplate = gt
 		}
 
-		if repoLicenseTemplate == "" {
+		if repoLicenseTemplate == "" && opts.Template == "" && opts.IO.CanPrompt() { {
 			lt, err := interactiveLicense(api.NewClientFromHTTP(httpClient), host)
 			if err != nil {
 				return err
@@ -245,6 +250,7 @@ func createRun(opts *CreateOptions) error {
 			return fmt.Errorf("argument error: %w", err)
 		}
 	} else {
+		fmt.Println("came inside")
 		host, err := cfg.DefaultHost()
 		if err != nil {
 			return err
