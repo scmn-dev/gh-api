@@ -169,20 +169,6 @@ func mainRun() exitCode {
 			}
 
 			return exitOK
-		} else if c, _, err := rootCmd.Traverse(expandedArgs); err == nil && c == rootCmd && len(expandedArgs) > 0 {
-			extensionManager := cmdFactory.ExtensionManager
-
-			if found, err := extensionManager.Dispatch(expandedArgs, os.Stdin, os.Stdout, os.Stderr); err != nil {
-				var execError *exec.ExitError
-				if errors.As(err, &execError) {
-					return exitCode(execError.ExitCode())
-				}
-
-				fmt.Fprintf(stderr, "failed to run extension: %s", err)
-				return exitError
-			} else if found {
-				return exitOK
-			}
 		}
 	}
 

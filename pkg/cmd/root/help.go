@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/secman-team/gh-api/pkg/cmdutil"
-	"github.com/secman-team/gh-api/pkg/iostreams"
 	"github.com/secman-team/gh-api/pkg/text"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
@@ -32,6 +31,7 @@ func rootUsageFunc(command *cobra.Command) error {
 		command.Println("\n\nFlags:")
 		command.Print(text.Indent(dedent(flagUsages), "  "))
 	}
+
 	return nil
 }
 
@@ -39,6 +39,7 @@ func rootFlagErrorFunc(cmd *cobra.Command, err error) error {
 	if err == pflag.ErrHelp {
 		return err
 	}
+
 	return &cmdutil.FlagError{Err: err}
 }
 
@@ -87,16 +88,6 @@ func rootHelpFunc(f *cmdutil.Factory, command *cobra.Command, args []string) {
 		nestedSuggestFunc(command, args[1])
 		hasFailed = true
 		return
-	}
-
-	if isRootCmd(command) {
-		if exts := f.ExtensionManager.List(); len(exts) > 0 {
-			var names []string
-			for _, ext := range exts {
-				names = append(names, ext.Name())
-			}
-			helpEntries = append(helpEntries, helpEntry{"EXTENSION COMMANDS", strings.Join(names, "\n")})
-		}
 	}
 
 	coreCommands := []string{}
@@ -176,7 +167,7 @@ func rootHelpFunc(f *cmdutil.Factory, command *cobra.Command, args []string) {
 
 	helpEntries = append(helpEntries, helpEntry{"LEARN MORE", `
 Use 'secman <command> <subcommand> --help' for more information about a command.
-Read docs at https://secman.dev/docs`})
+Read 📚 at https://docs.secman.dev`})
 	if _, ok := command.Annotations["help:feedback"]; ok {
 		helpEntries = append(helpEntries, helpEntry{"FEEDBACK", command.Annotations["help:feedback"]})
 	}

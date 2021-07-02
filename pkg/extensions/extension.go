@@ -11,7 +11,7 @@ type Extension struct {
 }
 
 func (e *Extension) Name() string {
-	return strings.TrimPrefix(filepath.Base(e.path), "gh-")
+	return strings.TrimPrefix(filepath.Base(e.path), "sm-")
 }
 
 func (e *Extension) Path() string {

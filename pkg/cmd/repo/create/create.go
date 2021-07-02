@@ -75,7 +75,7 @@ func NewCmdCreate(f *cmdutil.Factory, runF func(*CreateOptions) error) *cobra.Co
 			# create a repository with a specific name
 			$ secman repo create my-project
 			# create a repository in an organization
-			$ secman repo create cli/my-project
+			$ secman repo create secman-team/secman
 			# disable issues and wiki
 			$ secman repo create --enable-issues=false --enable-wiki=false
 	  `),
@@ -232,7 +232,7 @@ func createRun(opts *CreateOptions) error {
 			gitIgnoreTemplate = gt
 		}
 
-		if repoLicenseTemplate == "" && opts.Template == "" && opts.IO.CanPrompt() { {
+		if repoLicenseTemplate == "" && opts.Template == "" && opts.IO.CanPrompt() {
 			lt, err := interactiveLicense(api.NewClientFromHTTP(httpClient), host)
 			if err != nil {
 				return err
@@ -277,8 +277,7 @@ func createRun(opts *CreateOptions) error {
 			}
 			cloneURL = currentUser + "/" + cloneURL
 		}
-		toC
-	lone, err = ghrepo.FromFullName(cloneURL)
+		toClone, err = ghrepo.FromFullName(cloneURL)
 		if err != nil {
 			return fmt.Errorf("argument error: %w", err)
 		}

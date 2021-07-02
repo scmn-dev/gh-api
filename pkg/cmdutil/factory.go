@@ -7,7 +7,7 @@ import (
 	"github.com/secman-team/gh-api/core/config"
 	"github.com/secman-team/gh-api/core/ghrepo"
 	"github.com/secman-team/gh-api/pkg/iostreams"
-	"github.com/secman-team/gh-api/pkg/extensions"
+	// "github.com/secman-team/gh-api/pkg/extensions"
 )
 
 type Browser interface {
@@ -24,7 +24,7 @@ type Factory struct {
 	Config     func() (config.Config, error)
 	Branch     func() (string, error)
 
-	ExtensionManager extensions.ExtensionManager
+	// ExtensionManager extensions.ExtensionManager
 
 	// Executable is the path to the currently invoked gh binary
 	Executable string

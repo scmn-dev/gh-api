@@ -12,7 +12,6 @@ import (
 	"github.com/secman-team/gh-api/core/config"
 	"github.com/secman-team/gh-api/core/ghrepo"
 	"github.com/secman-team/gh-api/pkg/cmdutil"
-	"github.com/secman-team/gh-api/pkg/cmd/extensions"
 	"github.com/secman-team/gh-api/pkg/iostreams"
 )
 
@@ -21,7 +20,6 @@ func New() *cmdutil.Factory {
 		Config:     configFunc(), // No factory dependencies
 		Branch:     branchFunc(), // No factory dependencies
 		Executable: executable(), // No factory dependencies
-		ExtensionManager: extensions.NewManager(),
 	}
 
 	f.IOStreams = ioStreams(f)
