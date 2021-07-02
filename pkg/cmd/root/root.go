@@ -7,6 +7,7 @@ import (
 	authCmd "github.com/secman-team/gh-api/pkg/cmd/auth"
 	"github.com/secman-team/gh-api/pkg/cmd/factory"
 	repoCmd "github.com/secman-team/gh-api/pkg/cmd/repo"
+	browseCmd "github.com/secman-team/gh-api/pkg/cmd/browse"
 	"github.com/secman-team/gh-api/pkg/cmdutil"
 	"github.com/spf13/cobra"
 )
@@ -44,8 +45,6 @@ func NewCmdRoot(f *cmdutil.Factory, version, buildDate string) *cobra.Command {
 	cmd.SetUsageFunc(rootUsageFunc)
 	cmd.SetFlagErrorFunc(rootFlagErrorFunc)
 
-	cmd.AddCommand(authCmd.NewCmdAuth(f))
-
 	// the `api` command should not inherit any extra HTTP headers
 	bareHTTPCmdFactory := *f
 	bareHTTPCmdFactory.HttpClient = bareHTTPClient(f, version)
@@ -54,7 +53,9 @@ func NewCmdRoot(f *cmdutil.Factory, version, buildDate string) *cobra.Command {
 	repoResolvingCmdFactory := *f
 	repoResolvingCmdFactory.BaseRepo = factory.SmartBaseRepoFunc(f)
 
+	cmd.AddCommand(authCmd.NewCmdAuth(f))
 	cmd.AddCommand(repoCmd.NewCmdRepo(&repoResolvingCmdFactory))
+	cmd.AddCommand(browseCmd.NewCmdBrowse(&repoResolvingCmdFactory, nil))
 
 	// Help topics
 	cmd.AddCommand(NewHelpTopic("environment"))
