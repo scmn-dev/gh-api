@@ -9,6 +9,7 @@ import (
 
 	"github.com/secman-team/gh-api/api"
 	"github.com/secman-team/gh-api/core/ghinstance"
+	"github.com/secman-team/gh-api/core/httpunix"
 	"github.com/secman-team/gh-api/pkg/iostreams"
 )
 
@@ -59,6 +60,18 @@ type configGetter interface {
 // generic authenticated HTTP client for commands
 func NewHTTPClient(io *iostreams.IOStreams, cfg configGetter, appVersion string, setAccept bool) (*http.Client, error) {
 	var opts []api.ClientOption
+
+	unixSocket, err := cfg.Get("", "http_unix_socket")
+	if err != nil {
+		return nil, err
+	}
+
+	if unixSocket != "" {
+		opts = append(opts, api.ClientOption(func(http.RoundTripper) http.RoundTripper {
+			return httpunix.NewRoundTripper(unixSocket)
+		}))
+	}
+
 	if verbose := os.Getenv("DEBUG"); verbose != "" {
 		logTraffic := strings.Contains(verbose, "api")
 		opts = append(opts, api.VerboseLog(io.ErrOut, logTraffic, io.IsStderrTTY()))
@@ -105,5 +118,6 @@ func getHost(r *http.Request) string {
 	if r.Host != "" {
 		return r.Host
 	}
+
 	return r.URL.Hostname()
 }
