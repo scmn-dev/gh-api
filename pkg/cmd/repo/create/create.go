@@ -277,7 +277,8 @@ func createRun(opts *CreateOptions) error {
 			}
 			cloneURL = currentUser + "/" + cloneURL
 		}
-		toClone, err = ghrepo.FromFullName(cloneURL)
+		toC
+	lone, err = ghrepo.FromFullName(cloneURL)
 		if err != nil {
 			return fmt.Errorf("argument error: %w", err)
 		}
@@ -346,6 +347,7 @@ func createRun(opts *CreateOptions) error {
 			if err != nil {
 				return err
 			}
+
 			if isTTY {
 				fmt.Fprintf(stderr, "%s Added remote %s\n", cs.SuccessIcon(), remoteURL)
 			}
