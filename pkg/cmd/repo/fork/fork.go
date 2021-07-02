@@ -43,10 +43,6 @@ type ForkOptions struct {
 	Rename       bool
 }
 
-var Since = func(t time.Time) time.Duration {
-	return time.Since(t)
-}
-
 func NewCmdFork(f *cmdutil.Factory, runF func(*ForkOptions) error) *cobra.Command {
 	opts := &ForkOptions{
 		IO:         f.IOStreams,
