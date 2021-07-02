@@ -65,7 +65,7 @@ func NewCmdBrowse(f *cmdutil.Factory) *cobra.Command {
 			"help:arguments": heredoc.Doc(`
 				A browser location can be specified using arguments in the following format:
 				- by number for issue or pull request, e.g. "123"; or
-				- by path for opening folders and files, e.g. "cmd/gh/main.go"
+				- by path for opening folders and files, e.g. "pkg/upgrade/upgrade.go"
 			`),
 			"help:environment": heredoc.Doc(`
 				To configure a web browser other than the default, use the BROWSER environment variable. 
@@ -105,12 +105,12 @@ func runBrowse(opts *BrowseOptions) error {
 
 	baseRepo, err := opts.BaseRepo()
 	if err != nil {
-		return fmt.Errorf("unable to determine base repository: %w\nUse 'gh browse --help' for more information about browse\n", err)
+		return fmt.Errorf("unable to determine base repository: %w\nUse 'secman browse --help' for more information about browse\n", err)
 	}
 
 	httpClient, err := opts.HttpClient()
 	if err != nil {
-		return fmt.Errorf("unable to create an http client: %w\nUse 'gh browse --help' for more information about browse\n", err)
+		return fmt.Errorf("unable to create an http client: %w\nUse 'secman browse --help' for more information about browse\n", err)
 	}
 
 	repoUrl := ghrepo.GenerateRepoURL(baseRepo, "")
@@ -211,10 +211,10 @@ func parsedUrl(arr []string, branchName string) string {
 func parseFileArg(fileArg string) ([]string, error) {
 	arr := strings.Split(fileArg, ":")
 	if len(arr) > 2 {
-		return arr, fmt.Errorf("invalid use of colon\nUse 'gh browse --help' for more information about browse\n")
+		return arr, fmt.Errorf("invalid use of colon\nUse 'secman browse --help' for more information about browse\n")
 	}
 	if len(arr) > 1 && !isNumber(arr[1]) {
-		return arr, fmt.Errorf("invalid line number after colon\nUse 'gh browse --help' for more information about browse\n")
+		return arr, fmt.Errorf("invalid line number after colon\nUse 'secman browse --help' for more information about browse\n")
 	}
 	return arr, nil
 }
