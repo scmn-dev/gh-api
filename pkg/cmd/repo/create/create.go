@@ -351,14 +351,20 @@ func createRun(opts *CreateOptions) error {
 			}
 		} else {
 			if opts.IO.CanPrompt() {
-				if !createLocalDirectory {
+				if !createLocalDirectory && (gitIgnoreTemplate == "" && repoLicenseTemplate == "") {
 					err := prompt.Confirm(fmt.Sprintf(`Create a local project directory for "%s"?`, ghrepo.FullName(repo)), &createLocalDirectory)
+					if err != nil {
+						return err
+					}
+				} else if !createLocalDirectory && (gitIgnoreTemplate != "" || repoLicenseTemplate != "") {
+					err := prompt.Confirm(fmt.Sprintf(`Clone the remote project directory "%s"?`, ghrepo.FullName(repo)), &createLocalDirectory)
 					if err != nil {
 						return err
 					}
 				}
 			}
-			if createLocalDirectory {
+
+			if createLocalDirectory && (gitIgnoreTemplate == "" && repoLicenseTemplate == "") {
 				path := repo.RepoName()
 				checkoutBranch := ""
 				if opts.Template != "" {
@@ -367,11 +373,18 @@ func createRun(opts *CreateOptions) error {
 					// repository will be the same as that of the template repository.
 					checkoutBranch = templateRepoMainBranch
 				}
+
 				if err := localInit(opts.IO, remoteURL, path, checkoutBranch); err != nil {
 					return err
 				}
+
 				if isTTY {
 					fmt.Fprintf(stderr, "%s Initialized repository in \"%s\"\n", cs.SuccessIcon(), path)
+				}
+			} else if createLocalDirectory && (gitIgnoreTemplate != "" || repoLicenseTemplate != "") {
+				_, err := git.RunClone(remoteURL, []string{})
+				if err != nil {
+					return err
 				}
 			}
 		}
