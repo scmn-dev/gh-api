@@ -17,12 +17,12 @@ import (
 
 func New() *cmdutil.Factory {
 	f := &cmdutil.Factory{
-		Config:     configFunc(), // No factory dependencies
-		Branch:     branchFunc(), // No factory dependencies
-		Executable: executable(), // No factory dependencies
+		IOStreams:  iostreams.System(), // No factory dependencies
+		Config:     configFunc(),       // No factory dependencies
+		Branch:     branchFunc(),       // No factory dependencies
+		Executable: executable(),       // No factory dependencies
 	}
 
-	f.IOStreams = ioStreams(f)
 	f.HttpClient = httpClientFunc(f, "x") // Depends on Config, IOStreams, and appVersion
 	f.Remotes = remotesFunc(f)                   // Depends on Config
 	f.BaseRepo = BaseRepoFunc(f)                 // Depends on Remotes
@@ -69,35 +69,12 @@ func SmartBaseRepoFunc(f *cmdutil.Factory) func() (ghrepo.Interface, error) {
 	}
 }
 
-func ioStreams(f *cmdutil.Factory) *iostreams.IOStreams {
-	io := iostreams.System()
-	cfg, err := f.Config()
-	if err != nil {
-		return io
-	}
-
-	if prompt, _ := cfg.Get("", "prompt"); prompt == "disabled" {
-		io.SetNeverPrompt(true)
-	}
-
-	// Pager precedence
-	// 1. GH_PAGER
-	// 2. pager from config
-	// 3. PAGER
-	if ghPager, ghPagerExists := os.LookupEnv("GH_PAGER"); ghPagerExists {
-		io.SetPager(ghPager)
-	} else if pager, _ := cfg.Get("", "pager"); pager != "" {
-		io.SetPager(pager)
-	}
-
-	return io
-}
-
 func remotesFunc(f *cmdutil.Factory) func() (context.Remotes, error) {
 	rr := &remoteResolver{
 		readRemotes: git.Remotes,
 		getConfig:   f.Config,
 	}
+
 	return rr.Resolver()
 }
 
@@ -108,6 +85,7 @@ func httpClientFunc(f *cmdutil.Factory, appVersion string) func() (*http.Client,
 		if err != nil {
 			return nil, err
 		}
+
 		return NewHTTPClient(io, cfg, appVersion, true), nil
 	}
 }
@@ -118,11 +96,12 @@ func browser(f *cmdutil.Factory) cmdutil.Browser {
 }
 
 func executable() string {
-	gh := "gh"
+	secman := "secman"
 	if exe, err := os.Executable(); err == nil {
-		gh = exe
+		secman = exe
 	}
-	return gh
+
+	return secman
 }
 
 func configFunc() func() (config.Config, error) {
@@ -132,12 +111,15 @@ func configFunc() func() (config.Config, error) {
 		if cachedConfig != nil || configError != nil {
 			return cachedConfig, configError
 		}
+
 		cachedConfig, configError = config.ParseDefaultConfig()
 		if errors.Is(configError, os.ErrNotExist) {
 			cachedConfig = config.NewBlankConfig()
 			configError = nil
 		}
+
 		cachedConfig = config.InheritEnv(cachedConfig)
+
 		return cachedConfig, configError
 	}
 }
@@ -148,6 +130,7 @@ func branchFunc() func() (string, error) {
 		if err != nil {
 			return "", fmt.Errorf("could not determine current branch: %w", err)
 		}
+
 		return currentBranch, nil
 	}
 }
