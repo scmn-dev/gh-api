@@ -41,23 +41,22 @@ func NewCmdBrowse(f *cmdutil.Factory, runF func(*BrowseOptions) error) *cobra.Co
 
 	cmd := &cobra.Command{
 		Long:  "Open the GitHub repository in the web browser.",
-		Short: "Open the repository in the browser",
+		Short: "Open the repository in the browser.",
 		Use:   "browse [<number> | <path>]",
 		Args:  cobra.MaximumNArgs(1),
 		Example: heredoc.Doc(`
-			$ secman browse
+			$ secman repo browse
 			#=> Open the home page of the current repository
-			$ secman browse 61
+			$ secman repo browse 61
 			#=> Open issue or pull request 61
-			$ secman browse --settings
+			$ secman repo browse --settings
 			#=> Open repository settings
-			$ secman browse main.go:312
+			$ secman repo browse main.go:312
 			#=> Open main.go at line 312
-			$ secman browse main.go --branch main
+			$ secman repo browse main.go --branch main
 			#=> Open main.go in the main branch
 		`),
 		Annotations: map[string]string{
-			"IsCore": "true",
 			"help:arguments": heredoc.Doc(`
 				A browser location can be specified using arguments in the following format:
 				- by number for issue or pull request, e.g. "123"; or
@@ -163,12 +162,12 @@ func runBrowse(opts *BrowseOptions) error {
 func parseFileArg(fileArg string) (string, error) {
 	arr := strings.Split(fileArg, ":")
 	if len(arr) > 2 {
-		return "", fmt.Errorf("invalid use of colon\nUse 'secman browse --help' for more information about browse\n")
+		return "", fmt.Errorf("invalid use of colon\nUse 'secman repo browse --help' for more information about browse\n")
 	}
 
 	if len(arr) > 1 {
 		if !isNumber(arr[1]) {
-			return "", fmt.Errorf("invalid line number after colon\nUse 'secman browse --help' for more information about browse\n")
+			return "", fmt.Errorf("invalid line number after colon\nUse 'secman repo browse --help' for more information about browse\n")
 		}
 
 		return arr[0] + "#L" + arr[1], nil

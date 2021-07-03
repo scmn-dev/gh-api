@@ -7,7 +7,6 @@ import (
 	authCmd "github.com/secman-team/gh-api/pkg/cmd/auth"
 	"github.com/secman-team/gh-api/pkg/cmd/factory"
 	repoCmd "github.com/secman-team/gh-api/pkg/cmd/repo"
-	browseCmd "github.com/secman-team/gh-api/pkg/cmd/browse"
 	"github.com/secman-team/gh-api/pkg/cmdutil"
 	"github.com/spf13/cobra"
 )
@@ -51,7 +50,6 @@ func NewCmdRoot(f *cmdutil.Factory, version, buildDate string) *cobra.Command {
 
 	cmd.AddCommand(authCmd.NewCmdAuth(f))
 	cmd.AddCommand(repoCmd.NewCmdRepo(&repoResolvingCmdFactory))
-	cmd.AddCommand(browseCmd.NewCmdBrowse(&repoResolvingCmdFactory, nil))
 
 	// Help topics
 	cmd.AddCommand(NewHelpTopic("environment"))
