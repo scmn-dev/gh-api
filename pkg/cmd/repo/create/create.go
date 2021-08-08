@@ -228,18 +228,20 @@ func createRun(opts *CreateOptions) error {
 		// is passed, or when the confirm flag is set.
 		if opts.Template == "" && opts.IO.CanPrompt() && !opts.ConfirmSubmit {
 			if gitIgnoreTemplate == "" {
-				gt, err := interactiveGitIgnore(api.NewClientFromHTTP(httpClient), host)
+				gt, err := interactiveGitIgnore(httpClient, host)
 				if err != nil {
 					return err
 				}
+
 				gitIgnoreTemplate = gt
 			}
 
 			if repoLicenseTemplate == "" {
-				lt, err := interactiveLicense(api.NewClientFromHTTP(httpClient), host)
+				lt, err := interactiveLicense(httpClient, host)
 				if err != nil {
 					return err
 				}
+
 				repoLicenseTemplate = lt
 			}
 		}
@@ -262,44 +264,11 @@ func createRun(opts *CreateOptions) error {
 		repoToCreate = ghrepo.NewWithHost("", opts.Name, host)
 	}
 
-	var templateRepoMainBranch string
-	// Find template repo ID
-	if opts.Template != "" {
-		httpClient, err := opts.HttpClient()
-		if err != nil {
-			return err
-		}
-
-		var toClone ghrepo.Interface
-		apiClient := api.NewClientFromHTTP(httpClient)
-
-		cloneURL := opts.Template
-		if !strings.Contains(cloneURL, "/") {
-			currentUser, err := api.CurrentLoginName(apiClient, ghinstance.Default())
-			if err != nil {
-				return err
-			}
-			cloneURL = currentUser + "/" + cloneURL
-		}
-		toClone, err = ghrepo.FromFullName(cloneURL)
-		if err != nil {
-			return fmt.Errorf("argument error: %w", err)
-		}
-
-		repo, err := api.GitHubRepo(apiClient, toClone)
-		if err != nil {
-			return err
-		}
-
-		opts.Template = repo.ID
-		templateRepoMainBranch = repo.DefaultBranchRef.Name
-	}
-
 	input := repoCreateInput{
 		Name:              repoToCreate.RepoName(),
 		Visibility:        visibility,
-		OwnerID:           repoToCreate.RepoOwner(),
-		TeamID:            opts.Team,
+		OwnerLogin:        repoToCreate.RepoOwner(),
+		TeamSlug:          opts.Team,
 		Description:       opts.Description,
 		HomepageURL:       opts.Homepage,
 		HasIssuesEnabled:  opts.EnableIssues,
@@ -313,16 +282,44 @@ func createRun(opts *CreateOptions) error {
 		return err
 	}
 
+	var templateRepoMainBranch string
+	if opts.Template != "" {
+		var templateRepo ghrepo.Interface
+		apiClient := api.NewClientFromHTTP(httpClient)
+
+		templateRepoName := opts.Template
+		if !strings.Contains(templateRepoName, "/") {
+			currentUser, err := api.CurrentLoginName(apiClient, ghinstance.Default())
+			if err != nil {
+				return err
+			}
+			templateRepoName = currentUser + "/" + templateRepoName
+		}
+
+		templateRepo, err = ghrepo.FromFullName(templateRepoName)
+		if err != nil {
+			return fmt.Errorf("argument error: %w", err)
+		}
+
+		repo, err := api.GitHubRepo(apiClient, templateRepo)
+		if err != nil {
+			return err
+		}
+
+		input.TemplateRepositoryID = repo.ID
+		templateRepoMainBranch = repo.DefaultBranchRef.Name
+	}
+
 	createLocalDirectory := opts.ConfirmSubmit
 	if !opts.ConfirmSubmit {
-		opts.ConfirmSubmit, err = confirmSubmission(input.Name, input.OwnerID, inLocalRepo)
+		opts.ConfirmSubmit, err = confirmSubmission(input.Name, input.OwnerLogin, inLocalRepo)
 		if err != nil {
 			return err
 		}
 	}
 
 	if opts.ConfirmSubmit {
-		repo, err := repoCreate(httpClient, repoToCreate.RepoHost(), input, opts.Template)
+		repo, err := repoCreate(httpClient, repoToCreate.RepoHost(), input)
 		if err != nil {
 			return err
 		}
@@ -398,11 +395,10 @@ func createRun(opts *CreateOptions) error {
 	}
 
 	fmt.Fprintln(opts.IO.Out, "Discarding...")
-
 	return nil
 }
 
-func interactiveGitIgnore(client *api.Client, hostname string) (string, error) {
+func interactiveGitIgnore(client *http.Client, hostname string) (string, error) {
 	var addGitIgnore bool
 	var addGitIgnoreSurvey []*survey.Question
 
@@ -425,7 +421,7 @@ func interactiveGitIgnore(client *api.Client, hostname string) (string, error) {
 	if addGitIgnore {
 		var gitIg []*survey.Question
 
-		gitIgnoretemplates, err := ListGitIgnoreTemplates(client, hostname)
+		gitIgnoretemplates, err := listGitIgnoreTemplates(client, hostname)
 		if err != nil {
 			return "", err
 		}
@@ -448,7 +444,7 @@ func interactiveGitIgnore(client *api.Client, hostname string) (string, error) {
 	return wantedIgnoreTemplate, nil
 }
 
-func interactiveLicense(client *api.Client, hostname string) (string, error) {
+func interactiveLicense(client *http.Client, hostname string) (string, error) {
 	var addLicense bool
 	var addLicenseSurvey []*survey.Question
 	var wantedLicense string
@@ -470,7 +466,7 @@ func interactiveLicense(client *api.Client, hostname string) (string, error) {
 	licenseKey := map[string]string{}
 
 	if addLicense {
-		licenseTemplates, err := ListLicenseTemplates(client, hostname)
+		licenseTemplates, err := listLicenseTemplates(client, hostname)
 		if err != nil {
 			return "", err
 		}
