@@ -12,13 +12,14 @@ import (
 
 // repoCreateInput represents input parameters for repoCreate
 type repoCreateInput struct {
-	Name        string `json:"name"`
-	Visibility  string `json:"visibility"`
-	HomepageURL string `json:"homepageUrl,omitempty"`
-	Description string `json:"description,omitempty"`
+	Name        	  string `json:"name"`
+	Visibility  	  string `json:"visibility"`
+	HomepageURL 	  string `json:"homepageUrl,omitempty"`
+	Description 	  string `json:"description,omitempty"`
 
-	OwnerID string `json:"ownerId,omitempty"`
-	TeamID  string `json:"teamId,omitempty"`
+	OwnerID           string `json:"ownerId,omitempty"`
+	TeamID            string `json:"teamId,omitempty"`
+	Private           bool   `json:"private,omitempty"`
 
 	HasIssuesEnabled  bool   `json:"hasIssuesEnabled"`
 	HasWikiEnabled    bool   `json:"hasWikiEnabled"`
@@ -118,6 +119,11 @@ func repoCreate(client *http.Client, hostname string, input repoCreateInput, tem
 
 	if input.GitIgnoreTemplate != "" || input.LicenseTemplate != "" {
 		input.Visibility = strings.ToLower(input.Visibility)
+
+		if input.Visibility == "private" {
+			input.Private = true
+		}
+
 		body := &bytes.Buffer{}
 		enc := json.NewEncoder(body)
 		if err := enc.Encode(input); err != nil {
