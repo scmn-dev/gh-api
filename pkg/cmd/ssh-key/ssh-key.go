@@ -1,9 +1,9 @@
 package key
 
 import (
-	cmdAdd "github.com/secman-team/gh-api/pkg/cmd/ssh-key/add"
-	cmdList "github.com/secman-team/gh-api/pkg/cmd/ssh-key/list"
-	"github.com/secman-team/gh-api/pkg/cmdutil"
+	cmdAdd "github.com/scmn-dev/gh-api/pkg/cmd/ssh-key/add"
+	cmdList "github.com/scmn-dev/gh-api/pkg/cmd/ssh-key/list"
+	"github.com/scmn-dev/gh-api/pkg/cmdutil"
 	"github.com/spf13/cobra"
 )
 

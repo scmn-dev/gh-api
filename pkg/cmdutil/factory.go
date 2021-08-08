@@ -3,11 +3,10 @@ package cmdutil
 import (
 	"net/http"
 
-	"github.com/secman-team/gh-api/context"
-	"github.com/secman-team/gh-api/core/config"
-	"github.com/secman-team/gh-api/core/ghrepo"
-	"github.com/secman-team/gh-api/pkg/iostreams"
-	// "github.com/secman-team/gh-api/pkg/extensions"
+	"github.com/scmn-dev/gh-api/context"
+	"github.com/scmn-dev/gh-api/core/config"
+	"github.com/scmn-dev/gh-api/core/ghrepo"
+	"github.com/scmn-dev/gh-api/pkg/iostreams"
 )
 
 type Browser interface {

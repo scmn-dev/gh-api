@@ -3,7 +3,7 @@ package api
 import (
 	"context"
 
-	"github.com/secman-team/gh-api/core/ghrepo"
+	"github.com/scmn-dev/gh-api/core/ghrepo"
 	"github.com/shurcooL/githubv4"
 )
 

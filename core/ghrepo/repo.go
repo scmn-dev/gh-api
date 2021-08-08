@@ -5,8 +5,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/secman-team/gh-api/git"
-	"github.com/secman-team/gh-api/core/ghinstance"
+	"github.com/scmn-dev/gh-api/git"
+	"github.com/scmn-dev/gh-api/core/ghinstance"
 )
 
 // Interface describes an object that represents a GitHub repository

@@ -8,10 +8,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/secman-team/gh-api/api"
-	"github.com/secman-team/gh-api/core/ghinstance"
-	"github.com/secman-team/gh-api/pkg/cmdutil"
-	"github.com/secman-team/gh-api/pkg/iostreams"
+	"github.com/scmn-dev/gh-api/api"
+	"github.com/scmn-dev/gh-api/core/ghinstance"
+	"github.com/scmn-dev/gh-api/pkg/cmdutil"
+	"github.com/scmn-dev/gh-api/pkg/iostreams"
 	"github.com/cli/oauth"
 )
 
@@ -75,7 +75,6 @@ func authFlow(oauthHost string, IO *iostreams.IOStreams, notice string, addition
 	callbackURI := "http://127.0.0.1/callback"
 	if ghinstance.IsEnterprise(oauthHost) {
 		// the OAuth app on Enterprise hosts is still registered with a legacy callback URL
-		// see https://github.com/secman-team/gh-api/pull/222, https://github.com/secman-team/gh-api/pull/650
 		callbackURI = "http://localhost/"
 	}
 

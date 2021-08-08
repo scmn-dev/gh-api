@@ -13,11 +13,11 @@ import (
 	"time"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/secman-team/gh-api/api"
-	"github.com/secman-team/gh-api/core/ghrepo"
-	"github.com/secman-team/gh-api/pkg/cmdutil"
-	"github.com/secman-team/gh-api/pkg/iostreams"
-	"github.com/secman-team/gh-api/utils"
+	"github.com/scmn-dev/gh-api/api"
+	"github.com/scmn-dev/gh-api/core/ghrepo"
+	"github.com/scmn-dev/gh-api/pkg/cmdutil"
+	"github.com/scmn-dev/gh-api/pkg/iostreams"
+	"github.com/scmn-dev/gh-api/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -35,7 +35,7 @@ func NewCmdCredits(f *cmdutil.Factory, runF func(*CreditsOptions) error) *cobra.
 		HttpClient: f.HttpClient,
 		IO:         f.IOStreams,
 		BaseRepo:   f.BaseRepo,
-		Repository: "secman-team/gh-api",
+		Repository: "scmn-dev/gh-api",
 	}
 
 	cmd := &cobra.Command{

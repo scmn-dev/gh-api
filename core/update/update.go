@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/secman-team/gh-api/api"
-	"github.com/secman-team/gh-api/core/ghinstance"
+	"github.com/scmn-dev/gh-api/api"
+	"github.com/scmn-dev/gh-api/core/ghinstance"
 	"github.com/hashicorp/go-version"
 	"gopkg.in/yaml.v3"
 )

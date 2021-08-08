@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/secman-team/gh-api/pkg/cmdutil"
-	"github.com/secman-team/gh-api/pkg/text"
+	"github.com/scmn-dev/gh-api/pkg/cmdutil"
+	"github.com/scmn-dev/gh-api/pkg/text"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 )

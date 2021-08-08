@@ -6,11 +6,11 @@ import (
 	"sort"
 
 	"github.com/AlecAivazis/survey/v2"
-	"github.com/secman-team/gh-api/api"
-	"github.com/secman-team/gh-api/git"
-	"github.com/secman-team/gh-api/core/ghrepo"
-	"github.com/secman-team/gh-api/pkg/iostreams"
-	"github.com/secman-team/gh-api/pkg/prompt"
+	"github.com/scmn-dev/gh-api/api"
+	"github.com/scmn-dev/gh-api/git"
+	"github.com/scmn-dev/gh-api/core/ghrepo"
+	"github.com/scmn-dev/gh-api/pkg/iostreams"
+	"github.com/scmn-dev/gh-api/pkg/prompt"
 )
 
 // cap the number of git remotes looked up, since the user might have an

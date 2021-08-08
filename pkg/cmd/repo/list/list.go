@@ -5,12 +5,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/secman-team/gh-api/api"
-	"github.com/secman-team/gh-api/core/config"
-	"github.com/secman-team/gh-api/pkg/cmdutil"
-	"github.com/secman-team/gh-api/pkg/iostreams"
-	"github.com/secman-team/gh-api/pkg/text"
-	"github.com/secman-team/gh-api/utils"
+	"github.com/scmn-dev/gh-api/api"
+	"github.com/scmn-dev/gh-api/core/config"
+	"github.com/scmn-dev/gh-api/pkg/cmdutil"
+	"github.com/scmn-dev/gh-api/pkg/iostreams"
+	"github.com/scmn-dev/gh-api/pkg/text"
+	"github.com/scmn-dev/gh-api/utils"
 	"github.com/spf13/cobra"
 )
 

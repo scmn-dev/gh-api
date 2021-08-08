@@ -2,20 +2,20 @@ package repo
 
 import (
 	"github.com/MakeNowJust/heredoc"
-	repoCloneCmd "github.com/secman-team/gh-api/pkg/cmd/repo/clone"
-	repoCreateCmd "github.com/secman-team/gh-api/pkg/cmd/repo/create"
-	creditsCmd "github.com/secman-team/gh-api/pkg/cmd/repo/credits"
-	repoForkCmd "github.com/secman-team/gh-api/pkg/cmd/repo/fork"
-	gardenCmd "github.com/secman-team/gh-api/pkg/cmd/repo/garden"
-	repoListCmd "github.com/secman-team/gh-api/pkg/cmd/repo/list"
-	repoViewCmd "github.com/secman-team/gh-api/pkg/cmd/repo/view"
-	repoBrowseCmd "github.com/secman-team/gh-api/pkg/cmd/repo/browse"
-	"github.com/secman-team/gh-api/pkg/cmdutil"
+	repoCloneCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/clone"
+	repoCreateCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/create"
+	creditsCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/credits"
+	repoForkCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/fork"
+	gardenCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/garden"
+	repoListCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/list"
+	repoViewCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/view"
+	repoBrowseCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/browse"
+	"github.com/scmn-dev/gh-api/pkg/cmdutil"
 	"github.com/spf13/cobra"
 	"github.com/abdfnx/git_config"
-	"github.com/secman-team/secman/tools/shared"
+	"github.com/scmn-dev/secman/tools/shared"
 
-	"github.com/secman-team/gh-api/pkg/cmd/factory"
+	"github.com/scmn-dev/gh-api/pkg/cmd/factory"
 )
 
 func NewCmdRepo(f *cmdutil.Factory) *cobra.Command {
@@ -25,7 +25,7 @@ func NewCmdRepo(f *cmdutil.Factory) *cobra.Command {
 		Long:  `Work with GitHub repositories`,
 		Example: heredoc.Doc(`
 			secman repo create
-			secman repo clone secman-team/gh-api
+			secman repo clone scmn-dev/gh-api
 		`),
 		Annotations: map[string]string{
 			"help:arguments": heredoc.Doc(`

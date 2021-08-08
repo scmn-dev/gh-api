@@ -5,8 +5,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/secman-team/gh-api/git"
-	"github.com/secman-team/gh-api/core/ghrepo"
+	"github.com/scmn-dev/gh-api/git"
+	"github.com/scmn-dev/gh-api/core/ghrepo"
 )
 
 // Remotes represents a set of git remotes

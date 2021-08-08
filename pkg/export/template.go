@@ -11,7 +11,7 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/secman-team/gh-api/utils"
+	"github.com/scmn-dev/gh-api/utils"
 	"github.com/mgutz/ansi"
 )
 

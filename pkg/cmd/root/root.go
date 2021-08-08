@@ -4,10 +4,10 @@ import (
 	"net/http"
 
 	"github.com/MakeNowJust/heredoc"
-	authCmd "github.com/secman-team/gh-api/pkg/cmd/auth"
-	"github.com/secman-team/gh-api/pkg/cmd/factory"
-	repoCmd "github.com/secman-team/gh-api/pkg/cmd/repo"
-	"github.com/secman-team/gh-api/pkg/cmdutil"
+	authCmd "github.com/scmn-dev/gh-api/pkg/cmd/auth"
+	"github.com/scmn-dev/gh-api/pkg/cmd/factory"
+	repoCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo"
+	"github.com/scmn-dev/gh-api/pkg/cmdutil"
 	"github.com/spf13/cobra"
 )
 
@@ -21,11 +21,11 @@ func NewCmdRoot(f *cmdutil.Factory, version, buildDate string) *cobra.Command {
 		SilenceUsage:  true,
 		Example: heredoc.Doc(`
 			secman auth login
-			secman repo clone secman-team/gh-api
+			secman repo clone scmn-dev/gh-api
 		`),
 		Annotations: map[string]string{
 			"help:feedback": heredoc.Doc(`
-				Open an issue using at https://github.com/secman-team/gh-api/issues
+				Open an issue using at https://github.com/scmn-dev/gh-api/issues
 			`),
 		},
 	}

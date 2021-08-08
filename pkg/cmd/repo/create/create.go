@@ -9,15 +9,15 @@ import (
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/MakeNowJust/heredoc"
-	"github.com/secman-team/gh-api/api"
-	"github.com/secman-team/gh-api/git"
-	"github.com/secman-team/gh-api/core/config"
-	"github.com/secman-team/gh-api/core/ghinstance"
-	"github.com/secman-team/gh-api/core/ghrepo"
-	"github.com/secman-team/gh-api/core/run"
-	"github.com/secman-team/gh-api/pkg/cmdutil"
-	"github.com/secman-team/gh-api/pkg/iostreams"
-	"github.com/secman-team/gh-api/pkg/prompt"
+	"github.com/scmn-dev/gh-api/api"
+	"github.com/scmn-dev/gh-api/git"
+	"github.com/scmn-dev/gh-api/core/config"
+	"github.com/scmn-dev/gh-api/core/ghinstance"
+	"github.com/scmn-dev/gh-api/core/ghrepo"
+	"github.com/scmn-dev/gh-api/core/run"
+	"github.com/scmn-dev/gh-api/pkg/cmdutil"
+	"github.com/scmn-dev/gh-api/pkg/iostreams"
+	"github.com/scmn-dev/gh-api/pkg/prompt"
 	"github.com/spf13/cobra"
 )
 
@@ -75,7 +75,7 @@ func NewCmdCreate(f *cmdutil.Factory, runF func(*CreateOptions) error) *cobra.Co
 			# create a repository with a specific name
 			$ secman repo create my-project
 			# create a repository in an organization
-			$ secman repo create secman-team/secman
+			$ secman repo create scmn-dev/secman
 			# disable issues and wiki
 			$ secman repo create --enable-issues=false --enable-wiki=false
 	  `),
