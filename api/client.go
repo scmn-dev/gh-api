@@ -25,6 +25,7 @@ func NewHTTPClient(opts ...ClientOption) *http.Client {
 	for _, opt := range opts {
 		tr = opt(tr)
 	}
+
 	return &http.Client{Transport: tr}
 }
 
@@ -84,10 +85,12 @@ func VerboseLog(out io.Writer, logTraffic bool, colorize bool) ClientOption {
 		Formatters:      []httpretty.Formatter{&httpretty.JSONFormatter{}},
 		MaxResponseBody: 10000,
 	}
+
 	logger.SetOutput(out)
 	logger.SetBodyFilter(func(h http.Header) (skip bool, err error) {
 		return !inspectableMIMEType(h.Get("Content-Type")), nil
 	})
+
 	return logger.RoundTripper
 }
 
@@ -123,8 +126,8 @@ type graphQLResponse struct {
 // GraphQLError is a single error returned in a GraphQL response
 type GraphQLError struct {
 	Type    string
-	Path    []string
 	Message string
+	// Path []interface // mixed strings and numbers
 }
 
 // GraphQLErrorResponse contains errors returned in a GraphQL response
@@ -162,6 +165,7 @@ func (err HTTPError) Error() string {
 	} else if err.Message != "" {
 		return fmt.Sprintf("HTTP %d: %s (%s)", err.StatusCode, err.Message, err.RequestURL)
 	}
+
 	return fmt.Sprintf("HTTP %d (%s)", err.StatusCode, err.RequestURL)
 }
 
@@ -258,6 +262,7 @@ func handleResponse(resp *http.Response, data interface{}) error {
 	if len(gr.Errors) > 0 {
 		return &GraphQLErrorResponse{Errors: gr.Errors}
 	}
+
 	return nil
 }
 
@@ -283,6 +288,7 @@ func HandleHTTPError(resp *http.Response) error {
 		Message string `json:"message"`
 		Errors  []json.RawMessage
 	}
+
 	if err := json.Unmarshal(body, &parsedBody); err != nil {
 		return httpError
 	}
@@ -308,6 +314,7 @@ func HandleHTTPError(resp *http.Response) error {
 			httpError.Errors = append(httpError.Errors, errInfo)
 		}
 	}
+
 	httpError.Message = strings.Join(messages, "\n")
 
 	return httpError
