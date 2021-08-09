@@ -6,19 +6,19 @@
 
 > Commands that need `gh-api`
 
-* [**Auth**](https://docs.secman.dev/commands/auth)
-  - [**Login**](https://docs.secman.dev/commands/auth#login)
-  - [**Logout**](https://docs.secman.dev/commands/auth#logout)
-  - [**Refresh**](https://docs.secman.dev/commands/auth#refresh)
-  - [**Status**](https://docs.secman.dev/commands/auth#status)
-* [**Repo**](https://docs.secman.dev/commands/repo)
-  - [**Clone**](https://docs.secman.dev/commands/repo#clone)
-  - [**Create**](https://docs.secman.dev/commands/repo#create)
-  - [**Fork**](https://docs.secman.dev/commands/repo#fork)
-  - [**List**](https://docs.secman.dev/commands/repo#list)
-* [**Config**](https://docs.secman.dev/commands/config)
-  - [**Get**](https://docs.secman.dev/commands/config#get)
-  - [**Set**](https://docs.secman.dev/commands/config#set)
+* [**Auth**](https://docs.secman.dev/guides/auth)
+  - [**Login**](https://docs.secman.dev/guides/auth/login)
+  - [**Logout**](https://docs.secman.dev/guides/auth/logout)
+  - [**Refresh**](https://docs.secman.dev/guides/auth/refresh)
+  - [**Status**](https://docs.secman.dev/guides/auth/status)
+* [**Repo**](https://docs.secman.dev/guides/repo)
+  - [**Clone**](https://docs.secman.dev/guides/repo/clone)
+  - [**Create**](https://docs.secman.dev/guides/repo/create)
+  - [**Fork**](https://docs.secman.dev/guides/repo/fork)
+  - [**List**](https://docs.secman.dev/guides/repo/list)
+* [**Config**](https://docs.secman.dev/guides/config)
+  - [**Get**](https://docs.secman.dev/guides/config/get)
+  - [**Set**](https://docs.secman.dev/guides/config/set)
 
 ## Auth
 
