@@ -8,6 +8,7 @@ import (
 	repoForkCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/fork"
 	gardenCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/garden"
 	repoListCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/list"
+	repoSyncCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/sync"
 	repoViewCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/view"
 	repoBrowseCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/browse"
 	"github.com/scmn-dev/gh-api/pkg/cmdutil"
@@ -56,6 +57,7 @@ func NewCmdRepo(f *cmdutil.Factory) *cobra.Command {
 	cmd.AddCommand(repoCloneCmd.NewCmdClone(f, nil))
 	cmd.AddCommand(repoCreateCmd.NewCmdCreate(f, nil))
 	cmd.AddCommand(repoListCmd.NewCmdList(f, nil))
+	cmd.AddCommand(repoSyncCmd.NewCmdSync(f, nil))
 	cmd.AddCommand(creditsCmd.NewCmdRepoCredits(f, nil))
 	cmd.AddCommand(gardenCmd.NewCmdGarden(f, nil))
 	cmd.AddCommand(repoBrowseCmd.NewCmdBrowse(&repoResolvingCmdFactory, nil))
