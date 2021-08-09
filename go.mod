@@ -3,7 +3,7 @@ module github.com/scmn-dev/gh-api
 go 1.13
 
 require (
-	github.com/AlecAivazis/survey/v2 v2.2.12
+	github.com/AlecAivazis/survey/v2 v2.2.16
 	github.com/MakeNowJust/heredoc v1.0.0
 	github.com/abdfnx/git_config v0.0.33
 	github.com/briandowns/spinner v1.16.0
@@ -24,11 +24,12 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/muesli/termenv v0.8.1
 	github.com/rivo/uniseg v0.2.0
-	github.com/scmn-dev/secman v0.0.0-20210808191616-0085bc8d91da
+	github.com/scmn-dev/secman v0.0.0-20210809085739-bae204f9d756
 	github.com/shurcooL/githubv4 v0.0.0-20201206200315-234843c633fa
 	github.com/shurcooL/graphql v0.0.0-20200928012149-18c5c3165e3a
-	github.com/spf13/cobra v1.1.3
+	github.com/spf13/cobra v1.2.1
 	github.com/spf13/pflag v1.0.5
+	github.com/stretchr/testify v1.7.0
 	golang.org/x/sys v0.0.0-20210601080250-7ecdf8ef093b
 	golang.org/x/term v0.0.0-20210503060354-a79de5458b56
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
