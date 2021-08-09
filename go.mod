@@ -5,7 +5,7 @@ go 1.13
 require (
 	github.com/AlecAivazis/survey/v2 v2.2.16
 	github.com/MakeNowJust/heredoc v1.0.0
-	github.com/abdfnx/git_config v0.0.33
+	github.com/abdfnx/git_config v0.0.34
 	github.com/briandowns/spinner v1.16.0
 	github.com/charmbracelet/glamour v0.3.0
 	github.com/cli/browser v1.1.0
@@ -24,7 +24,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/muesli/termenv v0.8.1
 	github.com/rivo/uniseg v0.2.0
-	github.com/scmn-dev/secman v0.0.0-20210809085739-bae204f9d756
+	github.com/scmn-dev/secman v0.0.0-20210809103458-bd6a4ce691aa
 	github.com/shurcooL/githubv4 v0.0.0-20201206200315-234843c633fa
 	github.com/shurcooL/graphql v0.0.0-20200928012149-18c5c3165e3a
 	github.com/spf13/cobra v1.2.1
