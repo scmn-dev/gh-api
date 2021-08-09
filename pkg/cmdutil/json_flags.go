@@ -29,16 +29,21 @@ func AddJSONFlags(cmd *cobra.Command, exportTarget *Exporter, fields []string) {
 
 	_ = cmd.RegisterFlagCompletionFunc("json", func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
 		var results []string
-		if idx := strings.IndexRune(toComplete, ','); idx >= 0 {
+		var prefix string
+		if idx := strings.LastIndexByte(toComplete, ','); idx >= 0 {
+			prefix = toComplete[:idx+1]
 			toComplete = toComplete[idx+1:]
 		}
+
 		toComplete = strings.ToLower(toComplete)
 		for _, f := range fields {
 			if strings.HasPrefix(strings.ToLower(f), toComplete) {
-				results = append(results, f)
+				results = append(results, prefix+f)
 			}
 		}
+
 		sort.Strings(results)
+
 		return results, cobra.ShellCompDirectiveNoSpace
 	})
 
@@ -49,6 +54,7 @@ func AddJSONFlags(cmd *cobra.Command, exportTarget *Exporter, fields []string) {
 				return err
 			}
 		}
+
 		if export, err := checkJSONFlags(c); err == nil {
 			if export == nil {
 				*exportTarget = nil
@@ -66,6 +72,7 @@ func AddJSONFlags(cmd *cobra.Command, exportTarget *Exporter, fields []string) {
 		} else {
 			return err
 		}
+
 		return nil
 	}
 
@@ -74,6 +81,7 @@ func AddJSONFlags(cmd *cobra.Command, exportTarget *Exporter, fields []string) {
 			sort.Strings(fields)
 			return JSONFlagError{fmt.Errorf("Specify one or more comma-separated fields for `--json`:\n  %s", strings.Join(fields, "\n  "))}
 		}
+
 		return c.Parent().FlagErrorFunc()(c, e)
 	})
 }
@@ -100,6 +108,7 @@ func checkJSONFlags(cmd *cobra.Command) (*exportFormat, error) {
 	} else if tplFlag.Changed {
 		return nil, errors.New("cannot use `--template` without specifying `--json`")
 	}
+
 	return nil, nil
 }
 
@@ -152,6 +161,7 @@ func (e *exportFormat) exportData(v reflect.Value) interface{} {
 		for i := 0; i < v.Len(); i++ {
 			a[i] = e.exportData(v.Index(i))
 		}
+
 		return a
 	case reflect.Map:
 		t := reflect.MapOf(v.Type().Key(), emptyInterfaceType)
@@ -161,6 +171,7 @@ func (e *exportFormat) exportData(v reflect.Value) interface{} {
 			ve := reflect.ValueOf(e.exportData(iter.Value()))
 			m.SetMapIndex(iter.Key(), ve)
 		}
+
 		return m.Interface()
 	case reflect.Struct:
 		if v.CanAddr() && reflect.PtrTo(v.Type()).Implements(exportableType) {
@@ -171,6 +182,7 @@ func (e *exportFormat) exportData(v reflect.Value) interface{} {
 			return ve.ExportData(e.fields)
 		}
 	}
+
 	return v.Interface()
 }
 
