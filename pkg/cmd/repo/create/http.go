@@ -190,7 +190,7 @@ func resolveOrganizationTeam(client *api.Client, hostname, orgName, teamSlug str
 }
 
 // ListGitIgnoreTemplates uses API v3 here because gitignore template isn't supported by GraphQL yet.
-func ListGitIgnoreTemplates(client *api.Client, hostname string) ([]string, error) {
+func listGitIgnoreTemplates(httpClient *http.Client, hostname string) ([]string, error) {
 	var gitIgnoreTemplates []string
 	err := client.REST(hostname, "GET", "gitignore/templates", nil, &gitIgnoreTemplates)
 	if err != nil {
@@ -201,7 +201,7 @@ func ListGitIgnoreTemplates(client *api.Client, hostname string) ([]string, erro
 }
 
 // ListLicenseTemplates uses API v3 here because license template isn't supported by GraphQL yet.
-func ListLicenseTemplates(client *api.Client, hostname string) ([]api.License, error) {
+func listLicenseTemplates(httpClient *http.Client, hostname string) ([]api.License, error) {
 	var licenseTemplates []api.License
 	err := client.REST(hostname, "GET", "licenses", nil, &licenseTemplates)
 	if err != nil {

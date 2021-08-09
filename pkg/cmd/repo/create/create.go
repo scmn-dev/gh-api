@@ -134,6 +134,59 @@ func NewCmdCreate(f *cmdutil.Factory, runF func(*CreateOptions) error) *cobra.Co
 	cmd.Flags().StringVarP(&opts.GitIgnoreTemplate, "gitignore", "g", "", "Specify a gitignore template for the repository")
 	cmd.Flags().StringVarP(&opts.LicenseTemplate, "license", "l", "", "Specify an Open Source License for the repository")
 
+	_ = cmd.RegisterFlagCompletionFunc("gitignore", func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+		httpClient, err := opts.HttpClient()
+		if err != nil {
+			return nil, cobra.ShellCompDirectiveError
+		}
+
+		cfg, err := opts.Config()
+		if err != nil {
+			return nil, cobra.ShellCompDirectiveError
+		}
+
+		hostname, err := cfg.DefaultHost()
+		if err != nil {
+			return nil, cobra.ShellCompDirectiveError
+		}
+
+		results, err := listGitIgnoreTemplates(httpClient, hostname)
+		if err != nil {
+			return nil, cobra.ShellCompDirectiveError
+		}
+
+		return results, cobra.ShellCompDirectiveNoFileComp
+	})
+
+	_ = cmd.RegisterFlagCompletionFunc("license", func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+		httpClient, err := opts.HttpClient()
+		if err != nil {
+			return nil, cobra.ShellCompDirectiveError
+		}
+
+		cfg, err := opts.Config()
+		if err != nil {
+			return nil, cobra.ShellCompDirectiveError
+		}
+
+		hostname, err := cfg.DefaultHost()
+		if err != nil {
+			return nil, cobra.ShellCompDirectiveError
+		}
+
+		licenses, err := listLicenseTemplates(httpClient, hostname)
+		if err != nil {
+			return nil, cobra.ShellCompDirectiveError
+		}
+
+		var results []string
+		for _, license := range licenses {
+			results = append(results, fmt.Sprintf("%s\t%s", license.Key, license.Name))
+		}
+
+		return results, cobra.ShellCompDirectiveNoFileComp
+	})
+
 	return cmd
 }
 
