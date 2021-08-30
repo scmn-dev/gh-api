@@ -101,8 +101,8 @@ func browser(f *cmdutil.Factory) cmdutil.Browser {
 // 2. browser from config
 // 3. BROWSER
 func browserLauncher(f *cmdutil.Factory) string {
-	if ghBrowser := os.Getenv("GH_BROWSER"); ghBrowser != "" {
-		return ghBrowser
+	if smBrowser := os.Getenv("GH_BROWSER"); smBrowser != "" {
+		return smBrowser
 	}
 
 	cfg, err := f.Config()
