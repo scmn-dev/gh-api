@@ -17,13 +17,31 @@ type TablePrinter interface {
 	Render() error
 }
 
+type TablePrinterOptions struct {
+	IsTTY bool
+}
+
 func NewTablePrinter(io *iostreams.IOStreams) TablePrinter {
-	if io.IsStdoutTTY() {
+	return NewTablePrinterWithOptions(io, TablePrinterOptions{
+		IsTTY: io.IsStdoutTTY(),
+	})
+}
+
+func NewTablePrinterWithOptions(io *iostreams.IOStreams, opts TablePrinterOptions) TablePrinter {
+	if opts.IsTTY {
+		var maxWidth int
+		if io.IsStdoutTTY() {
+			maxWidth = io.TerminalWidth()
+		} else {
+			maxWidth = io.ProcessTerminalWidth()
+		}
+
 		return &ttyTablePrinter{
 			out:      io.Out,
-			maxWidth: io.TerminalWidth(),
+			maxWidth: maxWidth,
 		}
 	}
+
 	return &tsvTablePrinter{
 		out: io.Out,
 	}
@@ -49,20 +67,22 @@ func (t ttyTablePrinter) IsTTY() bool {
 	return true
 }
 
-// Never pass pre-colorized text to AddField; always specify colorFunc. Otherwise, the table printer can't correctly compute the width of its columns.
 func (t *ttyTablePrinter) AddField(s string, truncateFunc func(int, string) string, colorFunc func(string) string) {
 	if truncateFunc == nil {
 		truncateFunc = text.Truncate
 	}
+
 	if t.rows == nil {
 		t.rows = make([][]tableField, 1)
 	}
+
 	rowI := len(t.rows) - 1
 	field := tableField{
 		Text:         s,
 		TruncateFunc: truncateFunc,
 		ColorFunc:    colorFunc,
 	}
+
 	t.rows[rowI] = append(t.rows[rowI], field)
 }
 
@@ -87,6 +107,7 @@ func (t *ttyTablePrinter) Render() error {
 					return err
 				}
 			}
+
 			truncVal := field.TruncateFunc(colWidths[col], field.Text)
 			if col < numCols-1 {
 				// pad value with spaces on the right
@@ -94,14 +115,17 @@ func (t *ttyTablePrinter) Render() error {
 					truncVal += strings.Repeat(" ", padWidth)
 				}
 			}
+
 			if field.ColorFunc != nil {
 				truncVal = field.ColorFunc(truncVal)
 			}
+
 			_, err := fmt.Fprint(t.out, truncVal)
 			if err != nil {
 				return err
 			}
 		}
+
 		if len(row) > 0 {
 			_, err := fmt.Fprint(t.out, "\n")
 			if err != nil {
@@ -109,6 +133,7 @@ func (t *ttyTablePrinter) Render() error {
 			}
 		}
 	}
+
 	return nil
 }
 
@@ -144,8 +169,10 @@ func (t *ttyTablePrinter) calculateColumnWidths(delimSize int) []int {
 		for col := 0; col < numCols; col++ {
 			setWidths += colWidths[col]
 		}
+
 		return t.maxWidth - delimSize*(numCols-1) - setWidths
 	}
+
 	numFixedCols := func() int {
 		fixedCols := 0
 		for col := 0; col < numCols; col++ {
@@ -153,6 +180,7 @@ func (t *ttyTablePrinter) calculateColumnWidths(delimSize int) []int {
 				fixedCols++
 			}
 		}
+
 		return fixedCols
 	}
 
@@ -177,6 +205,7 @@ func (t *ttyTablePrinter) calculateColumnWidths(delimSize int) []int {
 				if firstFlexCol == -1 {
 					firstFlexCol = col
 				}
+
 				if max := maxColWidths[col]; max < perColumn {
 					colWidths[col] = max
 				} else {

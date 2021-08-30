@@ -141,10 +141,12 @@ func listRun(opts *ListOptions) error {
 	if err := opts.IO.StartPager(); err != nil {
 		fmt.Fprintf(opts.IO.ErrOut, "error starting pager: %v\n", err)
 	}
+
 	defer opts.IO.StopPager()
+	
 
 	if opts.Exporter != nil {
-		return opts.Exporter.Write(opts.IO.Out, listResult.Repositories, opts.IO.ColorEnabled())
+		return opts.Exporter.Write(opts.IO, listResult.Repositories)
 	}
 
 	cs := opts.IO.ColorScheme()
