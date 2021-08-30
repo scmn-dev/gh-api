@@ -37,8 +37,9 @@ func CheckAuth(cfg config.Config) bool {
 }
 
 func IsAuthCheckEnabled(cmd *cobra.Command) bool {
-	if cmd.Name() == "help" {
-		return false
+	switch cmd.Name() {
+		case "help", cobra.ShellCompRequestCmd, cobra.ShellCompNoDescRequestCmd:
+			return false
 	}
 
 	for c := cmd; c.Parent() != nil; c = c.Parent() {
