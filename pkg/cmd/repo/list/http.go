@@ -22,13 +22,14 @@ type FilterOptions struct {
 	Fork        bool
 	Source      bool
 	Language    string
+	Topic       string
 	Archived    bool
 	NonArchived bool
 	Fields      []string
 }
 
 func listRepos(client *http.Client, hostname string, limit int, owner string, filter FilterOptions) (*RepositoryList, error) {
-	if filter.Language != "" || filter.Archived || filter.NonArchived {
+	if filter.Language != "" || filter.Archived || filter.NonArchived || filter.Topic != "" {
 		return searchRepos(client, hostname, limit, owner, filter)
 	}
 
@@ -199,11 +200,15 @@ func searchQuery(owner string, filter FilterOptions) string {
 		q.SetLanguage(filter.Language)
 	}
 
+	if filter.Topic != "" {
+		q.SetTopic(filter.Topic)
+	}
+
 	switch filter.Visibility {
-	case "public":
-		q.SetVisibility(githubsearch.Public)
-	case "private":
-		q.SetVisibility(githubsearch.Private)
+		case "public":
+			q.SetVisibility(githubsearch.Public)
+		case "private":
+			q.SetVisibility(githubsearch.Private)
 	}
 
 	if filter.Archived {
