@@ -9,6 +9,7 @@ import (
 	"github.com/MakeNowJust/heredoc"
 	"github.com/scmn-dev/gh-api/api"
 	"github.com/scmn-dev/gh-api/context"
+	gitpkg "github.com/scmn-dev/gh-api/git"
 	"github.com/scmn-dev/gh-api/core/ghrepo"
 	"github.com/scmn-dev/gh-api/pkg/cmdutil"
 	"github.com/scmn-dev/gh-api/pkg/iostreams"
@@ -86,25 +87,20 @@ func syncRun(opts *SyncOptions) error {
 }
 
 func syncLocalRepo(opts *SyncOptions) error {
-	var err error
 	var srcRepo ghrepo.Interface
 
-	dirtyRepo, err := opts.Git.IsDirty()
-	if err != nil {
-		return err
-	}
-
-	if dirtyRepo {
-		return fmt.Errorf("can't sync because there are local changes, please commit or stash them")
-	}
-
 	if opts.SrcArg != "" {
+		var err error
 		srcRepo, err = ghrepo.FromFullName(opts.SrcArg)
+		if err != nil {
+			return err
+		}
 	} else {
+		var err error
 		srcRepo, err = opts.BaseRepo()
-	}
-	if err != nil {
-		return err
+		if err != nil {
+			return err
+		}
 	}
 
 	// Find remote that matches the srcRepo
@@ -114,14 +110,9 @@ func syncLocalRepo(opts *SyncOptions) error {
 		return err
 	}
 
-	for _, r := range remotes {
-		if r.RepoName() == srcRepo.RepoName() &&
-			r.RepoOwner() == srcRepo.RepoOwner() &&
-			r.RepoHost() == srcRepo.RepoHost() {
-			remote = r.Name
-		}
-	}
-	if remote == "" {
+	if r, err := remotes.FindByRepo(srcRepo.RepoOwner(), srcRepo.RepoName()); err == nil {
+		remote = r.Name
+	} else {
 		return fmt.Errorf("can't find corresponding remote for %s", ghrepo.FullName(srcRepo))
 	}
 
@@ -147,9 +138,11 @@ func syncLocalRepo(opts *SyncOptions) error {
 		if errors.Is(err, divergingError) {
 			return fmt.Errorf("can't sync because there are diverging changes; use `--force` to overwrite the destination branch")
 		}
+
 		if errors.Is(err, mismatchRemotesError) {
 			return fmt.Errorf("can't sync because %s is not tracking %s", opts.Branch, ghrepo.FullName(srcRepo))
 		}
+
 		return err
 	}
 
@@ -186,6 +179,7 @@ func syncRemoteRepo(opts *SyncOptions) error {
 		if err != nil {
 			return err
 		}
+
 		if srcRepo == nil {
 			return fmt.Errorf("can't determine source repository for %s because repository is not fork", ghrepo.FullName(destRepo))
 		}
@@ -216,6 +210,7 @@ func syncRemoteRepo(opts *SyncOptions) error {
 		if errors.Is(err, divergingError) {
 			return fmt.Errorf("can't sync because there are diverging changes; use `--force` to overwrite the destination branch")
 		}
+
 		return err
 	}
 
@@ -237,6 +232,7 @@ var mismatchRemotesError = errors.New("branch remote does not match specified so
 func executeLocalRepoSync(srcRepo ghrepo.Interface, remote string, opts *SyncOptions) error {
 	git := opts.Git
 	branch := opts.Branch
+	useForce := opts.Force
 
 	if err := git.Fetch(remote, fmt.Sprintf("refs/heads/%s", branch)); err != nil {
 		return err
@@ -248,52 +244,55 @@ func executeLocalRepoSync(srcRepo ghrepo.Interface, remote string, opts *SyncOpt
 		if err != nil {
 			return err
 		}
+
 		if branchRemote != remote {
 			return mismatchRemotesError
 		}
 
-		fastForward, err := git.IsAncestor(branch, fmt.Sprintf("%s/%s", remote, branch))
+		fastForward, err := git.IsAncestor(branch, "FETCH_HEAD")
 		if err != nil {
 			return err
 		}
 
-		if !fastForward && !opts.Force {
+		if !fastForward && !useForce {
 			return divergingError
+		}
+
+		if fastForward && useForce {
+			useForce = false
 		}
 	}
 
-	startBranch, err := git.CurrentBranch()
-	if err != nil {
+	currentBranch, err := git.CurrentBranch()
+	if err != nil && !errors.Is(err, gitpkg.ErrNotOnAnyBranch) {
 		return err
 	}
 
-	if startBranch != branch {
-		if hasLocalBranch {
-			if err := git.CheckoutLocal(branch); err != nil {
-				return err
-			}
-		} else {
-			if err := git.CheckoutRemote(remote, branch); err != nil {
-				return err
-			}
-		}
-	}
-
-	if hasLocalBranch {
-		if opts.Force {
-			if err := git.ResetHard(fmt.Sprintf("refs/remotes/%s/%s", remote, branch)); err != nil {
-				return err
-			}
-		} else {
-			if err := git.MergeFastForward(fmt.Sprintf("refs/remotes/%s/%s", remote, branch)); err != nil {
-				return err
-			}
-		}
-	}
-
-	if startBranch != branch {
-		if err := git.CheckoutLocal(startBranch); err != nil {
+	if currentBranch == branch {
+		if isDirty, err := git.IsDirty(); err == nil && isDirty {
+			return fmt.Errorf("can't sync because there are local changes; please stash them before trying again")
+		} else if err != nil {
 			return err
+		}
+
+		if useForce {
+			if err := git.ResetHard("FETCH_HEAD"); err != nil {
+				return err
+			}
+		} else {
+			if err := git.MergeFastForward("FETCH_HEAD"); err != nil {
+				return err
+			}
+		}
+	} else {
+		if hasLocalBranch {
+			if err := git.UpdateBranch(branch, "FETCH_HEAD"); err != nil {
+				return err
+			}
+		} else {
+			if err := git.CreateBranch(branch, "FETCH_HEAD", fmt.Sprintf("%s/%s", remote, branch)); err != nil {
+				return err
+			}
 		}
 	}
 
