@@ -293,25 +293,31 @@ func HandleHTTPError(resp *http.Response) error {
 		return httpError
 	}
 
-	messages := []string{parsedBody.Message}
+	var messages []string
+	if parsedBody.Message != "" {
+		messages = append(messages, parsedBody.Message)
+	}
+
 	for _, raw := range parsedBody.Errors {
 		switch raw[0] {
-		case '"':
-			var errString string
-			_ = json.Unmarshal(raw, &errString)
-			messages = append(messages, errString)
-			httpError.Errors = append(httpError.Errors, HTTPErrorItem{Message: errString})
-		case '{':
-			var errInfo HTTPErrorItem
-			_ = json.Unmarshal(raw, &errInfo)
-			msg := errInfo.Message
-			if errInfo.Code != "custom" {
-				msg = fmt.Sprintf("%s.%s %s", errInfo.Resource, errInfo.Field, errorCodeToMessage(errInfo.Code))
-			}
-			if msg != "" {
-				messages = append(messages, msg)
-			}
-			httpError.Errors = append(httpError.Errors, errInfo)
+			case '"':
+				var errString string
+				_ = json.Unmarshal(raw, &errString)
+				messages = append(messages, errString)
+				httpError.Errors = append(httpError.Errors, HTTPErrorItem{Message: errString})
+			case '{':
+				var errInfo HTTPErrorItem
+				_ = json.Unmarshal(raw, &errInfo)
+				msg := errInfo.Message
+				if errInfo.Code != "" && errInfo.Code != "custom" {
+					msg = fmt.Sprintf("%s.%s %s", errInfo.Resource, errInfo.Field, errorCodeToMessage(errInfo.Code))
+				}
+
+				if msg != "" {
+					messages = append(messages, msg)
+				}
+
+				httpError.Errors = append(httpError.Errors, errInfo)
 		}
 	}
 
