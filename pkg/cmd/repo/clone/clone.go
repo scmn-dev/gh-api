@@ -8,7 +8,7 @@ import (
 	"github.com/MakeNowJust/heredoc"
 	"github.com/scmn-dev/gh-api/api"
 	"github.com/scmn-dev/gh-api/git"
-	"github.com/scmn-dev/gh-api/core/config"
+	"github.com/scmn-dev/secman/cluster"
 	"github.com/scmn-dev/gh-api/core/ghrepo"
 	"github.com/scmn-dev/gh-api/pkg/cmdutil"
 	"github.com/scmn-dev/gh-api/pkg/iostreams"
@@ -18,7 +18,7 @@ import (
 
 type CloneOptions struct {
 	HttpClient func() (*http.Client, error)
-	Config     func() (config.Config, error)
+	Cluster     func() (cluster.Cluster, error)
 	IO         *iostreams.IOStreams
 
 	GitArgs    []string
@@ -29,7 +29,7 @@ func NewCmdClone(f *cmdutil.Factory, runF func(*CloneOptions) error) *cobra.Comm
 	opts := &CloneOptions{
 		IO:         f.IOStreams,
 		HttpClient: f.HttpClient,
-		Config:     f.Config,
+		Cluster:     f.Cluster,
 	}
 
 	cmd := &cobra.Command{
@@ -75,7 +75,7 @@ func cloneRun(opts *CloneOptions) error {
 		return err
 	}
 
-	cfg, err := opts.Config()
+	cfg, err := opts.Cluster()
 	if err != nil {
 		return err
 	}

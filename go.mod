@@ -3,13 +3,13 @@ module github.com/scmn-dev/gh-api
 go 1.13
 
 require (
-	github.com/AlecAivazis/survey/v2 v2.2.16
+	github.com/AlecAivazis/survey/v2 v2.3.1
 	github.com/MakeNowJust/heredoc v1.0.0
 	github.com/abdfnx/git_config v0.0.34
 	github.com/briandowns/spinner v1.16.0
 	github.com/charmbracelet/glamour v0.3.0
 	github.com/cli/oauth v0.8.0
-	github.com/cli/safeexec v1.0.0
+	github.com/Timothee-Cardoso/tc-exe v1.0.0
 	github.com/cpuguy83/go-md2man/v2 v2.0.0
 	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510
 	github.com/hashicorp/go-version v1.3.0
@@ -24,7 +24,7 @@ require (
 	github.com/muesli/termenv v0.8.1
 	github.com/rivo/uniseg v0.2.0
 	github.com/scmn-dev/browser v0.1.0
-	github.com/scmn-dev/secman v0.0.0-20210809103458-bd6a4ce691aa
+	github.com/scmn-dev/secman v0.0.0-20210831164109-5ddbb1cdc3dc
 	github.com/shurcooL/githubv4 v0.0.0-20201206200315-234843c633fa
 	github.com/shurcooL/graphql v0.0.0-20200928012149-18c5c3165e3a
 	github.com/spf13/cobra v1.2.1

@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/scmn-dev/gh-api/core/config"
+	"github.com/scmn-dev/secman/cluster"
 	"github.com/scmn-dev/gh-api/pkg/cmdutil"
 	"github.com/scmn-dev/gh-api/pkg/iostreams"
 	"github.com/spf13/cobra"
@@ -14,34 +14,34 @@ import (
 
 type SetOptions struct {
 	IO     *iostreams.IOStreams
-	Config config.Config
+	Cluster cluster.Cluster
 
 	Key      string
 	Value    string
 	Hostname string
 }
 
-func NewCmdConfigSet(f *cmdutil.Factory, runF func(*SetOptions) error) *cobra.Command {
+func NewCmdClusterSet(f *cmdutil.Factory, runF func(*SetOptions) error) *cobra.Command {
 	opts := &SetOptions{
 		IO: f.IOStreams,
 	}
 
 	cmd := &cobra.Command{
 		Use:   "set <key> <value>",
-		Short: "Update configuration with a value for the given key",
+		Short: "Update Clusteruration with a value for the given key",
 		Example: heredoc.Doc(`
-			secman config set editor vim
-			secman config set editor "code --wait"
-			secman config set git_protocol ssh --host github.com
-			secman config set prompt disabled
+			secman Cluster set editor vim
+			secman Cluster set editor "code --wait"
+			secman Cluster set git_protocol ssh --host github.com
+			secman Cluster set prompt disabled
 		`),
 		Args: cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			config, err := f.Config()
+			Cluster, err := f.Cluster()
 			if err != nil {
 				return err
 			}
-			opts.Config = config
+			opts.Cluster = Cluster
 			opts.Key = args[0]
 			opts.Value = args[1]
 
@@ -59,15 +59,15 @@ func NewCmdConfigSet(f *cmdutil.Factory, runF func(*SetOptions) error) *cobra.Co
 }
 
 func setRun(opts *SetOptions) error {
-	err := config.ValidateKey(opts.Key)
+	err := cluster.ValidateKey(opts.Key)
 	if err != nil {
 		warningIcon := opts.IO.ColorScheme().WarningIcon()
-		fmt.Fprintf(opts.IO.ErrOut, "%s warning: '%s' is not a known configuration key\n", warningIcon, opts.Key)
+		fmt.Fprintf(opts.IO.ErrOut, "%s warning: '%s' is not a known cluster key\n", warningIcon, opts.Key)
 	}
 
-	err = config.ValidateValue(opts.Key, opts.Value)
+	err = cluster.ValidateValue(opts.Key, opts.Value)
 	if err != nil {
-		var invalidValue *config.InvalidValueError
+		var invalidValue *cluster.InvalidValueError
 		if errors.As(err, &invalidValue) {
 			var values []string
 			for _, v := range invalidValue.ValidValues {
@@ -77,14 +77,14 @@ func setRun(opts *SetOptions) error {
 		}
 	}
 
-	err = opts.Config.Set(opts.Hostname, opts.Key, opts.Value)
+	err = opts.Cluster.Set(opts.Hostname, opts.Key, opts.Value)
 	if err != nil {
 		return fmt.Errorf("failed to set %q to %q: %w", opts.Key, opts.Value, err)
 	}
 
-	err = opts.Config.Write()
+	err = opts.Cluster.Write()
 	if err != nil {
-		return fmt.Errorf("failed to write config to disk: %w", err)
+		return fmt.Errorf("failed to write Cluster to disk: %w", err)
 	}
 	return nil
 }

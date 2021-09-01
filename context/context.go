@@ -134,7 +134,7 @@ func (r *ResolvedRemotes) BaseRepo(io *iostreams.IOStreams) (ghrepo.Interface, e
 		resolution = ghrepo.FullName(selectedRepo)
 	}
 
-	// cache the result to git config
+	// cache the result to git Cluster
 	err := git.SetRemoteResolution(remote.Name, resolution)
 	return selectedRepo, err
 }

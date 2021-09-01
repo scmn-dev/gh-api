@@ -8,7 +8,7 @@ import (
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/MakeNowJust/heredoc"
 	"github.com/scmn-dev/gh-api/api"
-	"github.com/scmn-dev/gh-api/core/config"
+	"github.com/scmn-dev/secman/cluster"
 	"github.com/scmn-dev/gh-api/pkg/cmdutil"
 	"github.com/scmn-dev/gh-api/pkg/iostreams"
 	"github.com/scmn-dev/gh-api/pkg/prompt"
@@ -18,7 +18,7 @@ import (
 type LogoutOptions struct {
 	HttpClient func() (*http.Client, error)
 	IO         *iostreams.IOStreams
-	Config     func() (config.Config, error)
+	Cluster     func() (cluster.Cluster, error)
 
 	Hostname string
 }
@@ -27,7 +27,7 @@ func NewCmdLogout(f *cmdutil.Factory, runF func(*LogoutOptions) error) *cobra.Co
 	opts := &LogoutOptions{
 		HttpClient: f.HttpClient,
 		IO:         f.IOStreams,
-		Config:     f.Config,
+		Cluster:     f.Cluster,
 	}
 
 	cmd := &cobra.Command{
@@ -36,7 +36,7 @@ func NewCmdLogout(f *cmdutil.Factory, runF func(*LogoutOptions) error) *cobra.Co
 		Short: "Log out of a GitHub host.",
 		Long: heredoc.Doc(`Remove authentication for a GitHub host.
 
-			This command removes the authentication configuration for a host either specified
+			This command removes the authentication Clusteruration for a host either specified
 			interactively or via --hostname.
 		`),
 		Example: heredoc.Doc(`
@@ -67,7 +67,7 @@ func NewCmdLogout(f *cmdutil.Factory, runF func(*LogoutOptions) error) *cobra.Co
 func logoutRun(opts *LogoutOptions) error {
 	hostname := opts.Hostname
 
-	cfg, err := opts.Config()
+	cfg, err := opts.Cluster()
 	if err != nil {
 		return err
 	}
@@ -109,7 +109,7 @@ func logoutRun(opts *LogoutOptions) error {
 	}
 
 	if err := cfg.CheckWriteable(hostname, "oauth_token"); err != nil {
-		var roErr *config.ReadOnlyEnvError
+		var roErr *cluster.ReadOnlyEnvError
 		if errors.As(err, &roErr) {
 			fmt.Fprintf(opts.IO.ErrOut, "The value of the %s environment variable is being used for authentication.\n", roErr.Variable)
 			fmt.Fprint(opts.IO.ErrOut, "To erase credentials stored in GitHub CLI, first clear the value from the environment.\n")
@@ -127,7 +127,7 @@ func logoutRun(opts *LogoutOptions) error {
 	username, err := api.CurrentLoginName(apiClient, hostname)
 	if err != nil {
 		// suppressing; the user is trying to delete this token and it might be bad.
-		// we'll see if the username is in the config and fall back to that.
+		// we'll see if the username is in the Cluster and fall back to that.
 		username, _ = cfg.Get(hostname, "user")
 	}
 
@@ -154,7 +154,7 @@ func logoutRun(opts *LogoutOptions) error {
 	cfg.UnsetHost(hostname)
 	err = cfg.Write()
 	if err != nil {
-		return fmt.Errorf("failed to write config, authentication configuration not updated: %w", err)
+		return fmt.Errorf("failed to write Cluster, authentication Clusteruration not updated: %w", err)
 	}
 
 	isTTY := opts.IO.IsStdinTTY() && opts.IO.IsStdoutTTY()

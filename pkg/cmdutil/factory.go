@@ -4,9 +4,11 @@ import (
 	"net/http"
 
 	"github.com/scmn-dev/gh-api/context"
-	"github.com/scmn-dev/gh-api/core/config"
 	"github.com/scmn-dev/gh-api/core/ghrepo"
 	"github.com/scmn-dev/gh-api/pkg/iostreams"
+
+	"github.com/scmn-dev/secman/tools/packages"
+	"github.com/scmn-dev/secman/cluster"
 )
 
 type Browser interface {
@@ -14,17 +16,14 @@ type Browser interface {
 }
 
 type Factory struct {
-	IOStreams *iostreams.IOStreams
-	Browser   Browser
+	IOStreams 		*iostreams.IOStreams
+	Browser   		Browser
 
-	HttpClient func() (*http.Client, error)
-	BaseRepo   func() (ghrepo.Interface, error)
-	Remotes    func() (context.Remotes, error)
-	Config     func() (config.Config, error)
-	Branch     func() (string, error)
-
-	// ExtensionManager extensions.ExtensionManager
-
-	// Executable is the path to the currently invoked gh binary
+	HttpClient 		func() (*http.Client, error)
+	BaseRepo   		func() (ghrepo.Interface, error)
+	Remotes    		func() (context.Remotes, error)
+	Cluster     		func() (cluster.Cluster, error)
+	Branch     	    func() (string, error)
+	PackageManager  packages.PackageManager
 	Executable string
 }

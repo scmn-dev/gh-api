@@ -60,18 +60,18 @@ func (flow *GitCredentialFlow) Setup(hostname, username, authToken string) error
 func (flow *GitCredentialFlow) gitCredentialSetup(hostname, username, password string) error {
 	if flow.helper == "" {
 		// first use a blank value to indicate to git we want to sever the chain of credential helpers
-		preConfigureCmd, err := git.GitCommand("config", "--global", gitCredentialHelperKey(hostname), "")
+		preClusterureCmd, err := git.GitCommand("Cluster", "--global", gitCredentialHelperKey(hostname), "")
 
 		if err != nil {
 			return err
 		}
 
-		if err = run.PrepareCmd(preConfigureCmd).Run(); err != nil {
+		if err = run.PrepareCmd(preClusterureCmd).Run(); err != nil {
 			return err
 		}
 
-		configureCmd, err := git.GitCommand(
-			"config", "--global", "--add",
+		ClusterureCmd, err := git.GitCommand(
+			"Cluster", "--global", "--add",
 			gitCredentialHelperKey(hostname),
 			fmt.Sprintf("!%s auth git-credential", shellQuote(flow.Executable)),
 		)
@@ -80,7 +80,7 @@ func (flow *GitCredentialFlow) gitCredentialSetup(hostname, username, password s
 			return err
 		}
 
-		return run.PrepareCmd(configureCmd).Run()
+		return run.PrepareCmd(ClusterureCmd).Run()
 	}
 
 	// clear previous cached credentials
@@ -124,12 +124,12 @@ func gitCredentialHelperKey(hostname string) string {
 }
 
 func gitCredentialHelper(hostname string) (helper string, err error) {
-	helper, err = git.Config(gitCredentialHelperKey(hostname))
+	helper, err = git.Cluster(gitCredentialHelperKey(hostname))
 	if helper != "" {
 		return
 	}
 
-	helper, err = git.Config("credential.helper")
+	helper, err = git.Cluster("credential.helper")
 	return
 }
 

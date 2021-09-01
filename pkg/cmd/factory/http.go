@@ -53,12 +53,12 @@ var timezoneNames = map[int]string{
 	50400:  "Pacific/Kiritimati",
 }
 
-type configGetter interface {
+type ClusterGetter interface {
 	Get(string, string) (string, error)
 }
 
 // generic authenticated HTTP client for commands
-func NewHTTPClient(io *iostreams.IOStreams, cfg configGetter, appVersion string, setAccept bool) (*http.Client, error) {
+func NewHTTPClient(io *iostreams.IOStreams, cfg ClusterGetter, appVersion string, setAccept bool) (*http.Client, error) {
 	var opts []api.ClientOption
 
 	unixSocket, err := cfg.Get("", "http_unix_socket")

@@ -5,7 +5,7 @@ import (
 	"os/exec"
 
 	"github.com/scmn-dev/browser"
-	"github.com/cli/safeexec"
+	tcexe "github.com/Timothee-Cardoso/tc-exe"
 	"github.com/google/shlex"
 )
 
@@ -30,7 +30,7 @@ func (b *webBrowser) Browse(url string) error {
 			return err
 		}
 
-		launcherExe, err := safeexec.LookPath(launcherArgs[0])
+		launcherExe, err := tcexe.LookPath(launcherArgs[0])
 		if err != nil {
 			return err
 		}

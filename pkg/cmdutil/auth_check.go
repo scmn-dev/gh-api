@@ -1,12 +1,12 @@
 package cmdutil
 
 import (
-	"github.com/scmn-dev/gh-api/core/config"
 	"github.com/spf13/cobra"
+	"github.com/scmn-dev/secman/cluster"
 )
 
 // TODO can have this set a PersistentPreRun so we don't have to set for all child commands of auth,
-// config
+// cluster
 
 func DisableAuthCheck(cmd *cobra.Command) {
 	if cmd.Annotations == nil {
@@ -16,8 +16,8 @@ func DisableAuthCheck(cmd *cobra.Command) {
 	cmd.Annotations["skipAuthCheck"] = "true"
 }
 
-func CheckAuth(cfg config.Config) bool {
-	if config.AuthTokenProvidedFromEnv() {
+func CheckAuth(cfg cluster.Cluster) bool {
+	if cluster.AuthTokenProvidedFromEnv() {
 		return true
 	}
 

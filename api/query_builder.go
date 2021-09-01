@@ -275,7 +275,7 @@ var RepositoryFields = []string{
 	"isMirror",
 	"isPrivate",
 	"isTemplate",
-	"isUserConfigurationRepository",
+	"isUserClusterurationRepository",
 	"licenseInfo",
 	"viewerCanAdminister",
 	"viewerDefaultCommitEmail",

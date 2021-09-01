@@ -14,7 +14,7 @@ import (
 	"github.com/scmn-dev/gh-api/pkg/prompt"
 )
 
-type iconfig interface {
+type iCluster interface {
 	Get(string, string) (string, error)
 	Set(string, string, string) error
 	Write() error
@@ -22,7 +22,7 @@ type iconfig interface {
 
 type LoginOptions struct {
 	IO          *iostreams.IOStreams
-	Config      iconfig
+	Cluster      iCluster
 	HTTPClient  *http.Client
 	Hostname    string
 	Interactive bool
@@ -34,7 +34,7 @@ type LoginOptions struct {
 }
 
 func Login(opts *LoginOptions) error {
-	cfg := opts.Config
+	cfg := opts.Cluster
 	hostname := opts.Hostname
 	httpClient := opts.HTTPClient
 	cs := opts.IO.ColorScheme()
@@ -124,7 +124,7 @@ func Login(opts *LoginOptions) error {
 
 	if authMode == 0 {
 		var err error
-		authToken, err = authflow.AuthFlowWithConfig(cfg, opts.IO, hostname, "", append(opts.Scopes, additionalScopes...))
+		authToken, err = authflow.AuthFlowWithCluster(cfg, opts.IO, hostname, "", append(opts.Scopes, additionalScopes...))
 		if err != nil {
 			return fmt.Errorf("failed to authenticate via web browser: %w", err)
 		}
@@ -173,13 +173,13 @@ func Login(opts *LoginOptions) error {
 	}
 
 	if gitProtocol != "" {
-		fmt.Fprintf(opts.IO.ErrOut, "- secman gh-config set --host %s git_protocol %s\n", hostname, gitProtocol)
+		fmt.Fprintf(opts.IO.ErrOut, "- secman gh-Cluster set --host %s git_protocol %s\n", hostname, gitProtocol)
 		err := cfg.Set(hostname, "git_protocol", gitProtocol)
 		if err != nil {
 			return err
 		}
 
-		fmt.Fprintf(opts.IO.ErrOut, "%s Configured git protocol\n", cs.SuccessIcon())
+		fmt.Fprintf(opts.IO.ErrOut, "%s Clusterured git protocol\n", cs.SuccessIcon())
 	}
 
 	err := cfg.Write()

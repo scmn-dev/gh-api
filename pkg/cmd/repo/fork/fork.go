@@ -11,7 +11,7 @@ import (
 	"github.com/scmn-dev/gh-api/api"
 	"github.com/scmn-dev/gh-api/context"
 	"github.com/scmn-dev/gh-api/git"
-	"github.com/scmn-dev/gh-api/core/config"
+	"github.com/scmn-dev/secman/cluster"
 	"github.com/scmn-dev/gh-api/core/ghrepo"
 	"github.com/scmn-dev/gh-api/core/run"
 	"github.com/scmn-dev/gh-api/pkg/cmdutil"
@@ -26,7 +26,7 @@ const defaultRemoteName = "origin"
 
 type ForkOptions struct {
 	HttpClient func() (*http.Client, error)
-	Config     func() (config.Config, error)
+	Cluster     func() (cluster.Cluster, error)
 	IO         *iostreams.IOStreams
 	BaseRepo   func() (ghrepo.Interface, error)
 	Remotes    func() (context.Remotes, error)
@@ -47,7 +47,7 @@ func NewCmdFork(f *cmdutil.Factory, runF func(*ForkOptions) error) *cobra.Comman
 	opts := &ForkOptions{
 		IO:         f.IOStreams,
 		HttpClient: f.HttpClient,
-		Config:     f.Config,
+		Cluster:     f.Cluster,
 		BaseRepo:   f.BaseRepo,
 		Remotes:    f.Remotes,
 		Since:      time.Since,
@@ -205,7 +205,7 @@ func forkRun(opts *ForkOptions) error {
 		return nil
 	}
 
-	cfg, err := opts.Config()
+	cfg, err := opts.Cluster()
 	if err != nil {
 		return err
 	}

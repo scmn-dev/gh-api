@@ -21,7 +21,7 @@ var (
 func init() {
 	if runtime.GOOS == "windows" {
 		defaultEditor = "notepad"
-	} else if g := os.Getenv("GIT_EDITOR"); g != "" {
+	} else if g := os.Getenv("git_EDITOR"); g != "" {
 		defaultEditor = g
 	} else if v := os.Getenv("VISUAL"); v != "" {
 		defaultEditor = v
@@ -49,13 +49,13 @@ func (e *GhEditor) editorCommand() string {
 
 // EXTENDED to change prompt text
 var EditorQuestionTemplate = `
-{{- if .ShowHelp }}{{- color .Config.Icons.Help.Format }}{{ .Config.Icons.Help.Text }} {{ .Help }}{{color "reset"}}{{"\n"}}{{end}}
-{{- color .Config.Icons.Question.Format }}{{ .Config.Icons.Question.Text }} {{color "reset"}}
+{{- if .ShowHelp }}{{- color .Cluster.Icons.Help.Format }}{{ .Cluster.Icons.Help.Text }} {{ .Help }}{{color "reset"}}{{"\n"}}{{end}}
+{{- color .Cluster.Icons.Question.Format }}{{ .Cluster.Icons.Question.Text }} {{color "reset"}}
 {{- color "default+hb"}}{{ .Message }} {{color "reset"}}
 {{- if .ShowAnswer}}
   {{- color "cyan"}}{{.Answer}}{{color "reset"}}{{"\n"}}
 {{- else }}
-  {{- if and .Help (not .ShowHelp)}}{{color "cyan"}}[{{ .Config.HelpInput }} for help]{{color "reset"}} {{end}}
+  {{- if and .Help (not .ShowHelp)}}{{color "cyan"}}[{{ .Cluster.HelpInput }} for help]{{color "reset"}} {{end}}
   {{- if and .Default (not .HideDefault)}}{{color "white"}}({{.Default}}) {{color "reset"}}{{end}}
 	{{- color "cyan"}}[(e) to launch {{ .EditorCommand }}{{- if .BlankAllowed }}, enter to skip{{ end }}] {{color "reset"}}
 {{- end}}`
@@ -68,11 +68,11 @@ type EditorTemplateData struct {
 	Answer        string
 	ShowAnswer    bool
 	ShowHelp      bool
-	Config        *survey.PromptConfig
+	Cluster        *survey.PromptCluster
 }
 
 // EXTENDED to augment prompt text and keypress handling
-func (e *GhEditor) prompt(initialValue string, config *survey.PromptConfig) (interface{}, error) {
+func (e *GhEditor) prompt(initialValue string, Cluster *survey.PromptCluster) (interface{}, error) {
 	err := e.Render(
 		EditorQuestionTemplate,
 		// EXTENDED to support printing editor in prompt and BlankAllowed
@@ -80,7 +80,7 @@ func (e *GhEditor) prompt(initialValue string, config *survey.PromptConfig) (int
 			Editor:        *e.Editor,
 			BlankAllowed:  e.BlankAllowed,
 			EditorCommand: filepath.Base(e.editorCommand()),
-			Config:        config,
+			Cluster:        Cluster,
 		},
 	)
 	if err != nil {
@@ -118,7 +118,7 @@ func (e *GhEditor) prompt(initialValue string, config *survey.PromptConfig) (int
 		if r == terminal.KeyEndTransmission {
 			break
 		}
-		if string(r) == config.HelpInput && e.Help != "" {
+		if string(r) == Cluster.HelpInput && e.Help != "" {
 			err = e.Render(
 				EditorQuestionTemplate,
 				EditorTemplateData{
@@ -127,7 +127,7 @@ func (e *GhEditor) prompt(initialValue string, config *survey.PromptConfig) (int
 					BlankAllowed:  e.BlankAllowed,
 					EditorCommand: filepath.Base(e.editorCommand()),
 					ShowHelp:      true,
-					Config:        config,
+					Cluster:        Cluster,
 				},
 			)
 			if err != nil {
@@ -156,12 +156,12 @@ func (e *GhEditor) prompt(initialValue string, config *survey.PromptConfig) (int
 }
 
 // EXTENDED This is straight copypasta from survey to get our overridden prompt called.;
-func (e *GhEditor) Prompt(config *survey.PromptConfig) (interface{}, error) {
+func (e *GhEditor) Prompt(Cluster *survey.PromptCluster) (interface{}, error) {
 	initialValue := ""
 	if e.Default != "" && e.AppendDefault {
 		initialValue = e.Default
 	}
-	return e.prompt(initialValue, config)
+	return e.prompt(initialValue, Cluster)
 }
 
 func DefaultEditorName() string {

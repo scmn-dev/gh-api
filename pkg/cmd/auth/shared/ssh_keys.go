@@ -9,26 +9,26 @@ import (
 	"runtime"
 
 	"github.com/AlecAivazis/survey/v2"
-	"github.com/scmn-dev/gh-api/core/config"
+	tcexe "github.com/Timothee-Cardoso/tc-exe"
 	"github.com/scmn-dev/gh-api/core/run"
 	"github.com/scmn-dev/gh-api/pkg/cmd/ssh-key/add"
 	"github.com/scmn-dev/gh-api/pkg/prompt"
-	"github.com/cli/safeexec"
+	"github.com/scmn-dev/secman/cluster"
 )
 
 type sshContext struct {
-	configDir string
+	ClusterDir string
 	keygenExe string
 }
 
 func (c *sshContext) sshDir() (string, error) {
-	if c.configDir != "" {
-		return c.configDir, nil
+	if c.ClusterDir != "" {
+		return c.ClusterDir, nil
 	}
 
-	dir, err := config.HomeDirPath(".ssh")
+	dir, err := cluster.HomeDirPath(".ssh")
 	if err == nil {
-		c.configDir = dir
+		c.ClusterDir = dir
 	}
 
 	return dir, err
@@ -48,10 +48,10 @@ func (c *sshContext) findKeygen() (string, error) {
 		return c.keygenExe, nil
 	}
 
-	keygenExe, err := safeexec.LookPath("ssh-keygen")
+	keygenExe, err := tcexe.LookPath("ssh-keygen")
 	if err != nil && runtime.GOOS == "windows" {
 		// We can try and find ssh-keygen in a Git for Windows install
-		if gitPath, err := safeexec.LookPath("git"); err == nil {
+		if gitPath, err := tcexe.LookPath("git"); err == nil {
 			gitKeygen := filepath.Join(filepath.Dir(gitPath), "..", "usr", "bin", "ssh-keygen.exe")
 			if _, err = os.Stat(gitKeygen); err == nil {
 				return gitKeygen, nil

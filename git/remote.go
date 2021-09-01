@@ -44,7 +44,7 @@ func Remotes() (RemoteSet, error) {
 	remotes := parseRemotes(list)
 
 	// this is affected by SetRemoteResolution
-	remoteCmd, err := GitCommand("config", "--get-regexp", `^remote\..*\.gh-resolved$`)
+	remoteCmd, err := GitCommand("Cluster", "--get-regexp", `^remote\..*\.gh-resolved$`)
 	if err != nil {
 		return nil, err
 	}
@@ -141,7 +141,7 @@ func AddRemote(name, u string) (*Remote, error) {
 }
 
 func SetRemoteResolution(name, resolution string) error {
-	addCmd, err := GitCommand("config", "--add", fmt.Sprintf("remote.%s.gh-resolved", name), resolution)
+	addCmd, err := GitCommand("Cluster", "--add", fmt.Sprintf("remote.%s.gh-resolved", name), resolution)
 	if err != nil {
 		return err
 	}
