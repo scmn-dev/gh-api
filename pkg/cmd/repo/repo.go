@@ -2,6 +2,7 @@ package repo
 
 import (
 	"github.com/MakeNowJust/heredoc"
+	repoBrowseCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/browse"
 	repoCloneCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/clone"
 	repoCreateCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/create"
 	creditsCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/credits"
@@ -10,11 +11,10 @@ import (
 	repoListCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/list"
 	repoSyncCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/sync"
 	repoViewCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/view"
-	repoBrowseCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/browse"
 	"github.com/scmn-dev/gh-api/pkg/cmdutil"
-	"github.com/spf13/cobra"
-	"github.com/abdfnx/git_config"
+	"github.com/scmn-dev/git"
 	"github.com/scmn-dev/secman/tools/shared"
+	"github.com/spf13/cobra"
 
 	"github.com/scmn-dev/gh-api/pkg/cmd/factory"
 )

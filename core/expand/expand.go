@@ -2,15 +2,11 @@ package expand
 
 import (
 	"errors"
-	"fmt"
 	"os"
 	"path/filepath"
-	"regexp"
 	"runtime"
-	"strings"
 
 	tcexe "github.com/Timothee-Cardoso/tc-exe"
-	"github.com/google/shlex"
 )
 
 func findSh() (string, error) {

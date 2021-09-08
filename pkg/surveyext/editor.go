@@ -68,11 +68,11 @@ type EditorTemplateData struct {
 	Answer        string
 	ShowAnswer    bool
 	ShowHelp      bool
-	Cluster        *survey.PromptCluster
+	Cluster        *survey.PromptConfig
 }
 
 // EXTENDED to augment prompt text and keypress handling
-func (e *GhEditor) prompt(initialValue string, Cluster *survey.PromptCluster) (interface{}, error) {
+func (e *GhEditor) prompt(initialValue string, Cluster *survey.PromptConfig) (interface{}, error) {
 	err := e.Render(
 		EditorQuestionTemplate,
 		// EXTENDED to support printing editor in prompt and BlankAllowed
@@ -156,7 +156,7 @@ func (e *GhEditor) prompt(initialValue string, Cluster *survey.PromptCluster) (i
 }
 
 // EXTENDED This is straight copypasta from survey to get our overridden prompt called.;
-func (e *GhEditor) Prompt(Cluster *survey.PromptCluster) (interface{}, error) {
+func (e *GhEditor) Prompt(Cluster *survey.PromptConfig) (interface{}, error) {
 	initialValue := ""
 	if e.Default != "" && e.AppendDefault {
 		initialValue = e.Default
