@@ -2,7 +2,7 @@ package cmdutil
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/scmn-dev/secman/cluster"
+	"github.com/scmn-dev/cluster"
 )
 
 // TODO can have this set a PersistentPreRun so we don't have to set for all child commands of auth,

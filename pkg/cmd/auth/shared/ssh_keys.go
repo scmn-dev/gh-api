@@ -13,7 +13,7 @@ import (
 	"github.com/scmn-dev/gh-api/core/run"
 	"github.com/scmn-dev/gh-api/pkg/cmd/ssh-key/add"
 	"github.com/scmn-dev/gh-api/pkg/prompt"
-	"github.com/scmn-dev/secman/cluster"
+	"github.com/scmn-dev/cluster"
 )
 
 type sshContext struct {

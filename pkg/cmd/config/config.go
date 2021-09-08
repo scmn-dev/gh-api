@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/scmn-dev/secman/cluster"
+	"github.com/scmn-dev/cluster"
 	cmdGet "github.com/scmn-dev/gh-api/pkg/cmd/config/get"
 	cmdSet "github.com/scmn-dev/gh-api/pkg/cmd/config/set"
 	"github.com/scmn-dev/gh-api/pkg/cmdutil"

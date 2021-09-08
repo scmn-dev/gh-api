@@ -11,7 +11,7 @@ import (
 	"github.com/MakeNowJust/heredoc"
 	"github.com/scmn-dev/gh-api/api"
 	"github.com/scmn-dev/gh-api/git"
-	"github.com/scmn-dev/secman/cluster"
+	"github.com/scmn-dev/cluster"
 	"github.com/scmn-dev/gh-api/core/ghinstance"
 	"github.com/scmn-dev/gh-api/core/ghrepo"
 	"github.com/scmn-dev/gh-api/core/run"

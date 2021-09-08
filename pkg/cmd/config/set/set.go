@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/scmn-dev/secman/cluster"
+	"github.com/scmn-dev/cluster"
 	"github.com/scmn-dev/gh-api/pkg/cmdutil"
 	"github.com/scmn-dev/gh-api/pkg/iostreams"
 	"github.com/spf13/cobra"

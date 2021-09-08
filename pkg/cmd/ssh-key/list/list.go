@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/scmn-dev/secman/cluster"
+	"github.com/scmn-dev/cluster"
 	"github.com/scmn-dev/gh-api/pkg/cmdutil"
 	"github.com/scmn-dev/gh-api/pkg/iostreams"
 	"github.com/scmn-dev/gh-api/utils"

@@ -3,7 +3,7 @@ package cmdutil
 import (
 	"fmt"
 	"os"
-	"github.com/scmn-dev/secman/cluster"
+	"github.com/scmn-dev/cluster"
 )
 
 // TODO: consider passing via Factory

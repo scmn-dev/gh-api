@@ -8,7 +8,7 @@ import (
 	"github.com/scmn-dev/gh-api/pkg/iostreams"
 
 	"github.com/scmn-dev/secman/tools/packages"
-	"github.com/scmn-dev/secman/cluster"
+	"github.com/scmn-dev/cluster"
 )
 
 type Browser interface {
