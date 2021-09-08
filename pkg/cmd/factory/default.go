@@ -17,16 +17,16 @@ import (
 
 func New() *cmdutil.Factory {
 	f := &cmdutil.Factory{
-		Cluster:     ClusterFunc(), // No factory dependencies
+		Cluster:    ClusterFunc(),  // No factory dependencies
 		Branch:     branchFunc(),   // No factory dependencies
 		Executable: executable(),   // No factory dependencies
 	}
 
-	f.IOStreams = ioStreams(f)                   // Depends on Cluster
+	f.IOStreams  = ioStreams(f)                  // Depends on Cluster
 	f.HttpClient = httpClientFunc(f, "x")        // Depends on Cluster, IOStreams, and appVersion
-	f.Remotes = remotesFunc(f)                   // Depends on Cluster
-	f.BaseRepo = BaseRepoFunc(f)                 // Depends on Remotes
-	f.Browser = browser(f)                       // Depends on Cluster, and IOStreams
+	f.Remotes    = remotesFunc(f)                // Depends on Cluster
+	f.BaseRepo   = BaseRepoFunc(f)               // Depends on Remotes
+	f.Browser    = browser(f)                    // Depends on Cluster, and IOStreams
 
 	return f
 }
@@ -97,11 +97,11 @@ func browser(f *cmdutil.Factory) cmdutil.Browser {
 }
 
 // Browser precedence
-// 1. GH_BROWSER
+// 1. SM_BROWSER
 // 2. browser from Cluster
 // 3. BROWSER
 func browserLauncher(f *cmdutil.Factory) string {
-	if smBrowser := os.Getenv("GH_BROWSER"); smBrowser != "" {
+	if smBrowser := os.Getenv("SM_BROWSER"); smBrowser != "" {
 		return smBrowser
 	}
 
