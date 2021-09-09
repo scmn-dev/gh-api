@@ -143,6 +143,8 @@ github.com/fatih/color v1.12.0/go.mod h1:ELkj/draVOlAH/xkhN6mQ50Qd0MPOk5AAr3maGE
 github.com/fsnotify/fsnotify v1.4.7/go.mod h1:jwhsz4b93w/PPRr/qN1Yymfu8t87LnFCMoQvtojpjFo=
 github.com/fsnotify/fsnotify v1.4.9/go.mod h1:znqG4EE+3YCdAaPaxE2ZRY/06pZUdp0tY4IgpuI1SZQ=
 github.com/gabriel-vasile/mimetype v1.1.2/go.mod h1:6CDPel/o/3/s4+bp6kIbsWATq8pmgOisOPG40CJa6To=
+github.com/gepis/git v1.0.2 h1:CGzbv3bpwJS1k7Ykq7L0JD7Mn9dGZkGBJluYnQ8QC/o=
+github.com/gepis/git v1.0.2/go.mod h1:ncCqZZeMRyQnnhbcZQiD6bYl+/KOobZX0OWvzPtTwxk=
 github.com/ghodss/yaml v1.0.0/go.mod h1:4dBDuWmgqj2HViK6kFavaiC9ZROes6MMH2rRYeMEF04=
 github.com/go-gl/glfw v0.0.0-20190409004039-e6da0acd62b1/go.mod h1:vR7hzQXu2zJy9AVAgeJqvqgH9Q5CA+iKCZ2gyEVpxRU=
 github.com/go-gl/glfw/v3.3/glfw v0.0.0-20191125211704-12ad95a8df72/go.mod h1:tQ2UAYgL5IevRw8kRxooKSPJfGvJ9fJQFa0TUsXzTg8=
@@ -398,6 +400,8 @@ github.com/scmn-dev/secman v0.0.0-20210809103458-bd6a4ce691aa/go.mod h1:bygnQln6
 github.com/scmn-dev/secman v0.0.0-20210831164109-5ddbb1cdc3dc/go.mod h1:XJeaKbYlxEZvcsaSV62JnbZGZMjd+iG1UuiFOlGTTuM=
 github.com/scmn-dev/secman v0.0.0-20210902065137-f250bba2eb2c h1:4hFZ34M6d3JxlJmUNohum2GkjjNtCUS8wVY6L9RB5rI=
 github.com/scmn-dev/secman v0.0.0-20210902065137-f250bba2eb2c/go.mod h1:pR2R+fNx7yCwYvGP3ia37u7tyhdoU0TcV6bHyS3BIgE=
+github.com/scmn-dev/secman v0.0.0-20210908172847-5a14851b2124 h1:LFdAh8YRGEvfnE8mO+WxZCTkgF76k78x0iZonFwVMq4=
+github.com/scmn-dev/secman v0.0.0-20210908172847-5a14851b2124/go.mod h1:f/Wcyf4bR2O0HHe0JCRLSpdZ2hoaWQoc4oD3rdvSyBU=
 github.com/scmn-dev/version-checker v0.1.43/go.mod h1:EcUfBf8tSrPyw0p6ky6+dFJoUVaLA5ILZDFYCCHl4dM=
 github.com/scmn-dev/version-checker v0.1.44 h1:5nyJTeWyHqDjpBzQJB4rV17AE5ksHaff1RMdMOvg6KY=
 github.com/scmn-dev/version-checker v0.1.44/go.mod h1:YWUr+MGKeWNbgxig2wRl3SdFdNelP/cfrOQnnJa4bUA=
