@@ -22,13 +22,13 @@ const (
 )
 
 // Config path precedence
-// 1. SM_GH_CONFIG_DIR
+// 1. CONFIG_DIR
 // 2. XDG_CONFIG_HOME
 // 3. AppData (windows only)
 // 4. HOME
 func ConfigDir() string {
 	var path string
-	if a := os.Getenv(SM_GH_CONFIG_DIR); a != "" {
+	if a := os.Getenv(CONFIG_DIR); a != "" {
 		path = a
 	} else if b := os.Getenv(XDG_CONFIG_HOME); b != "" {
 		path = filepath.Join(b)
@@ -40,7 +40,7 @@ func ConfigDir() string {
 	}
 
 	// If the path does not exist try migrating config from default paths
-	if !dirExists(path) && os.Getenv(SM_GH_CONFIG_DIR) == "" {
+	if !dirExists(path) && os.Getenv(CONFIG_DIR) == "" {
 		_ = autoMigrateConfigDir(path)
 	}
 
