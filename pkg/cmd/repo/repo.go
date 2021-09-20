@@ -13,7 +13,7 @@ import (
 	repoBrowseCmd "github.com/gepis/sm-gh-api/pkg/cmd/repo/browse"
 	"github.com/gepis/sm-gh-api/pkg/cmdutil"
 	"github.com/spf13/cobra"
-	"github.com/abdfnx/git_config"
+	git_config "github.com/gepis/git"
 	"github.com/scmn-dev/secman/tools/shared"
 
 	"github.com/gepis/sm-gh-api/pkg/cmd/factory"

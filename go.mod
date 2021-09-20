@@ -5,12 +5,12 @@ go 1.13
 require (
 	github.com/AlecAivazis/survey/v2 v2.3.1
 	github.com/MakeNowJust/heredoc v1.0.0
-	github.com/abdfnx/git_config v0.0.34
 	github.com/briandowns/spinner v1.16.0
 	github.com/charmbracelet/glamour v0.3.0
 	github.com/cli/oauth v0.8.0
 	github.com/cli/safeexec v1.0.0
 	github.com/cpuguy83/go-md2man/v2 v2.0.0
+	github.com/gepis/git v1.0.6
 	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510
 	github.com/hashicorp/go-version v1.3.0
 	github.com/henvic/httpretty v0.0.6
