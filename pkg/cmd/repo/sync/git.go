@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/scmn-dev/gh-api/git"
+	"github.com/gepis/sm-gh-api/git"
 )
 
 type gitClient interface {

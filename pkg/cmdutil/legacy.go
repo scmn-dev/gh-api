@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/scmn-dev/gh-api/core/config"
+	"github.com/gepis/sm-gh-api/core/config"
 )
 
 // TODO: consider passing via Factory

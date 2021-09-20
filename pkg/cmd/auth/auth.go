@@ -1,13 +1,13 @@
 package auth
 
 import (
-	gitCredentialCmd "github.com/scmn-dev/gh-api/pkg/cmd/auth/gitcredential"
-	authGetUsernameCmd "github.com/scmn-dev/gh-api/pkg/cmd/auth/get-username"
-	authLoginCmd "github.com/scmn-dev/gh-api/pkg/cmd/auth/login"
-	authLogoutCmd "github.com/scmn-dev/gh-api/pkg/cmd/auth/logout"
-	authRefreshCmd "github.com/scmn-dev/gh-api/pkg/cmd/auth/refresh"
-	authStatusCmd "github.com/scmn-dev/gh-api/pkg/cmd/auth/status"
-	"github.com/scmn-dev/gh-api/pkg/cmdutil"
+	gitCredentialCmd "github.com/gepis/sm-gh-api/pkg/cmd/auth/gitcredential"
+	authGetUsernameCmd "github.com/gepis/sm-gh-api/pkg/cmd/auth/get-username"
+	authLoginCmd "github.com/gepis/sm-gh-api/pkg/cmd/auth/login"
+	authLogoutCmd "github.com/gepis/sm-gh-api/pkg/cmd/auth/logout"
+	authRefreshCmd "github.com/gepis/sm-gh-api/pkg/cmd/auth/refresh"
+	authStatusCmd "github.com/gepis/sm-gh-api/pkg/cmd/auth/status"
+	"github.com/gepis/sm-gh-api/pkg/cmdutil"
 	"github.com/spf13/cobra"
 )
 

@@ -13,7 +13,7 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/scmn-dev/gh-api/core/run"
+	"github.com/gepis/sm-gh-api/core/run"
 	"github.com/cli/safeexec"
 )
 

@@ -526,7 +526,7 @@ github.com/ryanuber/columnize v0.0.0-20160712163229-9b3edd62028f h1:UFr9zpz4xgTn
 github.com/ryanuber/columnize v0.0.0-20160712163229-9b3edd62028f/go.mod h1:sm1tb6uqfes/u+d4ooFouqFdy9/2g9QGwK3SQygK0Ts=
 github.com/scmn-dev/browser v0.1.0 h1:uKoc0AVGTtcfFViNM1TL6DYMjt0g9DpdX7lMsn7AHaQ=
 github.com/scmn-dev/browser v0.1.0/go.mod h1:3wshMIhDXDjg9C04LwKfAWdZ28TYCWQqqHcTMAh9SHQ=
-github.com/scmn-dev/gh-api v0.3.32/go.mod h1:DELTISOMbLzqHdJ/LReVEi3ERfo9hwrrK5YkPFPPBZo=
+github.com/gepis/sm-gh-api v0.3.32/go.mod h1:DELTISOMbLzqHdJ/LReVEi3ERfo9hwrrK5YkPFPPBZo=
 github.com/scmn-dev/secman v0.0.0-20210809085739-bae204f9d756 h1:e3SvYGc7z3D/zedlLBG1SHAWcKzIXrQNdlahZ1Hg2dY=
 github.com/scmn-dev/secman v0.0.0-20210809085739-bae204f9d756/go.mod h1:6ybtQck7EVYo4xjMh6rYLpKQzAXlOCZroV9KK4mls4M=
 github.com/scmn-dev/secman v0.0.0-20210809103458-bd6a4ce691aa h1:b5LVbvWgVOWFQrS+l35vLjZhMQn0P1io2XBF3F26rJo=

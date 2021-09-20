@@ -9,10 +9,10 @@ import (
 	"runtime"
 
 	"github.com/AlecAivazis/survey/v2"
-	"github.com/scmn-dev/gh-api/core/config"
-	"github.com/scmn-dev/gh-api/core/run"
-	"github.com/scmn-dev/gh-api/pkg/cmd/ssh-key/add"
-	"github.com/scmn-dev/gh-api/pkg/prompt"
+	"github.com/gepis/sm-gh-api/core/config"
+	"github.com/gepis/sm-gh-api/core/run"
+	"github.com/gepis/sm-gh-api/pkg/cmd/ssh-key/add"
+	"github.com/gepis/sm-gh-api/pkg/prompt"
 	"github.com/cli/safeexec"
 )
 

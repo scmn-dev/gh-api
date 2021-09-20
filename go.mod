@@ -1,4 +1,4 @@
-module github.com/scmn-dev/gh-api
+module github.com/gepis/sm-gh-api
 
 go 1.13
 

@@ -11,9 +11,9 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/scmn-dev/gh-api/pkg/iostreams"
-	"github.com/scmn-dev/gh-api/pkg/text"
-	"github.com/scmn-dev/gh-api/utils"
+	"github.com/gepis/sm-gh-api/pkg/iostreams"
+	"github.com/gepis/sm-gh-api/pkg/text"
+	"github.com/gepis/sm-gh-api/utils"
 	"github.com/mgutz/ansi"
 )
 

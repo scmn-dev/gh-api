@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/scmn-dev/gh-api/core/config"
-	"github.com/scmn-dev/gh-api/pkg/cmdutil"
-	"github.com/scmn-dev/gh-api/pkg/iostreams"
+	"github.com/gepis/sm-gh-api/core/config"
+	"github.com/gepis/sm-gh-api/pkg/cmdutil"
+	"github.com/gepis/sm-gh-api/pkg/iostreams"
 	"github.com/spf13/cobra"
 )
 
