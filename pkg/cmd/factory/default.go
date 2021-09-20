@@ -19,7 +19,7 @@ func New() *cmdutil.Factory {
 	f := &cmdutil.Factory{
 		Config:     configFunc(), // No factory dependencies
 		Branch:     branchFunc(), // No factory dependencies
-		Executable: executable()  // No factory dependencies
+		Executable: executable(), // No factory dependencies
 	}
 
 	f.IOStreams = ioStreams(f)                   // Depends on Config
