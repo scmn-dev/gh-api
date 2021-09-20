@@ -67,7 +67,7 @@ func NewCmdRoot(f *cmdutil.Factory, version, buildDate string) *cobra.Command {
 
 func bareHTTPClient(f *cmdutil.Factory, version string) func() (*http.Client, error) {
 	return func() (*http.Client, error) {
-		cfg, err := f.Cluster()
+		cfg, err := f.Config()
 		if err != nil {
 			return nil, err
 		}

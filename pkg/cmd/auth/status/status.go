@@ -7,7 +7,7 @@ import (
 
 	"github.com/MakeNowJust/heredoc"
 	"github.com/scmn-dev/gh-api/api"
-	"github.com/scmn-dev/cluster"
+	"github.com/scmn-dev/gh-api/core/config"
 	"github.com/scmn-dev/gh-api/pkg/cmd/auth/shared"
 	"github.com/scmn-dev/gh-api/pkg/cmdutil"
 	"github.com/scmn-dev/gh-api/pkg/iostreams"
@@ -17,7 +17,7 @@ import (
 type StatusOptions struct {
 	HttpClient func() (*http.Client, error)
 	IO         *iostreams.IOStreams
-	Cluster     func() (cluster.Cluster, error)
+	Config     func() (config.Config, error)
 
 	Hostname  string
 	ShowToken bool
@@ -27,7 +27,7 @@ func NewCmdStatus(f *cmdutil.Factory, runF func(*StatusOptions) error) *cobra.Co
 	opts := &StatusOptions{
 		HttpClient: f.HttpClient,
 		IO:         f.IOStreams,
-		Cluster:     f.Cluster,
+		Config:     f.Config,
 	}
 
 	cmd := &cobra.Command{
@@ -55,7 +55,7 @@ func NewCmdStatus(f *cmdutil.Factory, runF func(*StatusOptions) error) *cobra.Co
 }
 
 func statusRun(opts *StatusOptions) error {
-	cfg, err := opts.Cluster()
+	cfg, err := opts.Config()
 	if err != nil {
 		return err
 	}
@@ -126,7 +126,7 @@ func statusRun(opts *StatusOptions) error {
 			addMsg("%s Logged in to %s as %s (%s)", cs.SuccessIcon(), hostname, cs.Bold(username), tokenSource)
 			proto, _ := cfg.Get(hostname, "git_protocol")
 			if proto != "" {
-				addMsg("%s Git operations for %s Clusterured to use %s protocol.",
+				addMsg("%s Git operations for %s configured to use %s protocol.",
 					cs.SuccessIcon(), hostname, cs.Bold(proto))
 			}
 			tokenDisplay := "*******************"
@@ -138,7 +138,7 @@ func statusRun(opts *StatusOptions) error {
 
 		addMsg("")
 
-		// NB we could take this opportunity to add or fix the "user" key in the hosts cluster. I chose
+		// NB we could take this opportunity to add or fix the "user" key in the hosts config. I chose
 		// not to since I wanted this command to be read-only.
 	}
 

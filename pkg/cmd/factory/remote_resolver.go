@@ -8,7 +8,7 @@ import (
 
 	"github.com/scmn-dev/gh-api/context"
 	"github.com/scmn-dev/gh-api/git"
-	"github.com/scmn-dev/cluster"
+	"github.com/scmn-dev/gh-api/core/config"
 	"github.com/scmn-dev/gh-api/core/ghinstance"
 	"github.com/scmn-dev/gh-api/pkg/set"
 )
@@ -17,7 +17,7 @@ const GH_HOST = "GH_HOST"
 
 type remoteResolver struct {
 	readRemotes   func() (git.RemoteSet, error)
-	getCluster     func() (cluster.Cluster, error)
+	getConfig     func() (config.Config, error)
 	urlTranslator func(*url.URL) *url.URL
 }
 
@@ -42,11 +42,11 @@ func (rr *remoteResolver) Resolver() func() (context.Remotes, error) {
 
 		sshTranslate := rr.urlTranslator
 		if sshTranslate == nil {
-			sshTranslate = git.ParseSSHCluster().Translator()
+			sshTranslate = git.ParseSSHConfig().Translator()
 		}
 		resolvedRemotes := context.TranslateRemotes(gitRemotes, sshTranslate)
 
-		cfg, err := rr.getCluster()
+		cfg, err := rr.getConfig()
 		if err != nil {
 			return nil, err
 		}
@@ -72,23 +72,23 @@ func (rr *remoteResolver) Resolver() func() (context.Remotes, error) {
 		cachedRemotes := resolvedRemotes.FilterByHosts(hosts)
 
 		// Filter again by default host if one is set
-		// For Cluster file default host fallback to cachedRemotes if none match
+		// For config file default host fallback to cachedRemotes if none match
 		// For enviornment default host (GH_HOST) do not fallback to cachedRemotes if none match
 		if src != "" {
 			filteredRemotes := cachedRemotes.FilterByHosts([]string{defaultHost})
-			if cluster.IsHostEnv(src) || len(filteredRemotes) > 0 {
+			if config.IsHostEnv(src) || len(filteredRemotes) > 0 {
 				cachedRemotes = filteredRemotes
 			}
 		}
 
 		if len(cachedRemotes) == 0 {
-			if cluster.IsHostEnv(src) {
-				return nil, fmt.Errorf("none of the git remotes Clusterured for this repository correspond to the %s environment variable. Try adding a matching remote or unsetting the variable.", src)
-			} else if v, src, _ := cfg.GetWithSource("example.com", "oauth_token"); v != "" && cluster.IsEnterpriseEnv(src) {
+			if config.IsHostEnv(src) {
+				return nil, fmt.Errorf("none of the git remotes configured for this repository correspond to the %s environment variable. Try adding a matching remote or unsetting the variable.", src)
+			} else if v, src, _ := cfg.GetWithSource("example.com", "oauth_token"); v != "" && config.IsEnterpriseEnv(src) {
 				return nil, errors.New("set the GH_HOST environment variable to specify which GitHub host to use")
 			}
 
-			return nil, errors.New("none of the git remotes Clusterured for this repository point to a known GitHub host. To tell secman about a new GitHub host, please use `secman auth login`")
+			return nil, errors.New("none of the git remotes configured for this repository point to a known GitHub host. To tell secman about a new GitHub host, please use `secman auth login`")
 		}
 
 		return cachedRemotes, nil

@@ -7,7 +7,7 @@ import (
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/MakeNowJust/heredoc"
 	"github.com/scmn-dev/gh-api/core/authflow"
-	"github.com/scmn-dev/cluster"
+	"github.com/scmn-dev/gh-api/core/config"
 	"github.com/scmn-dev/gh-api/pkg/cmd/auth/shared"
 	"github.com/scmn-dev/gh-api/pkg/cmdutil"
 	"github.com/scmn-dev/gh-api/pkg/iostreams"
@@ -17,13 +17,13 @@ import (
 
 type RefreshOptions struct {
 	IO     *iostreams.IOStreams
-	Cluster func() (cluster.Cluster, error)
+	Config func() (config.Config, error)
 
 	MainExecutable string
 
 	Hostname string
 	Scopes   []string
-	AuthFlow func(cluster.Cluster, *iostreams.IOStreams, string, []string) error
+	AuthFlow func(config.Config, *iostreams.IOStreams, string, []string) error
 
 	Interactive bool
 }
@@ -31,9 +31,9 @@ type RefreshOptions struct {
 func NewCmdRefresh(f *cmdutil.Factory, runF func(*RefreshOptions) error) *cobra.Command {
 	opts := &RefreshOptions{
 		IO:     f.IOStreams,
-		Cluster: f.Cluster,
-		AuthFlow: func(cfg cluster.Cluster, io *iostreams.IOStreams, hostname string, scopes []string) error {
-			_, err := authflow.AuthFlowWithCluster(cfg, io, hostname, "", scopes)
+		Config: f.Config,
+		AuthFlow: func(cfg config.Config, io *iostreams.IOStreams, hostname string, scopes []string) error {
+			_, err := authflow.AuthFlowWithConfig(cfg, io, hostname, "", scopes)
 			return err
 		},
 		MainExecutable: f.Executable,
@@ -76,7 +76,7 @@ func NewCmdRefresh(f *cmdutil.Factory, runF func(*RefreshOptions) error) *cobra.
 }
 
 func refreshRun(opts *RefreshOptions) error {
-	cfg, err := opts.Cluster()
+	cfg, err := opts.Config()
 	if err != nil {
 		return err
 	}
@@ -119,7 +119,7 @@ func refreshRun(opts *RefreshOptions) error {
 	}
 
 	if err := cfg.CheckWriteable(hostname, "oauth_token"); err != nil {
-		var roErr *cluster.ReadOnlyEnvError
+		var roErr *config.ReadOnlyEnvError
 		if errors.As(err, &roErr) {
 			fmt.Fprintf(opts.IO.ErrOut, "The value of the %s environment variable is being used for authentication.\n", roErr.Variable)
 			fmt.Fprint(opts.IO.ErrOut, "To refresh credentials stored in GitHub CLI, first clear the value from the environment.\n")

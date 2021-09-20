@@ -13,8 +13,8 @@ import (
 	"runtime"
 	"strings"
 
-	tcexe "github.com/Timothee-Cardoso/tc-exe"
 	"github.com/scmn-dev/gh-api/core/run"
+	"github.com/cli/safeexec"
 )
 
 // ErrNotOnAnyBranch indicates that the user is in detached HEAD state
@@ -95,15 +95,15 @@ func listRemotes() ([]string, error) {
 	return outputLines(output), err
 }
 
-func Cluster(name string) (string, error) {
-	ClusterCmd, err := GitCommand("Cluster", name)
+func Config(name string) (string, error) {
+	configCmd, err := GitCommand("config", name)
 	if err != nil {
 		return "", err
 	}
 
-	output, err := run.PrepareCmd(ClusterCmd).Output()
+	output, err := run.PrepareCmd(configCmd).Output()
 	if err != nil {
-		return "", fmt.Errorf("unknown Cluster key: %s", name)
+		return "", fmt.Errorf("unknown config key: %s", name)
 	}
 
 	return firstLine(output), nil
@@ -119,7 +119,7 @@ func (e *NotInstalled) Error() string {
 }
 
 func GitCommand(args ...string) (*exec.Cmd, error) {
-	gitExe, err := tcexe.LookPath("git")
+	gitExe, err := safeexec.LookPath("git")
 	if err != nil {
 		if errors.Is(err, exec.ErrNotFound) {
 			programName := "git"
@@ -229,7 +229,7 @@ func CommitBody(sha string) (string, error) {
 	return string(output), err
 }
 
-// Push publishes a git ref to a remote and sets up upstream Clusteruration
+// Push publishes a git ref to a remote and sets up upstream configuration
 func Push(remote string, ref string, cmdOut, cmdErr io.Writer) error {
 	pushCmd, err := GitCommand("push", "--set-upstream", remote, ref)
 	if err != nil {
@@ -241,21 +241,21 @@ func Push(remote string, ref string, cmdOut, cmdErr io.Writer) error {
 	return run.PrepareCmd(pushCmd).Run()
 }
 
-type BranchCluster struct {
+type BranchConfig struct {
 	RemoteName string
 	RemoteURL  *url.URL
 	MergeRef   string
 }
 
-// ReadBranchCluster parses the `branch.BRANCH.(remote|merge)` part of git Cluster
-func ReadBranchCluster(branch string) (cfg BranchCluster) {
+// ReadBranchConfig parses the `branch.BRANCH.(remote|merge)` part of git config
+func ReadBranchConfig(branch string) (cfg BranchConfig) {
 	prefix := regexp.QuoteMeta(fmt.Sprintf("branch.%s.", branch))
-	ClusterCmd, err := GitCommand("Cluster", "--get-regexp", fmt.Sprintf("^%s(remote|merge)$", prefix))
+	configCmd, err := GitCommand("config", "--get-regexp", fmt.Sprintf("^%s(remote|merge)$", prefix))
 	if err != nil {
 		return
 	}
 
-	output, err := run.PrepareCmd(ClusterCmd).Output()
+	output, err := run.PrepareCmd(configCmd).Output()
 	if err != nil {
 		return
 	}
@@ -296,22 +296,22 @@ func DeleteLocalBranch(branch string) error {
 }
 
 func HasLocalBranch(branch string) bool {
-	ClusterCmd, err := GitCommand("rev-parse", "--verify", "refs/heads/"+branch)
+	configCmd, err := GitCommand("rev-parse", "--verify", "refs/heads/"+branch)
 	if err != nil {
 		return false
 	}
 
-	_, err = run.PrepareCmd(ClusterCmd).Output()
+	_, err = run.PrepareCmd(configCmd).Output()
 	return err == nil
 }
 
 func CheckoutBranch(branch string) error {
-	ClusterCmd, err := GitCommand("checkout", branch)
+	configCmd, err := GitCommand("checkout", branch)
 	if err != nil {
 		return err
 	}
 
-	return run.PrepareCmd(ClusterCmd).Run()
+	return run.PrepareCmd(configCmd).Run()
 }
 
 func parseCloneArgs(extraArgs []string) (args []string, target string) {

@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/scmn-dev/cluster"
+	"github.com/scmn-dev/gh-api/core/config"
 	"github.com/scmn-dev/gh-api/pkg/cmdutil"
 	"github.com/scmn-dev/gh-api/pkg/iostreams"
 	"github.com/spf13/cobra"
@@ -12,32 +12,31 @@ import (
 
 type GetOptions struct {
 	IO     *iostreams.IOStreams
-	Cluster cluster.Cluster
+	Config config.Config
 
 	Hostname string
 	Key      string
 }
 
-func NewCmdClusterGet(f *cmdutil.Factory, runF func(*GetOptions) error) *cobra.Command {
+func NewCmdConfigGet(f *cmdutil.Factory, runF func(*GetOptions) error) *cobra.Command {
 	opts := &GetOptions{
 		IO: f.IOStreams,
 	}
 
 	cmd := &cobra.Command{
 		Use:   "get <key>",
-		Short: "Print the value of a given cluster key",
+		Short: "Print the value of a given configuration key",
 		Example: heredoc.Doc(`
-			secman cluster get git_protocol
+			secman config get git_protocol
 			https
 		`),
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			Cluster, err := f.Cluster()
+			config, err := f.Config()
 			if err != nil {
 				return err
 			}
-
-			opts.Cluster = Cluster
+			opts.Config = config
 			opts.Key = args[0]
 
 			if runF != nil {
@@ -54,7 +53,7 @@ func NewCmdClusterGet(f *cmdutil.Factory, runF func(*GetOptions) error) *cobra.C
 }
 
 func getRun(opts *GetOptions) error {
-	val, err := opts.Cluster.Get(opts.Hostname, opts.Key)
+	val, err := opts.Config.Get(opts.Hostname, opts.Key)
 	if err != nil {
 		return err
 	}
@@ -62,6 +61,5 @@ func getRun(opts *GetOptions) error {
 	if val != "" {
 		fmt.Fprintf(opts.IO.Out, "%s\n", val)
 	}
-
 	return nil
 }

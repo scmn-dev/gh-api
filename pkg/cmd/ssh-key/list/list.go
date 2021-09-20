@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/scmn-dev/cluster"
+	"github.com/scmn-dev/gh-api/core/config"
 	"github.com/scmn-dev/gh-api/pkg/cmdutil"
 	"github.com/scmn-dev/gh-api/pkg/iostreams"
 	"github.com/scmn-dev/gh-api/utils"
@@ -15,14 +15,14 @@ import (
 
 type ListOptions struct {
 	IO         *iostreams.IOStreams
-	Cluster     func() (cluster.Cluster, error)
+	Config     func() (config.Config, error)
 	HTTPClient func() (*http.Client, error)
 }
 
 func NewCmdList(f *cmdutil.Factory, runF func(*ListOptions) error) *cobra.Command {
 	opts := &ListOptions{
 		IO:         f.IOStreams,
-		Cluster:     f.Cluster,
+		Config:     f.Config,
 		HTTPClient: f.HttpClient,
 	}
 
@@ -47,7 +47,7 @@ func listRun(opts *ListOptions) error {
 		return err
 	}
 
-	cfg, err := opts.Cluster()
+	cfg, err := opts.Config()
 	if err != nil {
 		return err
 	}

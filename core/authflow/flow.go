@@ -22,14 +22,14 @@ var (
 	oauthClientSecret = "34ddeff2b558a23d38fba8a6de74f086ede1cc0b"
 )
 
-type iCluster interface {
+type iconfig interface {
 	Set(string, string, string) error
 	Write() error
 }
 
-func AuthFlowWithCluster(cfg iCluster, IO *iostreams.IOStreams, hostname, notice string, additionalScopes []string) (string, error) {
+func AuthFlowWithConfig(cfg iconfig, IO *iostreams.IOStreams, hostname, notice string, additionalScopes []string) (string, error) {
 	// TODO this probably shouldn't live in this package. It should probably be in a new package that
-	// depends on both iostreams and Cluster.
+	// depends on both iostreams and config.
 	stderr := IO.ErrOut
 	cs := IO.ColorScheme()
 

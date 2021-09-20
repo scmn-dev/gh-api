@@ -72,7 +72,7 @@ type Repository struct {
 	IsMirror                      bool
 	IsPrivate                     bool
 	IsTemplate                    bool
-	IsUserClusterurationRepository bool
+	IsUserConfigurationRepository bool
 	LicenseInfo                   *RepositoryLicense
 	ViewerCanAdminister           bool
 	ViewerDefaultCommitEmail      string

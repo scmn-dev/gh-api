@@ -3,7 +3,7 @@ package get_username
 import (
 	"fmt"
 
-	"github.com/scmn-dev/git"
+	"github.com/abdfnx/git_config"
 	"github.com/spf13/cobra"
 )
 

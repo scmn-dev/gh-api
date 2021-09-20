@@ -7,7 +7,7 @@ import (
 	"os"
 	"os/exec"
 
-	tcexe "github.com/Timothee-Cardoso/tc-exe"
+	"github.com/cli/safeexec"
 	shellquote "github.com/kballard/go-shellquote"
 )
 
@@ -20,7 +20,7 @@ func Edit(editorCommand, fn, initialValue string, stdin io.Reader, stdout io.Wri
 }
 
 func defaultLookPath(name string) ([]string, []string, error) {
-	exe, err := tcexe.LookPath(name)
+	exe, err := safeexec.LookPath(name)
 	if err != nil {
 		return nil, nil, err
 	}

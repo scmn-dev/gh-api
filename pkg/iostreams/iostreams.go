@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/briandowns/spinner"
-	tcexe "github.com/Timothee-Cardoso/tc-exe"
+	"github.com/cli/safeexec"
 	"github.com/google/shlex"
 	"github.com/mattn/go-colorable"
 	"github.com/mattn/go-isatty"
@@ -190,7 +190,7 @@ func (s *IOStreams) StartPager() error {
 		pagerEnv = append(pagerEnv, "LV=-c")
 	}
 
-	pagerExe, err := tcexe.LookPath(pagerArgs[0])
+	pagerExe, err := safeexec.LookPath(pagerArgs[0])
 
 	if err != nil {
 		return err
@@ -279,7 +279,7 @@ func (s *IOStreams) TerminalWidth() int {
 	}
 
 	if isCygwinTerminal(out) {
-		tputExe, err := tcexe.LookPath("tput")
+		tputExe, err := safeexec.LookPath("tput")
 		if err != nil {
 			return defaultWidth
 		}
@@ -329,7 +329,7 @@ func (s *IOStreams) ForceTerminal(spec string) {
 }
 
 func (s *IOStreams) ColorScheme() *ColorScheme {
-	return NewColorScheme(s.ColorEnabled(), s.ColorSupport256())
+	return NewColorScheme(s.ColorEnabled(), s.ColorSupport256(), s.HasTrueColor())
 }
 
 func (s *IOStreams) ReadUserFile(fn string) ([]byte, error) {

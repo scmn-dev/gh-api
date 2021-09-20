@@ -29,12 +29,12 @@ func EnableRepoOverride(cmd *cobra.Command, f *Factory) {
 			return nil, cobra.ShellCompDirectiveError
 		}
 
-		Cluster, err := f.Cluster()
+		config, err := f.Config()
 		if err != nil {
 			return nil, cobra.ShellCompDirectiveError
 		}
 
-		defaultHost, err := Cluster.DefaultHost()
+		defaultHost, err := config.DefaultHost()
 		if err != nil {
 			return nil, cobra.ShellCompDirectiveError
 		}

@@ -20,11 +20,11 @@ func NewCmdCompletion(io *iostreams.IOStreams) *cobra.Command {
 			Generate shell completion scripts for GitHub CLI commands.
 
 			When installing GitHub CLI through a package manager, it's possible that
-			no additional shell Clusteruration is necessary to gain completion support. For
+			no additional shell configuration is necessary to gain completion support. For
 			Homebrew, see <https://docs.brew.sh/Shell-Completion>
 
 			If you need to set up completions manually, follow the instructions below. The exact
-			Cluster file locations might vary based on your system. Make sure to restart your
+			config file locations might vary based on your system. Make sure to restart your
 			shell before testing whether completions are working.
 
 			### bash
@@ -52,7 +52,7 @@ func NewCmdCompletion(io *iostreams.IOStreams) *cobra.Command {
 
 			Generate a %[1]sgh.fish%[1]s completion script:
 
-				gh completion -s fish > ~/.Cluster/fish/completions/gh.fish
+				gh completion -s fish > ~/.config/fish/completions/gh.fish
 		`, "`"),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if shellType == "" {

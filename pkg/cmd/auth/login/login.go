@@ -9,7 +9,7 @@ import (
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/MakeNowJust/heredoc"
-	"github.com/scmn-dev/cluster"
+	"github.com/scmn-dev/gh-api/core/config"
 	"github.com/scmn-dev/gh-api/core/ghinstance"
 	"github.com/scmn-dev/gh-api/pkg/cmd/auth/shared"
 	"github.com/scmn-dev/gh-api/pkg/cmdutil"
@@ -20,7 +20,7 @@ import (
 
 type LoginOptions struct {
 	IO         *iostreams.IOStreams
-	Cluster     func() (cluster.Cluster, error)
+	Config     func() (config.Config, error)
 	HttpClient func() (*http.Client, error)
 
 	MainExecutable string
@@ -36,7 +36,7 @@ type LoginOptions struct {
 func NewCmdLogin(f *cmdutil.Factory, runF func(*LoginOptions) error) *cobra.Command {
 	opts := &LoginOptions{
 		IO:         f.IOStreams,
-		Cluster:     f.Cluster,
+		Config:     f.Config,
 		HttpClient: f.HttpClient,
 
 		MainExecutable: f.Executable,
@@ -120,7 +120,7 @@ func NewCmdLogin(f *cmdutil.Factory, runF func(*LoginOptions) error) *cobra.Comm
 }
 
 func loginRun(opts *LoginOptions) error {
-	cfg, err := opts.Cluster()
+	cfg, err := opts.Config()
 	if err != nil {
 		return err
 	}
@@ -139,7 +139,7 @@ func loginRun(opts *LoginOptions) error {
 	}
 
 	if err := cfg.CheckWriteable(hostname, "oauth_token"); err != nil {
-		var roErr *cluster.ReadOnlyEnvError
+		var roErr *config.ReadOnlyEnvError
 		if errors.As(err, &roErr) {
 			fmt.Fprintf(opts.IO.ErrOut, "The value of the %s environment variable is being used for authentication.\n", roErr.Variable)
 			fmt.Fprint(opts.IO.ErrOut, "To have secman store credentials instead, first clear the value from the environment.\n")
@@ -187,7 +187,7 @@ func loginRun(opts *LoginOptions) error {
 
 	return shared.Login(&shared.LoginOptions{
 		IO:          opts.IO,
-		Cluster:      cfg,
+		Config:      cfg,
 		HTTPClient:  httpClient,
 		Hostname:    hostname,
 		Interactive: opts.Interactive,

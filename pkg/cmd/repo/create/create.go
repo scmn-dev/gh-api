@@ -11,7 +11,7 @@ import (
 	"github.com/MakeNowJust/heredoc"
 	"github.com/scmn-dev/gh-api/api"
 	"github.com/scmn-dev/gh-api/git"
-	"github.com/scmn-dev/cluster"
+	"github.com/scmn-dev/gh-api/core/config"
 	"github.com/scmn-dev/gh-api/core/ghinstance"
 	"github.com/scmn-dev/gh-api/core/ghrepo"
 	"github.com/scmn-dev/gh-api/core/run"
@@ -23,7 +23,7 @@ import (
 
 type CreateOptions struct {
 	HttpClient func() (*http.Client, error)
-	Cluster     func() (cluster.Cluster, error)
+	Config     func() (config.Config, error)
 	IO         *iostreams.IOStreams
 
 	Name              string
@@ -45,7 +45,7 @@ func NewCmdCreate(f *cmdutil.Factory, runF func(*CreateOptions) error) *cobra.Co
 	opts := &CreateOptions{
 		IO:         f.IOStreams,
 		HttpClient: f.HttpClient,
-		Cluster:     f.Cluster,
+		Config:     f.Config,
 	}
 
 	cmd := &cobra.Command{
@@ -140,7 +140,7 @@ func NewCmdCreate(f *cmdutil.Factory, runF func(*CreateOptions) error) *cobra.Co
 			return nil, cobra.ShellCompDirectiveError
 		}
 
-		cfg, err := opts.Cluster()
+		cfg, err := opts.Config()
 		if err != nil {
 			return nil, cobra.ShellCompDirectiveError
 		}
@@ -164,7 +164,7 @@ func NewCmdCreate(f *cmdutil.Factory, runF func(*CreateOptions) error) *cobra.Co
 			return nil, cobra.ShellCompDirectiveError
 		}
 
-		cfg, err := opts.Cluster()
+		cfg, err := opts.Config()
 		if err != nil {
 			return nil, cobra.ShellCompDirectiveError
 		}
@@ -229,7 +229,7 @@ func createRun(opts *CreateOptions) error {
 		isVisibilityPassed = true
 	}
 
-	cfg, err := opts.Cluster()
+	cfg, err := opts.Config()
 	if err != nil {
 		return err
 	}

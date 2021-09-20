@@ -4,16 +4,16 @@ import (
 	"os"
 	"path/filepath"
 
-	tcexe "github.com/Timothee-Cardoso/tc-exe"
+	"github.com/cli/safeexec"
 )
 
 func Find() (string, error) {
-	shPath, shErr := tcexe.LookPath("sh")
+	shPath, shErr := safeexec.LookPath("sh")
 	if shErr == nil {
 		return shPath, nil
 	}
 
-	gitPath, err := tcexe.LookPath("git")
+	gitPath, err := safeexec.LookPath("git")
 	if err != nil {
 		return "", shErr
 	}

@@ -9,11 +9,11 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/scmn-dev/cluster"
+	"github.com/scmn-dev/gh-api/core/config"
 )
 
 var (
-	sshClusterLineRE = regexp.MustCompile(`\A\s*(?P<keyword>[A-Za-z][A-Za-z0-9]*)(?:\s+|\s*=\s*)(?P<argument>.+)`)
+	sshConfigLineRE = regexp.MustCompile(`\A\s*(?P<keyword>[A-Za-z][A-Za-z0-9]*)(?:\s+|\s*=\s*)(?P<argument>.+)`)
 	sshTokenRE      = regexp.MustCompile(`%[%h]`)
 )
 
@@ -73,7 +73,7 @@ func (p *sshParser) read(fileName string) error {
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		m := sshClusterLineRE.FindStringSubmatch(scanner.Text())
+		m := sshConfigLineRE.FindStringSubmatch(scanner.Text())
 		if len(m) < 3 {
 			continue
 		}
@@ -137,23 +137,23 @@ func (p *sshParser) absolutePath(parentFile, path string) string {
 	return filepath.Join(p.homeDir, ".ssh", path)
 }
 
-// ParseSSHCluster constructs a map of SSH hostname aliases based on user and
-// system Clusteruration files
-func ParseSSHCluster() SSHAliasMap {
-	ClusterFiles := []string{
-		"/etc/ssh_Cluster",
-		"/etc/ssh/ssh_Cluster",
+// ParseSSHConfig constructs a map of SSH hostname aliases based on user and
+// system configuration files
+func ParseSSHConfig() SSHAliasMap {
+	configFiles := []string{
+		"/etc/ssh_config",
+		"/etc/ssh/ssh_config",
 	}
 
 	p := sshParser{}
 
-	if sshDir, err := cluster.HomeDirPath(".ssh"); err == nil {
-		userCluster := filepath.Join(sshDir, "Cluster")
-		ClusterFiles = append([]string{userCluster}, ClusterFiles...)
+	if sshDir, err := config.HomeDirPath(".ssh"); err == nil {
+		userConfig := filepath.Join(sshDir, "config")
+		configFiles = append([]string{userConfig}, configFiles...)
 		p.homeDir = filepath.Dir(sshDir)
 	}
 
-	for _, file := range ClusterFiles {
+	for _, file := range configFiles {
 		_ = p.read(file)
 	}
 	return p.aliasMap

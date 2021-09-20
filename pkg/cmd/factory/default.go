@@ -9,7 +9,7 @@ import (
 	"github.com/scmn-dev/gh-api/api"
 	"github.com/scmn-dev/gh-api/context"
 	"github.com/scmn-dev/gh-api/git"
-	"github.com/scmn-dev/cluster"
+	"github.com/scmn-dev/gh-api/core/config"
 	"github.com/scmn-dev/gh-api/core/ghrepo"
 	"github.com/scmn-dev/gh-api/pkg/cmdutil"
 	"github.com/scmn-dev/gh-api/pkg/iostreams"
@@ -17,16 +17,16 @@ import (
 
 func New() *cmdutil.Factory {
 	f := &cmdutil.Factory{
-		Cluster:    ClusterFunc(),  // No factory dependencies
-		Branch:     branchFunc(),   // No factory dependencies
-		Executable: executable(),   // No factory dependencies
+		Config:     configFunc(), // No factory dependencies
+		Branch:     branchFunc(), // No factory dependencies
+		Executable: executable()  // No factory dependencies
 	}
 
-	f.IOStreams  = ioStreams(f)                  // Depends on Cluster
-	f.HttpClient = httpClientFunc(f, "x")        // Depends on Cluster, IOStreams, and appVersion
-	f.Remotes    = remotesFunc(f)                // Depends on Cluster
-	f.BaseRepo   = BaseRepoFunc(f)               // Depends on Remotes
-	f.Browser    = browser(f)                    // Depends on Cluster, and IOStreams
+	f.IOStreams = ioStreams(f)                   // Depends on Config
+	f.HttpClient = httpClientFunc(f, "x")        // Depends on Config, IOStreams, and appVersion
+	f.Remotes = remotesFunc(f)                   // Depends on Config
+	f.BaseRepo = BaseRepoFunc(f)                 // Depends on Remotes
+	f.Browser = browser(f)                       // Depends on Config, and IOStreams
 
 	return f
 }
@@ -73,7 +73,7 @@ func SmartBaseRepoFunc(f *cmdutil.Factory) func() (ghrepo.Interface, error) {
 func remotesFunc(f *cmdutil.Factory) func() (context.Remotes, error) {
 	rr := &remoteResolver{
 		readRemotes: git.Remotes,
-		getCluster:   f.Cluster,
+		getConfig:   f.Config,
 	}
 
 	return rr.Resolver()
@@ -82,7 +82,7 @@ func remotesFunc(f *cmdutil.Factory) func() (context.Remotes, error) {
 func httpClientFunc(f *cmdutil.Factory, appVersion string) func() (*http.Client, error) {
 	return func() (*http.Client, error) {
 		io := f.IOStreams
-		cfg, err := f.Cluster()
+		cfg, err := f.Config()
 		if err != nil {
 			return nil, err
 		}
@@ -97,15 +97,15 @@ func browser(f *cmdutil.Factory) cmdutil.Browser {
 }
 
 // Browser precedence
-// 1. SM_BROWSER
-// 2. browser from Cluster
+// 1. GH_BROWSER
+// 2. browser from config
 // 3. BROWSER
 func browserLauncher(f *cmdutil.Factory) string {
-	if smBrowser := os.Getenv("SM_BROWSER"); smBrowser != "" {
+	if smBrowser := os.Getenv("GH_BROWSER"); smBrowser != "" {
 		return smBrowser
 	}
 
-	cfg, err := f.Cluster()
+	cfg, err := f.Config()
 	if err == nil {
 		if cfgBrowser, _ := cfg.Get("", "browser"); cfgBrowser != "" {
 			return cfgBrowser
@@ -124,22 +124,22 @@ func executable() string {
 	return secman
 }
 
-func ClusterFunc() func() (cluster.Cluster, error) {
-	var cachedCluster cluster.Cluster
-	var ClusterError error
-	return func() (cluster.Cluster, error) {
-		if cachedCluster != nil || ClusterError != nil {
-			return cachedCluster, ClusterError
+func configFunc() func() (config.Config, error) {
+	var cachedConfig config.Config
+	var configError error
+	return func() (config.Config, error) {
+		if cachedConfig != nil || configError != nil {
+			return cachedConfig, configError
 		}
 
-		cachedCluster, ClusterError = cluster.ParseDefaultCluster()
-		if errors.Is(ClusterError, os.ErrNotExist) {
-			cachedCluster = cluster.NewBlankCluster()
-			ClusterError = nil
+		cachedConfig, configError = config.ParseDefaultConfig()
+		if errors.Is(configError, os.ErrNotExist) {
+			cachedConfig = config.NewBlankConfig()
+			configError = nil
 		}
 
-		cachedCluster = cluster.InheritEnv(cachedCluster)
-		return cachedCluster, ClusterError
+		cachedConfig = config.InheritEnv(cachedConfig)
+		return cachedConfig, configError
 	}
 }
 
@@ -156,7 +156,7 @@ func branchFunc() func() (string, error) {
 
 func ioStreams(f *cmdutil.Factory) *iostreams.IOStreams {
 	io := iostreams.System()
-	cfg, err := f.Cluster()
+	cfg, err := f.Config()
 	if err != nil {
 		return io
 	}
@@ -167,7 +167,7 @@ func ioStreams(f *cmdutil.Factory) *iostreams.IOStreams {
 
 	// Pager precedence
 	// 1. GH_PAGER
-	// 2. pager from Cluster
+	// 2. pager from config
 	// 3. PAGER
 	if ghPager, ghPagerExists := os.LookupEnv("GH_PAGER"); ghPagerExists {
 		io.SetPager(ghPager)

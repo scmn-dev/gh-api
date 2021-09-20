@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/scmn-dev/cluster"
+	"github.com/scmn-dev/gh-api/core/config"
 	"github.com/scmn-dev/gh-api/pkg/cmdutil"
 	"github.com/scmn-dev/gh-api/pkg/iostreams"
 	"github.com/spf13/cobra"
@@ -15,7 +15,7 @@ import (
 
 type AddOptions struct {
 	IO         *iostreams.IOStreams
-	Cluster     func() (cluster.Cluster, error)
+	Config     func() (config.Config, error)
 	HTTPClient func() (*http.Client, error)
 
 	KeyFile string
@@ -25,7 +25,7 @@ type AddOptions struct {
 func NewCmdAdd(f *cmdutil.Factory, runF func(*AddOptions) error) *cobra.Command {
 	opts := &AddOptions{
 		HTTPClient: f.HttpClient,
-		Cluster:     f.Cluster,
+		Config:     f.Config,
 		IO:         f.IOStreams,
 	}
 
@@ -73,7 +73,7 @@ func runAdd(opts *AddOptions) error {
 		keyReader = f
 	}
 
-	cfg, err := opts.Cluster()
+	cfg, err := opts.Config()
 	if err != nil {
 		return err
 	}

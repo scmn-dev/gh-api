@@ -38,7 +38,7 @@ var HelpTopics = map[string]map[string]string{
 			GH_REPO: specify the GitHub repository in the "[HOST/]OWNER/REPO" format for commands
 			that otherwise operate on a local repository.
 
-			GH_EDITOR, git_EDITOR, VISUAL, EDITOR (in order of precedence): the editor tool to use
+			GH_EDITOR, GIT_EDITOR, VISUAL, EDITOR (in order of precedence): the editor tool to use
 			for authoring text.
 
 			BROWSER: the web browser to use for opening links.
@@ -68,8 +68,8 @@ var HelpTopics = map[string]map[string]string{
 			checks for new releases once every 24 hours and displays an upgrade notice on standard
 			error if a newer version was found.
 
-			GH_Cluster_DIR: the directory where gh will store Clusteruration files. Default:
-			"$XDG_Cluster_HOME/gh" or "$HOME/.Cluster/gh".
+			GH_CONFIG_DIR: the directory where gh will store configuration files. Default:
+			"$XDG_CONFIG_HOME/gh" or "$HOME/.config/gh".
 		`),
 	},
 	"reference": {

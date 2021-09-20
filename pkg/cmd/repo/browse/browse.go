@@ -64,7 +64,7 @@ func NewCmdBrowse(f *cmdutil.Factory, runF func(*BrowseOptions) error) *cobra.Co
 				- by path for opening folders and files, e.g. "pkg/upgrade/upgrade.go"
 			`),
 			"help:environment": heredoc.Doc(`
-				To Clusterure a web browser other than the default, use the BROWSER environment variable.
+				To configure a web browser other than the default, use the BROWSER environment variable.
 			`),
 		},
 		RunE: func(cmd *cobra.Command, args []string) error {

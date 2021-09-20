@@ -13,13 +13,13 @@ import (
 
 const tokenUser = "x-access-token"
 
-type Cluster interface {
+type config interface {
 	GetWithSource(string, string) (string, string, error)
 }
 
 type CredentialOptions struct {
 	IO     *iostreams.IOStreams
-	Cluster func() (Cluster, error)
+	Config func() (config, error)
 
 	Operation string
 }
@@ -27,8 +27,8 @@ type CredentialOptions struct {
 func NewCmdCredential(f *cmdutil.Factory, runF func(*CredentialOptions) error) *cobra.Command {
 	opts := &CredentialOptions{
 		IO: f.IOStreams,
-		Cluster: func() (Cluster, error) {
-			return f.Cluster()
+		Config: func() (config, error) {
+			return f.Config()
 		},
 	}
 
@@ -95,7 +95,7 @@ func helperRun(opts *CredentialOptions) error {
 		return cmdutil.SilentError
 	}
 
-	cfg, err := opts.Cluster()
+	cfg, err := opts.Config()
 	if err != nil {
 		return err
 	}
