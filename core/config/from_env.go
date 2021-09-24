@@ -8,11 +8,11 @@ import (
 )
 
 const (
-	SM_GH_HOST                 = "SM_GH_HOST"
-	SM_GH_TOKEN                = "SM_GH_TOKEN"
-	SM_GITHUB_TOKEN            = "SM_GITHUB_TOKEN"
-	SM_GH_ENTERPRISE_TOKEN     = "SM_GH_ENTERPRISE_TOKEN"
-	SM_GITHUB_ENTERPRISE_TOKEN = "SM_GITHUB_ENTERPRISE_TOKEN"
+	GH_HOST                 = "GH_HOST"
+	GH_TOKEN                = "GH_TOKEN"
+	GITHUB_TOKEN            = "GITHUB_TOKEN"
+	GH_ENTERPRISE_TOKEN     = "GH_ENTERPRISE_TOKEN"
+	GITHUB_ENTERPRISE_TOKEN = "GITHUB_ENTERPRISE_TOKEN"
 )
 
 type ReadOnlyEnvError struct {
@@ -53,8 +53,8 @@ func (c *envConfig) DefaultHost() (string, error) {
 }
 
 func (c *envConfig) DefaultHostWithSource() (string, string, error) {
-	if host := os.Getenv(SM_GH_HOST); host != "" {
-		return host, SM_GH_HOST, nil
+	if host := os.Getenv(GH_HOST); host != "" {
+		return host, GH_HOST, nil
 	}
 	return c.Config.DefaultHostWithSource()
 }
@@ -86,31 +86,31 @@ func (c *envConfig) CheckWriteable(hostname, key string) error {
 
 func AuthTokenFromEnv(hostname string) (string, string) {
 	if ghinstance.IsEnterprise(hostname) {
-		if token := os.Getenv(SM_GH_ENTERPRISE_TOKEN); token != "" {
-			return token, SM_GH_ENTERPRISE_TOKEN
+		if token := os.Getenv(GH_ENTERPRISE_TOKEN); token != "" {
+			return token, GH_ENTERPRISE_TOKEN
 		}
 
-		return os.Getenv(SM_GITHUB_ENTERPRISE_TOKEN), SM_GITHUB_ENTERPRISE_TOKEN
+		return os.Getenv(GITHUB_ENTERPRISE_TOKEN), GITHUB_ENTERPRISE_TOKEN
 	}
 
-	if token := os.Getenv(SM_GH_TOKEN); token != "" {
-		return token, SM_GH_TOKEN
+	if token := os.Getenv(GH_TOKEN); token != "" {
+		return token, GH_TOKEN
 	}
 
-	return os.Getenv(SM_GITHUB_TOKEN), SM_GITHUB_TOKEN
+	return os.Getenv(GITHUB_TOKEN), GITHUB_TOKEN
 }
 
 func AuthTokenProvidedFromEnv() bool {
-	return os.Getenv(SM_GH_ENTERPRISE_TOKEN) != "" ||
-		os.Getenv(SM_GITHUB_ENTERPRISE_TOKEN) != "" ||
-		os.Getenv(SM_GH_TOKEN) != "" ||
-		os.Getenv(SM_GITHUB_TOKEN) != ""
+	return os.Getenv(GH_ENTERPRISE_TOKEN) != "" ||
+		os.Getenv(GITHUB_ENTERPRISE_TOKEN) != "" ||
+		os.Getenv(GH_TOKEN) != "" ||
+		os.Getenv(GITHUB_TOKEN) != ""
 }
 
 func IsHostEnv(src string) bool {
-	return src == SM_GH_HOST
+	return src == GH_HOST
 }
 
 func IsEnterpriseEnv(src string) bool {
-	return src == SM_GH_ENTERPRISE_TOKEN || src == SM_GITHUB_ENTERPRISE_TOKEN
+	return src == GH_ENTERPRISE_TOKEN || src == GITHUB_ENTERPRISE_TOKEN
 }

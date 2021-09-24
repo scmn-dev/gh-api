@@ -6,41 +6,42 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"syscall"
 	"runtime"
+	"syscall"
 
 	"gopkg.in/yaml.v3"
 )
 
 const (
-	CONFIG_DIR      = "CONFIG_DIR"
+	GH_CONFIG_DIR   = "GH_CONFIG_DIR"
 	XDG_CONFIG_HOME = "XDG_CONFIG_HOME"
 	XDG_STATE_HOME  = "XDG_STATE_HOME"
 	XDG_DATA_HOME   = "XDG_DATA_HOME"
-	APP_DATA        = "AppData" // (windows only)
-	LOCAL_APP_DATA  = "LocalAppData" // (windows only)
+	APP_DATA        = "AppData"
+	LOCAL_APP_DATA  = "LocalAppData"
 )
 
 // Config path precedence
-// 1. CONFIG_DIR
+// 1. GH_CONFIG_DIR
 // 2. XDG_CONFIG_HOME
 // 3. AppData (windows only)
 // 4. HOME
 func ConfigDir() string {
 	var path string
-	if a := os.Getenv(CONFIG_DIR); a != "" {
+	if a := os.Getenv(GH_CONFIG_DIR); a != "" {
 		path = a
 	} else if b := os.Getenv(XDG_CONFIG_HOME); b != "" {
-		path = filepath.Join(b)
+		path = filepath.Join(b, "sm")
 	} else if c := os.Getenv(APP_DATA); runtime.GOOS == "windows" && c != "" {
 		path = filepath.Join(c, "Secman CLI")
 	} else {
 		d, _ := os.UserHomeDir()
-		path = filepath.Join(d, ".sm-cluster")
+		path = filepath.Join(d, ".config", "sm")
 	}
 
-	// If the path does not exist try migrating config from default paths
-	if !dirExists(path) && os.Getenv(CONFIG_DIR) == "" {
+	// If the path does not exist and the GH_CONFIG_DIR flag is not set try
+	// migrating config from default paths.
+	if !dirExists(path) && os.Getenv(GH_CONFIG_DIR) == "" {
 		_ = autoMigrateConfigDir(path)
 	}
 
@@ -54,12 +55,12 @@ func ConfigDir() string {
 func StateDir() string {
 	var path string
 	if a := os.Getenv(XDG_STATE_HOME); a != "" {
-		path = filepath.Join(a)
+		path = filepath.Join(a, "sm")
 	} else if b := os.Getenv(LOCAL_APP_DATA); runtime.GOOS == "windows" && b != "" {
 		path = filepath.Join(b, "Secman CLI")
 	} else {
 		c, _ := os.UserHomeDir()
-		path = filepath.Join(c, ".sm-cluster", "state")
+		path = filepath.Join(c, ".local", "state", "sm")
 	}
 
 	// If the path does not exist try migrating state from default paths
@@ -77,12 +78,12 @@ func StateDir() string {
 func DataDir() string {
 	var path string
 	if a := os.Getenv(XDG_DATA_HOME); a != "" {
-		path = filepath.Join(a)
+		path = filepath.Join(a, "sm")
 	} else if b := os.Getenv(LOCAL_APP_DATA); runtime.GOOS == "windows" && b != "" {
 		path = filepath.Join(b, "Secman CLI")
 	} else {
 		c, _ := os.UserHomeDir()
-		path = filepath.Join(c, ".sm-cluster", "share")
+		path = filepath.Join(c, ".local", "share", "sm")
 	}
 
 	return path
@@ -91,20 +92,22 @@ func DataDir() string {
 var errSamePath = errors.New("same path")
 var errNotExist = errors.New("not exist")
 
+// Check default path, os.UserHomeDir, for existing configs
 // If configs exist then move them to newPath
 func autoMigrateConfigDir(newPath string) error {
 	path, err := os.UserHomeDir()
-	if oldPath := filepath.Join(path, ".sm-cluster"); err == nil && dirExists(oldPath) {
+	if oldPath := filepath.Join(path, ".config", "sm"); err == nil && dirExists(oldPath) {
 		return migrateDir(oldPath, newPath)
 	}
 
 	return errNotExist
 }
 
+// Check default path, os.UserHomeDir, for existing state file (state.yml)
 // If state file exist then move it to newPath
 func autoMigrateStateDir(newPath string) error {
 	path, err := os.UserHomeDir()
-	if oldPath := filepath.Join(path, ".sm-cluster"); err == nil && dirExists(oldPath) {
+	if oldPath := filepath.Join(path, ".config", "sm"); err == nil && dirExists(oldPath) {
 		return migrateFile(oldPath, newPath, "state.yml")
 	}
 
@@ -169,7 +172,6 @@ func HomeDirPath(subdir string) (string, error) {
 	}
 
 	newPath := filepath.Join(homeDir, subdir)
-
 	return newPath, nil
 }
 
@@ -198,7 +200,6 @@ var WriteConfigFile = func(filename string, data []byte) error {
 	if err != nil {
 		return err
 	}
-
 	defer cfgFile.Close()
 
 	_, err = cfgFile.Write(data)
@@ -219,7 +220,6 @@ func parseConfigFile(filename string) ([]byte, *yaml.Node, error) {
 	if err != nil {
 		return nil, nil, err
 	}
-
 	return data, root, err
 }
 

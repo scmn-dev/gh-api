@@ -35,10 +35,20 @@ var configOptions = []ConfigOption{
 		AllowedValues: []string{"https", "ssh"},
 	},
 	{
+		Key:          "editor",
+		Description:  "the text editor program to use for authoring text",
+		DefaultValue: "",
+	},
+	{
 		Key:           "prompt",
 		Description:   "toggle interactive prompting in the terminal",
 		DefaultValue:  "enabled",
 		AllowedValues: []string{"enabled", "disabled"},
+	},
+	{
+		Key:          "pager",
+		Description:  "the terminal pager program to send standard output to",
+		DefaultValue: "",
 	},
 	{
 		Key:          "http_unix_socket",
@@ -110,7 +120,6 @@ func NewFromString(str string) Config {
 	if err != nil {
 		panic(err)
 	}
-
 	return NewConfig(root)
 }
 
@@ -136,11 +145,16 @@ func NewBlankRoot() *yaml.Node {
 						Value: "https",
 					},
 					{
+						HeadComment: "What editor gh should run when creating issues, pull requests, etc. If blank, will refer to environment.",
+						Kind:        yaml.ScalarNode,
+						Value:       "editor",
+					},
+					{
 						Kind:  yaml.ScalarNode,
 						Value: "",
 					},
 					{
-						HeadComment: "When to interactively prompt. This is a global cluster that cannot be overridden by hostname. Supported values: enabled, disabled",
+						HeadComment: "When to interactively prompt. This is a global config that cannot be overridden by hostname. Supported values: enabled, disabled",
 						Kind:        yaml.ScalarNode,
 						Value:       "prompt",
 					},
@@ -149,8 +163,31 @@ func NewBlankRoot() *yaml.Node {
 						Value: "enabled",
 					},
 					{
+						HeadComment: "A pager program to send command output to, e.g. \"less\". Set the value to \"cat\" to disable the pager.",
+						Kind:        yaml.ScalarNode,
+						Value:       "pager",
+					},
+					{
 						Kind:  yaml.ScalarNode,
 						Value: "",
+					},
+					{
+						HeadComment: "Aliases allow you to create nicknames for gh commands",
+						Kind:        yaml.ScalarNode,
+						Value:       "aliases",
+					},
+					{
+						Kind: yaml.MappingNode,
+						Content: []*yaml.Node{
+							{
+								Kind:  yaml.ScalarNode,
+								Value: "co",
+							},
+							{
+								Kind:  yaml.ScalarNode,
+								Value: "pr checkout",
+							},
+						},
 					},
 					{
 						HeadComment: "The path to a unix socket through which send HTTP connections. If blank, HTTP traffic will be handled by net/http.DefaultTransport.",
@@ -162,9 +199,13 @@ func NewBlankRoot() *yaml.Node {
 						Value: "",
 					},
 					{
-						HeadComment: "What web browser secman should use when opening URLs. If blank, will refer to environment.",
+						HeadComment: "What web browser gh should use when opening URLs. If blank, will refer to environment.",
 						Kind:        yaml.ScalarNode,
 						Value:       "browser",
+					},
+					{
+						Kind:  yaml.ScalarNode,
+						Value: "",
 					},
 				},
 			},
