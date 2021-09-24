@@ -21,7 +21,7 @@ require (
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d
 	github.com/muesli/reflow v0.3.0
 	github.com/muesli/termenv v0.9.0
-	github.com/scmn-dev/browser v0.1.2
+	github.com/scmn-dev/browser v0.1.3
 	github.com/scmn-dev/secman v0.0.0-20210920090640-a4f9f6c08509
 	github.com/shurcooL/githubv4 v0.0.0-20210725200734-83ba7b4c9228
 	github.com/shurcooL/graphql v0.0.0-20200928012149-18c5c3165e3a

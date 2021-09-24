@@ -391,6 +391,8 @@ github.com/scmn-dev/browser v0.1.0 h1:uKoc0AVGTtcfFViNM1TL6DYMjt0g9DpdX7lMsn7AHa
 github.com/scmn-dev/browser v0.1.0/go.mod h1:3wshMIhDXDjg9C04LwKfAWdZ28TYCWQqqHcTMAh9SHQ=
 github.com/scmn-dev/browser v0.1.2 h1:CMD7TUqjW+YsJYySpJhCESyu6bPfFHKmiX3ZDMkdzeU=
 github.com/scmn-dev/browser v0.1.2/go.mod h1:3wshMIhDXDjg9C04LwKfAWdZ28TYCWQqqHcTMAh9SHQ=
+github.com/scmn-dev/browser v0.1.3 h1:ddL6bHEZseXPHOPsDEzaHp1PMfekSJ3PUQNib+wIXx8=
+github.com/scmn-dev/browser v0.1.3/go.mod h1:3wshMIhDXDjg9C04LwKfAWdZ28TYCWQqqHcTMAh9SHQ=
 github.com/scmn-dev/gh-api v0.3.5/go.mod h1:ydYzo2zM9rLvzDhNzbMkiiIv99Q7Bm6MNZj4ewQyjyw=
 github.com/scmn-dev/gh-api v0.3.32/go.mod h1:DELTISOMbLzqHdJ/LReVEi3ERfo9hwrrK5YkPFPPBZo=
 github.com/scmn-dev/gh-api v0.3.33/go.mod h1:Q4W7ZpDKUTJZ+KokLo8paVqDVZ/SXTAkzaR2VPpQB0g=
