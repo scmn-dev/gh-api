@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/scmn-dev/gh-api/core/ghrepo"
+	"github.com/gepis/sm-gh-api/core/ghrepo"
 	"github.com/spf13/cobra"
 )
 

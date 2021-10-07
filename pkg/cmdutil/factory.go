@@ -3,10 +3,11 @@ package cmdutil
 import (
 	"net/http"
 
-	"github.com/scmn-dev/gh-api/context"
-	"github.com/scmn-dev/gh-api/core/config"
-	"github.com/scmn-dev/gh-api/core/ghrepo"
-	"github.com/scmn-dev/gh-api/pkg/iostreams"
+	"github.com/gepis/sm-gh-api/context"
+	"github.com/gepis/sm-gh-api/core/config"
+	"github.com/gepis/sm-gh-api/core/ghrepo"
+	"github.com/gepis/sm-gh-api/pkg/iostreams"
+	"github.com/scmn-dev/secman/tools/packages"
 )
 
 type Browser interface {
@@ -23,8 +24,7 @@ type Factory struct {
 	Config     func() (config.Config, error)
 	Branch     func() (string, error)
 
-	// ExtensionManager extensions.ExtensionManager
+	PackageManager packages.PackageManager
 
-	// Executable is the path to the currently invoked gh binary
 	Executable string
 }

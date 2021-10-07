@@ -16,9 +16,6 @@
   - [**Create**](https://docs.secman.dev/guides/repo/create)
   - [**Fork**](https://docs.secman.dev/guides/repo/fork)
   - [**List**](https://docs.secman.dev/guides/repo/list)
-* [**GH-Config**](https://docs.secman.dev/guides/gh-config)
-  - [**Get**](https://docs.secman.dev/guides/gh-config/get)
-  - [**Set**](https://docs.secman.dev/guides/gh-config/set)
 
 ## Auth
 
@@ -39,12 +36,4 @@ secman repo create
 secman repo fork
 secman repo list
 secman repo sync
-```
-
-## Config
-
-```
-secman gh-config -h
-secman gh-config get ...
-secman gh-config set ...
 ```

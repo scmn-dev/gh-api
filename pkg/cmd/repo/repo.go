@@ -2,21 +2,21 @@ package repo
 
 import (
 	"github.com/MakeNowJust/heredoc"
-	repoCloneCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/clone"
-	repoCreateCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/create"
-	creditsCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/credits"
-	repoForkCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/fork"
-	gardenCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/garden"
-	repoListCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/list"
-	repoSyncCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/sync"
-	repoViewCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/view"
-	repoBrowseCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo/browse"
-	"github.com/scmn-dev/gh-api/pkg/cmdutil"
+	repoCloneCmd "github.com/gepis/sm-gh-api/pkg/cmd/repo/clone"
+	repoCreateCmd "github.com/gepis/sm-gh-api/pkg/cmd/repo/create"
+	creditsCmd "github.com/gepis/sm-gh-api/pkg/cmd/repo/credits"
+	repoForkCmd "github.com/gepis/sm-gh-api/pkg/cmd/repo/fork"
+	gardenCmd "github.com/gepis/sm-gh-api/pkg/cmd/repo/garden"
+	repoListCmd "github.com/gepis/sm-gh-api/pkg/cmd/repo/list"
+	repoSyncCmd "github.com/gepis/sm-gh-api/pkg/cmd/repo/sync"
+	repoViewCmd "github.com/gepis/sm-gh-api/pkg/cmd/repo/view"
+	repoBrowseCmd "github.com/gepis/sm-gh-api/pkg/cmd/repo/browse"
+	"github.com/gepis/sm-gh-api/pkg/cmdutil"
 	"github.com/spf13/cobra"
-	"github.com/abdfnx/git_config"
+	git_config "github.com/gepis/git"
 	"github.com/scmn-dev/secman/tools/shared"
 
-	"github.com/scmn-dev/gh-api/pkg/cmd/factory"
+	"github.com/gepis/sm-gh-api/pkg/cmd/factory"
 )
 
 func NewCmdRepo(f *cmdutil.Factory) *cobra.Command {

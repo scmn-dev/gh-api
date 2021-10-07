@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/scmn-dev/gh-api/core/config"
-	cmdGet "github.com/scmn-dev/gh-api/pkg/cmd/config/get"
-	cmdSet "github.com/scmn-dev/gh-api/pkg/cmd/config/set"
-	"github.com/scmn-dev/gh-api/pkg/cmdutil"
+	"github.com/gepis/sm-gh-api/core/config"
+	cmdGet "github.com/gepis/sm-gh-api/pkg/cmd/cluster/get"
+	cmdSet "github.com/gepis/sm-gh-api/pkg/cmd/cluster/set"
+	"github.com/gepis/sm-gh-api/pkg/cmdutil"
 	"github.com/spf13/cobra"
 )
 
@@ -20,11 +20,12 @@ func NewCmdConfig(f *cmdutil.Factory) *cobra.Command {
 		if co.DefaultValue != "" {
 			longDoc.WriteString(fmt.Sprintf(" (default: %q)", co.DefaultValue))
 		}
+
 		longDoc.WriteRune('\n')
 	}
 
 	cmd := &cobra.Command{
-		Use:   "gh-config <command>",
+		Use:   "cluster <command>",
 		Short: "Manage configuration of github for secman.",
 		Long:  longDoc.String(),
 	}

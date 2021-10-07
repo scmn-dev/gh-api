@@ -6,11 +6,11 @@ import (
 	"net/url"
 	"sort"
 
-	"github.com/scmn-dev/gh-api/context"
-	"github.com/scmn-dev/gh-api/git"
-	"github.com/scmn-dev/gh-api/core/config"
-	"github.com/scmn-dev/gh-api/core/ghinstance"
-	"github.com/scmn-dev/gh-api/pkg/set"
+	"github.com/gepis/sm-gh-api/context"
+	"github.com/gepis/sm-gh-api/git"
+	"github.com/gepis/sm-gh-api/core/config"
+	"github.com/gepis/sm-gh-api/core/ghinstance"
+	"github.com/gepis/sm-gh-api/pkg/set"
 )
 
 const GH_HOST = "GH_HOST"

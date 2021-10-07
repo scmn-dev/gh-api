@@ -6,12 +6,12 @@ import (
 	"strings"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/scmn-dev/gh-api/api"
-	"github.com/scmn-dev/gh-api/git"
-	"github.com/scmn-dev/gh-api/core/config"
-	"github.com/scmn-dev/gh-api/core/ghrepo"
-	"github.com/scmn-dev/gh-api/pkg/cmdutil"
-	"github.com/scmn-dev/gh-api/pkg/iostreams"
+	"github.com/gepis/sm-gh-api/api"
+	"github.com/gepis/sm-gh-api/git"
+	"github.com/gepis/sm-gh-api/core/config"
+	"github.com/gepis/sm-gh-api/core/ghrepo"
+	"github.com/gepis/sm-gh-api/pkg/cmdutil"
+	"github.com/gepis/sm-gh-api/pkg/iostreams"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 )

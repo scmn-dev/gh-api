@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/scmn-dev/gh-api/core/ghrepo"
+	"github.com/gepis/sm-gh-api/core/ghrepo"
 	"github.com/shurcooL/githubv4"
 )
 

@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/scmn-dev/gh-api/api"
-	"github.com/scmn-dev/gh-api/pkg/githubsearch"
+	"github.com/gepis/sm-gh-api/api"
+	"github.com/gepis/sm-gh-api/pkg/githubsearch"
 	"github.com/shurcooL/githubv4"
 )
 

@@ -7,11 +7,11 @@ import (
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/MakeNowJust/heredoc"
-	"github.com/scmn-dev/gh-api/api"
-	"github.com/scmn-dev/gh-api/core/authflow"
-	"github.com/scmn-dev/gh-api/core/ghinstance"
-	"github.com/scmn-dev/gh-api/pkg/iostreams"
-	"github.com/scmn-dev/gh-api/pkg/prompt"
+	"github.com/gepis/sm-gh-api/api"
+	"github.com/gepis/sm-gh-api/core/authflow"
+	"github.com/gepis/sm-gh-api/core/ghinstance"
+	"github.com/gepis/sm-gh-api/pkg/iostreams"
+	"github.com/gepis/sm-gh-api/pkg/prompt"
 )
 
 type iconfig interface {
