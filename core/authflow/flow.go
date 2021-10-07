@@ -8,10 +8,10 @@ import (
 	"os"
 	"strings"
 
-	"github.com/gepis/sm-gh-api/api"
-	"github.com/gepis/sm-gh-api/core/ghinstance"
-	"github.com/gepis/sm-gh-api/pkg/cmdutil"
-	"github.com/gepis/sm-gh-api/pkg/iostreams"
+	"github.com/scmn-dev/gh-api/api"
+	"github.com/scmn-dev/gh-api/core/ghinstance"
+	"github.com/scmn-dev/gh-api/pkg/cmdutil"
+	"github.com/scmn-dev/gh-api/pkg/iostreams"
 	"github.com/cli/oauth"
 )
 

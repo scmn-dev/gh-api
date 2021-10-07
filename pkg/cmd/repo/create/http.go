@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/gepis/sm-gh-api/api"
+	"github.com/scmn-dev/gh-api/api"
 )
 
 // repoCreateInput is input parameters for the repoCreate method

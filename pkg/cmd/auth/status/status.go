@@ -6,11 +6,11 @@ import (
 	"net/http"
 
 	"github.com/MakeNowJust/heredoc"
-	"github.com/gepis/sm-gh-api/api"
-	"github.com/gepis/sm-gh-api/core/config"
-	"github.com/gepis/sm-gh-api/pkg/cmd/auth/shared"
-	"github.com/gepis/sm-gh-api/pkg/cmdutil"
-	"github.com/gepis/sm-gh-api/pkg/iostreams"
+	"github.com/scmn-dev/gh-api/api"
+	"github.com/scmn-dev/gh-api/core/config"
+	"github.com/scmn-dev/gh-api/pkg/cmd/auth/shared"
+	"github.com/scmn-dev/gh-api/pkg/cmdutil"
+	"github.com/scmn-dev/gh-api/pkg/iostreams"
 	"github.com/spf13/cobra"
 )
 

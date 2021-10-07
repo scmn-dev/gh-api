@@ -1,4 +1,4 @@
-module github.com/gepis/sm-gh-api
+module github.com/scmn-dev/gh-api
 
 go 1.13
 
@@ -21,8 +21,9 @@ require (
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d
 	github.com/muesli/reflow v0.3.0
 	github.com/muesli/termenv v0.9.0
-	github.com/scmn-dev/browser v0.1.3
-	github.com/scmn-dev/secman v0.0.0-20210920090640-a4f9f6c08509
+	github.com/scmn-dev/browser v0.1.0
+	github.com/scmn-dev/git v0.0.0-20210901094448-922e6fdee5fc
+	github.com/scmn-dev/secman v0.0.0-20210908172847-5a14851b2124
 	github.com/shurcooL/githubv4 v0.0.0-20210725200734-83ba7b4c9228
 	github.com/shurcooL/graphql v0.0.0-20200928012149-18c5c3165e3a
 	github.com/spf13/cobra v1.2.1

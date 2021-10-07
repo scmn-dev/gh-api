@@ -6,8 +6,8 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/gepis/sm-gh-api/pkg/cmdutil"
-	"github.com/gepis/sm-gh-api/pkg/iostreams"
+	"github.com/scmn-dev/gh-api/pkg/cmdutil"
+	"github.com/scmn-dev/gh-api/pkg/iostreams"
 	"github.com/spf13/cobra"
 )
 

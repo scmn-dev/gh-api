@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/gepis/sm-gh-api/api"
-	"github.com/gepis/sm-gh-api/core/ghrepo"
+	"github.com/scmn-dev/gh-api/api"
+	"github.com/scmn-dev/gh-api/core/ghrepo"
 )
 
 type commit struct {

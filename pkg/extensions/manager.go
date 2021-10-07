@@ -13,9 +13,9 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/gepis/sm-gh-api/core/config"
-	"github.com/gepis/sm-gh-api/pkg/findsh"
-	"github.com/gepis/sm-gh-api/pkg/extensions"
+	"github.com/scmn-dev/gh-api/core/config"
+	"github.com/scmn-dev/gh-api/pkg/findsh"
+	"github.com/scmn-dev/gh-api/pkg/extensions"
 	"github.com/cli/safeexec"
 )
 

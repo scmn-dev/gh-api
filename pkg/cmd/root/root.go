@@ -4,10 +4,10 @@ import (
 	"net/http"
 
 	"github.com/MakeNowJust/heredoc"
-	authCmd "github.com/gepis/sm-gh-api/pkg/cmd/auth"
-	"github.com/gepis/sm-gh-api/pkg/cmd/factory"
-	repoCmd "github.com/gepis/sm-gh-api/pkg/cmd/repo"
-	"github.com/gepis/sm-gh-api/pkg/cmdutil"
+	authCmd "github.com/scmn-dev/gh-api/pkg/cmd/auth"
+	"github.com/scmn-dev/gh-api/pkg/cmd/factory"
+	repoCmd "github.com/scmn-dev/gh-api/pkg/cmd/repo"
+	"github.com/scmn-dev/gh-api/pkg/cmdutil"
 	"github.com/spf13/cobra"
 )
 
@@ -25,7 +25,7 @@ func NewCmdRoot(f *cmdutil.Factory, version, buildDate string) *cobra.Command {
 		`),
 		Annotations: map[string]string{
 			"help:feedback": heredoc.Doc(`
-				Open an issue using at https://github.com/gepis/sm-gh-api/issues
+				Open an issue using at https://github.com/scmn-dev/gh-api/issues
 			`),
 		},
 	}

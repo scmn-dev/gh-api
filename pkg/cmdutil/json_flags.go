@@ -10,10 +10,10 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/gepis/sm-gh-api/pkg/export"
-	"github.com/gepis/sm-gh-api/pkg/jsoncolor"
-	"github.com/gepis/sm-gh-api/pkg/iostreams"
-	"github.com/gepis/sm-gh-api/pkg/set"
+	"github.com/scmn-dev/gh-api/pkg/export"
+	"github.com/scmn-dev/gh-api/pkg/jsoncolor"
+	"github.com/scmn-dev/gh-api/pkg/iostreams"
+	"github.com/scmn-dev/gh-api/pkg/set"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 )

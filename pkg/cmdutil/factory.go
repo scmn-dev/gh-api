@@ -3,10 +3,10 @@ package cmdutil
 import (
 	"net/http"
 
-	"github.com/gepis/sm-gh-api/context"
-	"github.com/gepis/sm-gh-api/core/config"
-	"github.com/gepis/sm-gh-api/core/ghrepo"
-	"github.com/gepis/sm-gh-api/pkg/iostreams"
+	"github.com/scmn-dev/gh-api/context"
+	"github.com/scmn-dev/gh-api/core/config"
+	"github.com/scmn-dev/gh-api/core/ghrepo"
+	"github.com/scmn-dev/gh-api/pkg/iostreams"
 	"github.com/scmn-dev/secman/tools/packages"
 )
 
